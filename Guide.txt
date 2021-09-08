@@ -1,0 +1,60 @@
+
+https://www.tektutorialshub.com/angular/nested-formarray-example-add-form-fields-dynamically/
+
+## Install unzip
+sudo apt-get install unzip
+
+## Install NGNIX
+sudo apt install nginx
+sudo ufw app list
+sudo service nginx status
+
+cd /etc/nginx/sites-available/
+
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/officems
+sudo nano /etc/nginx/sites-available/officems
+########################################
+# Expires map
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch;
+    text/css                   max;
+    application/javascript     max;
+    ~image/                    max;
+}
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    #server_name  officems.gov.af www.officems.gov.af;
+
+    expires $expires;
+    # This is the path for dist file angular applicaiton
+    root /var/www/officems_web;
+
+    location / {
+            try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {
+            proxy_pass http://127.0.0.1:8080/api/;
+    }
+}
+########################################
+sudo rm /etc/nginx/sites-available/default
+sudo rm /etc/nginx/sites-enabled/default
+
+sudo ln -s /etc/nginx/sites-available/officems /etc/nginx/sites-enabled/
+sudo nginx -t
+
+
+
+sudo rm -rf /var/www/dist
+sudo rm -rf  /var/www/dist.zip
+sudo rm -rf /var/www/officems_web
+
+
+sudo mv ~/dist.zip /var/www/
+cd /var/www/
+sudo unzip /var/www/dist.zip
+sudo mv ./dist ./officems_web

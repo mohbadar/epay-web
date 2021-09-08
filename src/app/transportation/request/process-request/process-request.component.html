@@ -1,0 +1,45 @@
+<div class="modal-header">
+	<h4 class="modal-title">{{ "PROCESS_REQUEST" | translate }}</h4>
+	<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<form class="col-12" id="prcessForm" [formGroup]="prcessForm" (ngSubmit)="onFormSubmit()">
+			<ngx-spinner bdColor="rgba(255, 255, 255, 0.100)"
+				size="medium" color="black" type="ball-scale-multiple" fullScreen="false">
+			</ngx-spinner>
+			
+            <div class="form-group">
+                <label>{{'DRIVER'|translate}}<span class="required-field">*</span></label>
+                <ng-select [items]="drivers$ | async" bindLabel="fullName" bindValue="id"
+                    formControlName="driverId">
+                </ng-select>
+            </div>
+                
+            <div class="form-group">
+                <label>{{'VEHICLE'|translate}}<span class="required-field">*</span></label>
+                <ng-select [items]="vehicles$ | async" bindLabel="plateNo" bindValue="id"
+                    formControlName="vehicleId">
+                </ng-select>
+            </div>
+            <div class="form-group">
+                <label>{{'STATUS'|translate}}<span class="required-field">*</span></label>
+                <ng-select formControlName="resolution" (change)="toggleStatus($event)">
+                    <ng-option *ngFor="let item of statuses$" [value]="item.id">{{ item.name|translate }}</ng-option>
+                </ng-select>
+                <small *ngIf="getError('resolution') as error" class="text-danger">{{ error }}</small>
+            </div>
+           <div class="form-group" *ngIf="showComment">
+                <label>{{'REASON'|translate}}<span class="required-field">*</span></label>
+                <textarea rows="2" formControlName="processedComment" class="form-control"></textarea>
+            </div>
+			
+			<div class="col-12">
+				<button type="submit" class="btn btn-primary btn-sm btn-fill mr-2">{{'PROCESS' | translate }}</button>
+				<button class="btn btn-secondary btn-fill btn-sm" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+			</div>
+		</form>
+	</div>
+</div>

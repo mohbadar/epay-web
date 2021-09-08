@@ -1,0 +1,147 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'ADD'|translate}} {{'RETIREMENT'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="type">{{'RETIREMENT_TYPE'|translate}}
+              <span class="required-field">*</span>
+            </label>
+            <div class="controls">
+              <ng-select [items]="retirementType$|async" bindLabel="nameDr" bindValue="id" formControlName="type"
+                (clear)="setToNull(addForm,'type')"
+                [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.type.invalid, 'is-valid': addFormSubmitted && !cpf.type.invalid }"
+                required>
+              </ng-select>
+              <div *ngIf="addFormSubmitted && (cpf.type.invalid || cpf.type.errors?.required)"
+                class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                {{'RETIREMENT_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="profileJob">{{'POSITION_TITLE'|translate}}
+            </label>
+            <div class="controls">
+              <ng-select [items]="profileJob$|async" bindLabel="positionTitle" bindValue="id" formControlName="profileJob"
+                (clear)="setToNull(addForm,'profileJob')">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="status">{{'STATUS'|translate}}
+            </label>
+            <div class="controls">
+              <ng-select [items]="status$|async" bindLabel="nameDr" bindValue="id" formControlName="status"
+                (clear)="setToNull(addForm,'status')">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="maktubNumber">{{'SUGGESTION_NUMBER'|translate}}/{{'MAKTUB'|translate}}
+            </label>
+            <div class="controls">
+              <input type="text" formControlName="maktubNumber" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label" for="maktubDate">{{'SUGGESTION_DATE'|translate}}/{{'MAKTUB'|translate}}
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="h.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="maktubDate" ngbDatepicker #h="ngbDatepicker">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="decreeNumber">{{'DECREE_NUMBER'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="decreeNumber" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.decreeNumber.invalid, 'is-valid': addFormSubmitted && !cpf.decreeNumber.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.decreeNumber.invalid || cpf.decreeNumber.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DECREE_NUMBER'|translate}}{{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label" for="decreeDate">{{'DECREE_DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="k.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="decreeDate" ngbDatepicker #k="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.decreeDate.invalid, 'is-valid': addFormSubmitted && !cpf.decreeDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.decreeDate.invalid || cpf.decreeDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DECREE_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="breakDetail">{{'REASON'|translate}}
+              </label>
+              <div class="controls">
+                <textarea type="text" formControlName="detail" class="form-control"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

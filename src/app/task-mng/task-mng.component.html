@@ -1,0 +1,68 @@
+<div class="row">
+	<div class="col-12">
+	  <div class="content-header">{{ 'TASK_MNG'|translate }}</div>
+	</div>
+</div>
+<section>
+	<div class="row">
+		<div class="col-12">
+			<div class="card-deck-wrapper">
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["TASK_MANAGEMENT_MODULE", "TASKMNG_TASKBOARD_CREATE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" (click)="createBoard()">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-plus fa-lg text-primary mr-2"></i>{{ 'NEW_TASKBOARD'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["TASK_MANAGEMENT_MODULE", "TASKMNG_TASK_CREATE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" (click)="createTask()">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-plus fa-lg text-primary mr-2"></i>{{ 'NEW_TASK'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class=" col-lg-4 col-md-4 col-12 mb-2 mb-md-0">
+						
+					</div>
+				</div>
+				<hr />
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" >
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/task_mng/taskboards']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-clipboard fa-lg text-primary mr-2"></i>{{ 'TASKBOARDS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" >
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/task_mng/tasks']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-file-text fa-lg text-primary mr-2"></i>{{ 'TASKS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class=" col-lg-4 col-md-4 col-12 mb-2 mb-md-0">
+						
+					</div>
+				</div>
+				<hr />
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0">
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/task_mng/dashboard']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-pie-chart fa-lg text-primary mr-2"></i>{{ 'DASHBOARD'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</section>

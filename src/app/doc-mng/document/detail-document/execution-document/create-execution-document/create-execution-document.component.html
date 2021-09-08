@@ -1,0 +1,317 @@
+<div class="row">
+    <div class="col-6 mt-2">
+        <h4 class="primary text-uppercase">{{'ADD_EXECUTION'|translate}}</h4>
+    </div>
+    <div class="col-6">
+        <button (click)="goToThisDocumentsExecutionList()" class="btn btn-default pull-right"
+            style="border:1px solid #c9c7c7">{{'GO_BACK_TO_EXECUTIONS_LIST'|translate}}
+        </button>
+    </div>
+</div>
+
+<section>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form [formGroup]="newForm" id="newForm" (ngSubmit)="submitForm()">
+                            <div class="row">
+                                <div class="col-md-6" *ngIf="newForm.controls.documentTypeId">
+                                    <div class="form-group">
+                                        <label>{{'EXECUTION_TYPE' | translate}}</label>
+                                        <ng-select formControlName="documentTypeId" [items]="documentExecutionTypesList"
+                                            bindLabel="name" (change)="onExecutionTypeChange($event)" bindValue="id">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" *ngIf="newForm.controls.noteType">
+                                    <div class="form-group">
+                                        <label>{{'NOTE_SOURCE' | translate}}</label>
+                                        <ng-select formControlName="noteType" [items]="noteType$ | async"
+                                            bindLabel="nameDr" bindValue="id">
+                                        </ng-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 d-flex align-items-center" *ngIf="newForm.controls.scope">
+                                    <ul class="list-unstyled mb-0">
+                                        <li class="d-inline-block mr-2">
+                                            <div class="radio radio-primary">
+                                                <input type="radio" value="EXTERNAL" (change)="changeScope($event)"
+                                                    name="l-radio" id="l-radio-2">
+                                                <label class="text-primary" for="l-radio-2">{{ "EXTERNAL"|translate
+                                                    }}</label>
+                                            </div>
+                                        </li>
+                                        <li class="d-inline-block mr-2">
+                                            <div class="radio radio-info">
+                                                <input type="radio" value="INTERNAL" (change)="changeScope($event)"
+                                                    name="l-radio" id="l-radio-1" checked>
+                                                <label class="text-info" for="l-radio-1">{{ "INTERNAL"|translate
+                                                    }}</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-md-6" *ngIf="newForm.controls.documentNo">
+                                    <div class="form-group">
+                                        <label for="docNo">{{'DOCUMENT_NO'|translate}}</label>
+                                        <div class="controls">
+                                            <input type="text" formControlName="documentNo" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class='col-12 col-sm-6 col-md-6' *ngIf="newForm.controls.documentDate">
+                                    <div class="form-group">
+                                        <label class="form-control-label"
+                                            for="documentDate">{{'DOCUMENT_DATE'|translate}}
+                                        </label>
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+                                                    type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </div>
+                                            <input class="form-control" name="DocumentDate"
+                                                formControlName="documentDate" ngbDatepicker id="documentDate"
+                                                #d="ngbDatepicker">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-md-6" *ngIf="newForm.controls.fromEntityId">
+                                    <div class="form-group">
+                                        <label for="users-list-role">{{'FROM_ENTITY'|translate}}<span
+                                                class="required-field">*</span></label>
+                                        <ng-select [items]="departments$ | async" bindLabel="name" bindValue="id"
+                                            formControlName="fromEntityId">
+                                        </ng-select>
+                                        <small *ngIf="getError('fromEntityId') as error" class="text-danger">{{ error
+                                            }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-md-6" *ngIf="newForm.controls.fromDepartmentId">
+                                    <div class="form-group">
+                                        <label for="users-list-role">{{'FROM_DEPARTMENT'|translate}}<span
+                                                class="required-field">*</span></label>
+                                        <ng-select [items]="departments$ | async" bindLabel="name" bindValue="id"
+                                            formControlName="fromDepartmentId">
+                                        </ng-select>
+                                        <small *ngIf="getError('fromDepartmentId') as error" class="text-danger">{{
+                                            error }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-md-6" *ngIf="newForm.controls.toDepartmentId">
+                                    <div class="form-group">
+                                        <label for="users-list-role">{{'TO_DEPARTMENT'|translate}}<span
+                                                class="required-field">*</span></label>
+                                        <ng-select [items]="entitiesDeps$ | async" bindLabel="name" bindValue="id"
+                                            formControlName="toDepartmentId">
+                                        </ng-select>
+                                        <small *ngIf="getError('toDepartmentId') as error" class="text-danger">{{ error
+                                            }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-md-6" *ngIf="newForm.controls.ccDepartmentsIds">
+                                    <div class="form-group">
+                                        <label for="users-list-role">{{'CC_DEPARTMENTS'|translate}}</label>
+                                        <ng-select multiple="true" [items]="departments$ | async" bindLabel="name"
+                                            bindValue="id" formControlName="ccDepartmentsIds">
+                                        </ng-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-md-6" *ngIf="newForm.controls.priorityType">
+                                    <div class="form-group">
+                                        <label for="priorityType">{{'DOCUMENT_PRIORITY'|translate}}<span
+                                                class="required-field">*</span></label>
+                                        <ng-select formControlName="priorityType">
+                                            <ng-option *ngFor="let type of priorityTypes" [value]="type.id"> {{
+                                                type.name | translate }}
+                                            </ng-option>
+                                        </ng-select>
+                                        <small *ngIf="getError('priorityType') as error" class="text-danger">{{ error
+                                            }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-md-6" *ngIf="newForm.controls.securityLevel">
+                                    <div class="form-group">
+                                        <label for="securityLevel">{{'DOCUMENT_SECURITY_LEVEL'|translate}}<span
+                                                class="required-field">*</span></label>
+                                        <ng-select formControlName="securityLevel">
+                                            <ng-option *ngFor="let level of securityLevels" [value]="level.id"> {{
+                                                level.name | translate }}
+                                            </ng-option>
+                                        </ng-select>
+                                        <small *ngIf="getError('securityLevel') as error" class="text-danger">{{ error
+                                            }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" *ngIf="newForm.controls.linkedDocumentId">
+                                    <div class="form-group">
+                                        <label for="document_types">{{'LINK_DOCUMENT'|translate}}</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder=""
+                                                formControlName="linkedDocumentDetails">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-secondary" type="button"
+                                                    (click)="selectDocument()">
+                                                    <i class="ft ft-search"></i>
+                                                </button>
+                                                <button class="btn btn-danger" type="button"
+                                                    (click)="unselectDocument()">
+                                                    <i class="ft ft-x"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12" *ngIf="newForm.controls.title">
+                                    <div class="form-group">
+                                        <label>{{'DOCUMENT_TITLE' | translate}}<span class="required-field">*</span></label>
+                                        <input type="text" class="form-control" formControlName="title" />
+                                        <small *ngIf="getError('title') as error" class="text-danger">{{ error
+                                            }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" *ngIf="newForm.controls.content">
+                                    <div class="form-group">
+                                        <label>{{'CONTENT' | translate}}</label>
+                                        <editor formControlName="content" [init]="editorConfig"></editor>
+                                    </div>
+                                </div>
+
+                                <div class="row col-12" *ngIf="selectedDocumentTypeName == 'NOTE'">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button type="button"
+                                                class="btn btn-outline-warning btn-icon round mr-1 mb-1"
+                                                title="Add Note Section" (click)="addNoteSection()">
+                                                <i class="ft ft-align-center"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <ng-container *ngIf="noteSectionsArray" formArrayName="noteSections">
+                                        <div class="col-md-12 row"
+                                            *ngFor="let noteSection of noteSectionsArray.controls; index as noteSectionIndex"
+                                            [formGroupName]="noteSectionIndex">
+                                            <div class="col-1 mt-4">
+                                                {{ noteSectionIndex + 1 }}
+                                                <input type="number" formControlName="orderCol" class="form-control"
+                                                    [value]="noteSectionIndex + 1">
+                                            </div>
+                                            <div class="col-9">
+                                                <div class="form-group">
+                                                    <label for="title">{{'TITLE_NOTE'|translate}}</label>
+                                                    <div class="controls">
+                                                        <input type="text" formControlName="title" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="title">{{'CONTENT'|translate}}</label>
+                                                    <div class="controls">
+                                                        <editor formControlName="content" rows [init]="editorConfig">
+                                                        </editor>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 mt-4">
+                                                <button type="button"
+                                                    class="btn btn-danger bg-light-danger btn-icon round mr-1 mb-1 pull-right"
+                                                    [title]="'REMOVE'" (click)="removeNoteSection(noteSectionIndex)">
+                                                    <i class="ft ft-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                                <div class="col-md-12" *ngIf="newForm.controls.reviewers">
+                                    <div class="col-12">
+                                        <hr>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-warning btn-icon round mr-1 mb-1"
+                                        title="Add Document" (click)="addReviewer()">
+                                        <i class="ft ft-user"></i>
+                                    </button>
+                                </div>
+
+                                <ng-container *ngIf="reviewersArray" formArrayName="reviewers">
+                                    <div class="col-md-12 row"
+                                        *ngFor="let reviewer of reviewersArray.controls; index as reviewerIndex"
+                                        [formGroupName]="reviewerIndex">
+                                        <div class="col-1 mt-4">
+                                            {{ reviewerIndex + 1 }}
+                                        </div>
+                                        <div class="form-group col-9">
+                                            <label for="users-list-role">{{'REVIEWER_NAME'|translate}}</label>
+                                            <ng-select [items]="users$ | async" bindLabel="1" bindValue="0"
+                                                formControlName="userId">
+                                            </ng-select>
+                                        </div>
+                                        <div class="col-2 mt-4">
+                                            <button type="button"
+                                                class="btn btn-danger bg-light-danger btn-icon round mr-1 mb-1 pull-right"
+                                                [title]="'REMOVE'" (click)="removeReviewer(reviewerIndex)">
+                                                <i class="ft ft-trash"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </ng-container>
+
+                                <div class="col-12 col-sm-12" style="margin-top: 10px;" *ngIf="showUploadButton">
+                                    <div class="form-group">
+                                        <label for="fileName">{{'ATTACHMENT'| translate}}</label>
+                                        <div class="upload-status">
+                                            <div class="file-name">{{ fileName }}
+                                            </div>
+                                            <input style="display: none" #attachmentInput
+                                                (change)="onSelectFile($event)" type="file">
+                                            <div>
+                                                <i title="Choose File" class="ft-file-text text-primary cursor-pointer"
+                                                    [title]="'SELECT_FILE' | translate"
+                                                    (click)="attachmentInput.click()"> {{'SELECT_FILE' | translate}}</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" *ngIf="newForm.value.documentTypeId != null">
+                                    <div class="col-12 col-sm-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-info">{{'SAVE'|translate}}
+                                                <span style="margin-left:10px;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-warning mr-1"
+                                                (click)="goToThisDocumentsExecutionList()">
+                                                <span style="margin-right:10px;"></span> {{'CLOSE'|translate}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+    [fullScreen]="true">
+</ngx-spinner>

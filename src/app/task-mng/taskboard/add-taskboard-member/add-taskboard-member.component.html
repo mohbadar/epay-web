@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <h4 class="modal-title"> {{ 'MEMBERS'|translate }} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">x</button> -->
+</div>
+<div class="modal-body taskboard-modal">
+	<div class="container">
+		<div class="row">
+			<div class="col-12 form-group">
+				<div class="input-group">
+					<div>
+						<ng-template #rt let-r="result" let-t="term">
+							<ngb-highlight [result]="r.name +' (' +r.username+ ')'" [term]="t"></ngb-highlight>
+						</ng-template>
+					</div>
+					<input type="text" placeholder="Button on left" class="form-control" [class.is-invalid]="searchFailed" [(ngModel)]="member" [ngbTypeahead]="searchUser" placeholder="User Search" [resultTemplate]="rt" [inputFormatter]="formatter">
+					<small *ngIf="searching" class="form-text text-muted">searching...</small>
+					<div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+					<div class="input-group-prepend">
+						<button  type="button" class="btn btn-primary" (click)='addNewMember()'><i class="ft ft-user-plus"></i></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row align-items-center">
+			<div class="col-12 border-top">
+				<div class="media py-2">
+					<img class="mr-3 avatar rounded" src="assets/img/portrait/small/face-0.png" alt="Avatar" width="35">
+					<div class="media-body">
+						<h4 class="font-medium-1 mb-0">{{ taskboard?.createdBy.name }}</h4>
+						<p class="grey font-small-3 m-0">{{ taskboard?.createdBy.username }}</p>
+						<span class="grey font-small-1 m-0">{{ 'OWNER'|translate }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 border-top" *ngFor="let member of taskboardMembers; let memberIndex=index">
+				<div class="media py-2">
+					<img class="mr-3 avatar rounded" src="assets/img/portrait/small/face-0.png" alt="Avatar" width="35">
+					<div class="media-body">
+						<h4 class="font-medium-1 mb-0">{{ member.name }}</h4>
+						<p class="grey font-small-3 m-0">{{ member.username }}</p>
+					</div>
+					<i class="ft-trash-2 danger cursor-pointer" (click)="removeMember(member.id);"></i>
+				</div>
+			</div>
+			
+		</div>
+
+	</div>
+</div>
+<div class="modal-footer taskboard-modal-footer">
+	<button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+</div>

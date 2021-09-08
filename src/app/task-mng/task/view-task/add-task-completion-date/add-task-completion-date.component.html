@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h4 class="modal-title"> {{ 'TASK_COMPLETION_DATE'|translate }} </h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  <!-- <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">x</button> -->
+</div>
+<form [formGroup]="newForm" id="newForm" (ngSubmit)="submitForm()">
+  <div class="modal-body taskboard-modal">
+      <div class="container">
+        <div class="input-group" style="margin-bottom: 200px;">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="k.toggle()" type="button">
+              <i class="fa fa-calendar"></i>
+            </button>
+          </div>
+          <input class="form-control" formControlName="completionDate" ngbDatepicker #k="ngbDatepicker">
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer taskboard-modal-footer">
+      <button class="btn btn-primary btn-save">{{ 'SAVE'|translate }}</button>
+      <button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+  </div>
+</form>
+

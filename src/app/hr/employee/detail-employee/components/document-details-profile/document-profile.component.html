@@ -1,0 +1,66 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'DOCUMENT_UPLOAD'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          <form [formGroup]="addForm">
+            <div class="form-group">
+              <label for="level">{{'DOCUMENT_TYPE'|translate}}
+              </label>
+              <div class="controls">
+                <ng-select [items]="documentType$|async" bindLabel="nameDr" bindValue="id" 
+                  formControlName="type"
+                  (change)="choosedFile($event)"
+                  (clear)="setToNull(addForm,'type')">
+                </ng-select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-12 col-sm-3" style="margin-top: auto !important;" *ngIf="chooseFile">
+          <div class="form-group pull-left">
+            <button (click)="fileInput.click()" class="btn btn-fill btn-primary form-control">
+                 {{ 'ADD_FILE' | translate }}
+            </button>
+            <input type="file" class="d-none" name="attachment" #fileInput (change)="fileChangeListener($event)">
+        </div>
+        </div>
+        <div class="col-12 col-sm-3" style="margin-top: 1.7rem !important;">
+          <strong><span id="fileName"></span></strong>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-3" *ngIf="uploadIcon">
+          <button class="btn btn-success form-control" (click)="upload()">
+            {{'ADD_UPLOAD'|translate}}
+          </button>
+        </div>
+        <div class="col-sm-7" *ngIf="progressloading">
+          <div class="progress" style="margin-top:1rem !important">
+            <div class="progress-bar progress-bar-info progress-bar-striped customText" role="progressbar"
+              attr.aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"
+              [ngStyle]="{ width: progress + '%' }">
+              {{ progress }}%
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-5" *ngIf="messageLoading">
+          <div class="alert alert-light" role="alert">{{message}}</div>
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>

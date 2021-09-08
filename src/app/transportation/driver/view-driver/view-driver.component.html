@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-12">
+      <div class="content-header">{{'DRIVER_DETAILS'|translate}}</div>
+  </div>
+</div>
+<section id="basic-input">
+  <div class="row">
+      <div class="col-12">
+          <div class="card">
+              <div class="card-content">
+                  <div class="card-body" *ngIf="!dataLoadingFlag">
+          <form>
+            <div class="form-group row">
+              <div class="col-6 col-md-3"><strong>{{'ID'|translate}}</strong></div>
+              <div class="col-6 col-md-3">{{ driver.id }}</div>
+            </div>
+              <div class="form-group row">
+              <div class="col-6 col-md-3"><strong>{{'FULL_NAME'|translate}}</strong></div>
+              <div class="col-6 col-md-3">{{ driver.fullName }}</div>
+              <div class="col-6 col-md-3"><strong>{{'ADDRESS'|translate}}</strong></div>
+              <div class="col-6 col-md-3">{{ driver.address }}</div>
+            </div>
+            <div class="form-group row">
+              <div class="col-6 col-md-3"><strong>{{'DATE_OF_BIRTH'|translate}}</strong></div>
+              <div class="col-6 col-md-3">{{ driver.dateOfBirth }}</div>
+              <div class="col-6 col-md-3"><strong>{{'LICENSE_ISSUE_DATE'|translate}}</strong></div>
+              <div class="col-6 col-md-3">{{ driver.licenseIssueDate }}</div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-6 col-md-3"><strong>{{'LICENSE_EXPIRY_DATE'|translate}}</strong></div>
+              <div class="col-6 col-md-3">{{ driver.licenseExpiryDate }}</div>
+              <div class="col-6 col-md-3"><strong>{{'LICENSE_CLASS'|translate}}</strong></div>
+              <div class="col-6 col-md-3">{{ driver.licenseClass }}</div>
+            </div>
+          </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade" [fullScreen]="true">
+</ngx-spinner>
+

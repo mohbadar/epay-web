@@ -1,0 +1,183 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">{{'EXECUTION_REQUEST'|translate}}</div>
+  </div>
+</div>
+<section id="basic-input" id="newForm">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+          	<form [formGroup]="newForm" (ngSubmit)="submitForm()">
+              <div class="row">
+                <div class="col-md-12">
+									<div class="form-group">
+										<h5>{{ 'TRANSPORT_INFO'|translate }}</h5>
+									</div>
+								</div>
+                <div class="col-12 col-sm-12 col-md-12">
+                  <div class="row">
+                  	<div class="col-12 col-sm-6 col-md-2">
+											<div class="form-group">
+												<label for="source">{{'SOURCE'|translate}}<span class="required-field">*</span></label>
+                        {{newForm.get('id').value}}
+												<div class="controls">
+													<input type="text" formControlName="source" class="form-control" required>
+												</div>
+											</div>
+										</div>
+                    <div class="col-12 col-sm-6 col-md-2">
+											<div class="form-group">
+												<label for="destination">{{'DESTINATION'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="destination" class="form-control" required>
+												</div>
+											</div>
+										</div>
+                    <div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="passengersInfo">{{'PASSENGERINFO'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="passengersInfo" class="form-control" required>
+												</div>
+											</div>
+										</div>
+                    <div class='col-12 col-sm-6 col-md-2'>
+											<div class="form-group">
+												<label class="form-control-label" for="requestDate">{{'REQUEST_DATE'|translate}}
+													<span class="required-field">*</span>
+												</label>
+												<div class="input-group">
+													<div class="input-group-append">
+													<button class="btn btn-outline-secondary calendar" (click)="rDate.toggle()" type="button">
+														<i class="fa fa-calendar"></i>
+													</button>
+													</div>
+													<input class="form-control" name="requestDate" formControlName="requestDate" ngbDatepicker
+														id="requestDate" #rDate="ngbDatepicker" >
+												</div>
+											</div>
+										</div>
+										<div class="col-md-2 col-lg-2">
+											<div class="form-group">
+											<label> {{'REQUEST_TIME'|translate}}</label>
+											<ngb-timepicker formControlName="requestTime" [spinners]="spinners"></ngb-timepicker>
+											</div>
+                    </div>
+                    <div class="col-12 col-sm-12">
+											<div class="form-group">
+												<label>{{'DETAILS'|translate}}</label>
+												<div class="controls">
+													<textarea rows="2" formControlName="details" class="form-control"></textarea>
+												</div>
+											</div>
+										</div>
+                    <div class='col-12 col-sm-6 col-md-2'>
+											<div class="form-group">
+												<label class="form-control-label" for="pickupDate">{{'PICKUP_DATE'|translate}}
+													<span class="required-field">*</span>
+												</label>
+												<div class="input-group">
+													<div class="input-group-append">
+													<button class="btn btn-outline-secondary calendar" (click)="pickupDate.toggle()" type="button">
+														<i class="fa fa-calendar"></i>
+													</button>
+													</div>
+													<input class="form-control" name="pickupDate" formControlName="pickupDate" ngbDatepicker
+														id="pickupDate" #pickupDate="ngbDatepicker" >
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-2 col-lg-2">
+											<div class="form-group">
+											<label> {{'PICKUP_TIME'|translate}}</label>
+											<ngb-timepicker formControlName="pickupTime" [spinners]="spinners"></ngb-timepicker>
+											</div>
+                    </div>
+
+                    <div class='col-12 col-sm-6 col-md-2'>
+											<div class="form-group">
+												<label class="form-control-label" for="returneeDate">{{'RETURNEE_DATE'|translate}}
+													<span class="required-field">*</span>
+												</label>
+												<div class="input-group">
+													<div class="input-group-append">
+													<button class="btn btn-outline-secondary calendar" (click)="returneeDate.toggle()" type="button">
+														<i class="fa fa-calendar"></i>
+													</button>
+													</div>
+													<input class="form-control" name="returneeDate" formControlName="returneeDate" ngbDatepicker
+														id="returneeDate" #returneeDate="ngbDatepicker" >
+												</div>
+											</div>
+										</div>
+										<div class="col-md-2 col-lg-2">
+											<div class="form-group">
+											<label> {{'RETURNEE_TIME'|translate}}</label>
+											<ngb-timepicker formControlName="returneeTime" [spinners]="spinners"></ngb-timepicker>
+											</div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+											<div class="form-group">
+												<label for="users-list-role">{{'APPROVEDBYDEPARTMENT'|translate}}<span class="required-field">*</span></label>
+                        {{newForm.get('departmentId').value}}
+												<ng-select [items]="departments$ | async" bindLabel="name" bindValue="id"
+                                                    formControlName="departmentId">
+                                                </ng-select>
+											</div>
+										</div>
+                    <div class="col-sm-12 col-md-4">
+											<div class="form-group">
+												<label for="users-list-role">{{'DRIVER'|translate}}<span class="required-field">*</span></label>
+												<ng-select [items]="drivers$ | async" bindLabel="fullName" bindValue="id"
+                                                    formControlName="driverId">
+                                                </ng-select>
+											</div>
+										</div>
+                    <div class="col-sm-12 col-md-4">
+											<div class="form-group">
+												<label for="users-list-role">{{'VEHICLE'|translate}}<span class="required-field">*</span></label>
+												<ng-select [items]="vehicles$ | async" bindLabel="plateNo" bindValue="id"
+                                                    formControlName="vehicleId">
+                                                </ng-select>
+											</div>
+										</div>
+
+                    <div class="col-sm-12 col-md-4">
+											<div class="form-group">
+												<label for="form-control-label">{{'STATUS_TYPE'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<ng-select formControlName="status">
+														<ng-option *ngFor="let status of statusTypes$" [value]="status.id">{{ status.name|translate }}</ng-option>
+													</ng-select>
+												</div>
+											</div>
+										</div>
+
+
+                      <div class="col-12 col-sm-12">
+                        <div class="form-group">
+                        <button type="submit" class="btn btn-info">
+                          {{'SAVE'|translate}}
+                          <span style="margin-left:10px;">
+                          </span>
+                        </button>
+                        <button type="button" class="btn btn-warning mr-1" [routerLink]="'/transport/requests'">
+                          <span style="margin-right:10px;">
+                          </span> {{'CLOSE'|translate}}</button>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</section>
+
+

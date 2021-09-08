@@ -1,0 +1,37 @@
+<div class="modal-header">
+	<h4 class="modal-title">{{'HISTORY'|translate}}&nbsp;&nbsp;{{'SEMINAR'|translate}}</h4>
+	<button type="button" class="close" aria-label="Close" (click)="dismiss()">
+	  <span aria-hidden="true">&times;</span>
+	</button>
+  </div>
+  <div class="modal-body">
+	<div class="row">
+	  <div class="col-12 col-sm-12">
+		<ng-container *ngIf="dTableFlag">
+			<ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows" [scrollbarH]="true"
+				[columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+				[limit]="10">
+				<ngx-datatable-column [name]="'TRAINING_TYPE' | translate" prop="type"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'SEMINAR_TITLE' | translate" prop="title"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'START_DATE' | translate" prop="startDate">
+					<ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.startDate | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+				</ngx-datatable-column>
+				<ngx-datatable-column [name]="'END_DATE' | translate" prop="endDate">
+					<ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.endDate | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+				</ngx-datatable-column>
+				<ngx-datatable-column [name]="'SEMINAR_TYPE' | translate" prop="seminarType"></ngx-datatable-column>	
+				<ngx-datatable-column [name]="'CREATED_BY' | translate" prop="createdBy"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'UPDATED_BY' | translate" prop="updatedBy"></ngx-datatable-column>
+			</ngx-datatable>
+		</ng-container>
+	  </div>
+	</div>
+  </div>
+  <div class="modal-footer">
+	<button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+  </div>
+  

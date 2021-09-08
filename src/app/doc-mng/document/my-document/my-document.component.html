@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-6 mt-2">
+        <div class="primary font-medium-2 text-bold-600">{{'MY_DOCUMENTS_LIST'|translate}}</div>
+        <!-- <p class="content-sub-header mb-1">Configure account settings to your needs.</p> -->
+    </div>
+</div>
+
+<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+    <li [ngbNavItem]="1">
+        <a ngbNavLink>{{ 'DOCUMENTS_LIST'|translate }}</a>
+        <ng-template ngbNavContent>
+            <app-list-my-document></app-list-my-document>
+        </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+        <a ngbNavLink>{{ 'PURSUIT_LIST'|translate }}</a>
+        <ng-template ngbNavContent>
+            <app-list-my-followup></app-list-my-followup>
+        </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+        <a ngbNavLink>{{ 'COMMENTS_LIST'|translate }}</a>
+        <ng-template ngbNavContent>
+            <app-list-my-comment></app-list-my-comment>
+        </ng-template>
+    </li>
+</ul>
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

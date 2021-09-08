@@ -1,0 +1,101 @@
+<section id="ngx-datatables-server-side">
+    <div class="row text-left">
+        <div class="col-12">
+            <div class="content-header">
+                {{ 'DOCUMENT_TYPE' | translate }}
+                <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="refresh()"
+                    [class.fa-spin]="loading" >
+                    <i class="ft ft-refresh-cw"></i>
+                </button>
+                <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="addNew()">
+                    <i class="ft ft-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+                            <div class="row border rounded py-2 mb-2 mx-n2">
+                                <div class="col-12 col-sm-6">
+                                <label for="users-list-role">{{'NAME_DARI'|translate}}</label>
+                                <fieldset class="form-group">
+                                    <input type="text" class="form-control" formControlName="name_dr" />
+                                </fieldset>
+                                </div>
+
+                                <div class="col-12 col-sm-6 d-flex align-items-center">
+                                <button type="button" type="submit" class="btn btn-primary btn-block users-list-clear">
+                                    {{'SEARCH'|translate}}
+                                </button>&nbsp;
+                                <button type="reset" (click)="resetFilters()" class="btn btn-warning btn-block users-list-clear" style="margin-top:initial">
+                                    {{'CLEAR'|translate}}
+                                </button>
+                                </div>
+                            </div>
+                            </form>
+                    </div>
+                    <div class="col-md-3 col-3">
+                        <div class="form-group">
+                          <select #pageLength (change)='setPageLength(pageLength.value)' class="form-control">
+                            <option *ngFor="let pl of pageLengths" [selected]="pl.id==10" [value]="pl.id">
+                              {{ pl.count }} {{ 'RECORDS' | translate }}
+                            </option>
+                            <!-- <option value="-1">{{ 'ALL' | translate }}</option> -->
+                          </select>
+                        </div>
+                      </div>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <ng-container *ngIf="tableOptions">
+                            <ngx-datatable #table class="bootstrap core-bootstrap table-responsive" [headerHeight]="50"
+                            [footerHeight]="50" [rows]="rows" [columnMode]="ColumnMode.force" [rows]="rows"
+                            [headerHeight]="50" [rowHeight]='"auto"' [limit]="tableOptions.length"
+                            [loadingIndicator]="loading" (page)="setPage($event)" [count]="recordsTotal" [externalPaging]="true">
+                                <ngx-datatable-column name="{{ 'ID' | translate }}" prop="ID" [width]="50">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{ 'NAME_DARI' | translate }}" prop="NAME_DR">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{ 'NAME_PASHTO' | translate }}" prop="NAME_PS">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{ 'NAME_ENGLISH' | translate }}" prop="NAME_EN">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [name]="'ACTIONS' | translate" [width]="250">
+                                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="row_index">
+                                        <ngx-spinner
+                                        bdColor="rgba(255, 255, 255, 0.100)"
+                                        size="medium"
+                                        color="black"
+                                        type="ball-scale-multiple"
+                                        fullScreen="false">
+                                        </ngx-spinner>
+
+                                        <button
+                                        class="btn btn-icon round">
+                                        <i class="ft-eye text-primary cursor-pointer" (click)="viewRecord(row.ID)"></i>
+                                        </button>
+
+                                        <button type="button" (click)="editRecord(row.ID)"
+                                        class="btn btn-icon round" >
+                                        <i class="ft-edit text-primary cursor-pointer"></i>
+                                        </button>
+
+                                        <button type="button" class="btn btn-icon round">
+                                            <i class="ft ft-trash text-warning cursor-pointer"></i>
+                                        </button>
+
+                                    </ng-template>
+                                </ngx-datatable-column>
+                        </ngx-datatable>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

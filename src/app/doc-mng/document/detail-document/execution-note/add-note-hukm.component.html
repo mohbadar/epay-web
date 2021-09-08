@@ -1,0 +1,29 @@
+<div class="modal-header">
+	<h4 class="modal-title" id="editModalLabel">{{ 'ADD_NOTE_HUKM' | translate}}</h4>
+	<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+
+<div class="modal-body">
+	<form [formGroup]="editForm" id="editForm" *ngIf="showEditForm">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label>{{'CONTENT' | translate}}</label>
+					<editor formControlName="huKmcontent" [init]="editorConfig"></editor>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="modal-footer">
+	<button type="submit" class="btn btn-info" (click)="submit();">{{'SAVE'|translate}}
+		<span style="margin-left:10px;"></span>
+	</button>
+	<button type="button" class="btn btn-warning mr-1" (click)="activeModal.close('Close click')">
+		<span style="margin-right:10px;"></span> {{'CLOSE'|translate}}
+	</button>
+</div>
+<ngx-spinner></ngx-spinner>

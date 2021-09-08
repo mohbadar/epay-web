@@ -1,0 +1,97 @@
+<div class="row">
+	<div class="col-12">
+	  <div class="content-header">{{ 'DOC_MNG'|translate }}</div>
+	</div>
+</div>
+<section>
+	<div class="row">
+		<div class="col-12">
+			<div class="card-deck-wrapper">
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" >
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/doc_mng/documents/add']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-plus fa-lg text-primary mr-2"></i>{{ 'NEW_DOCUMENT'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr />
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0">
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/doc_mng/documents/my']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-file fa-lg text-primary mr-2"></i>{{ 'MY_DOCUMENTS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0">
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/doc_mng/documents/draft']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-file fa-lg text-primary mr-2"></i>{{ 'DRAFT_DOCUMENTS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0">
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/doc_mng/documents/receivable']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-file fa-lg text-primary mr-2"></i>{{ 'RECEIVABLE_DOCUMENTS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr />
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["DOCMNG_DOCUMENT_LIST"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/doc_mng/documents']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-file fa-lg text-primary mr-2"></i>{{ 'DOCUMENTS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["DOCMNG_FOLLOWUP_DOCUMENT_LIST"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/doc_mng/documents/followups']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-file fa-lg text-primary mr-2"></i>{{ 'FOLLOWUP_DOCUMENTS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["DOCMNG_INDOCUMENT_LIST"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/doc_mng/incoming']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-clock fa-lg text-primary mr-2"></i>{{ 'INCOMING_DOCS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["DOCMNG_OUTDOCUMENT_LIST"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/doc_mng/outgoing']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-clock fa-lg text-primary mr-2"></i>{{ 'OUTGOING_DOCS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div> -->
+				</div>
+				<hr />
+				<!-- <div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0">
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/doc_mng/dashboard']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-pie-chart fa-lg text-primary mr-2"></i>{{ 'DASHBOARD'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+				</div> -->
+				
+			</div>
+		</div>
+	</div>
+</section>

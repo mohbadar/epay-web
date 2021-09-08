@@ -1,0 +1,52 @@
+<div class="row">
+	<div class="col-12">
+	  <div class="content-header">{{ 'HELPDESK'|translate }}</div>
+	</div>
+</div>
+<section>
+	<div class="row">
+		<div class="col-12">
+			<div class="card-deck-wrapper">
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" >
+						<div class="card-content" style="cursor: pointer;" (click)="createTicket()">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-plus fa-lg text-primary mr-2"></i>{{ 'NEW_TICKET'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class=" col-lg-4 col-md-4 col-12 mb-2 mb-md-0">
+						
+					</div>
+				</div>
+				<hr />
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" >
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/helpdesk/tickets']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-users fa-lg text-primary mr-2"></i>{{ 'TICKETS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class=" col-lg-4 col-md-4 col-12 mb-2 mb-md-0">
+						
+					</div>
+				</div>
+				<hr />
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0">
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/helpdesk/dashboard']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-pie-chart fa-lg text-primary mr-2"></i>{{ 'DASHBOARD'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</section>

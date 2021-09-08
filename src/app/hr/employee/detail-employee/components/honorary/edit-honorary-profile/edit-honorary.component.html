@@ -1,0 +1,87 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'EDIT'|translate}}&nbsp;{{'HONORARY_SERVICE'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label" for="startDate">{{'START_DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="h.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="startDate" ngbDatepicker #h="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.startDate.invalid, 'is-valid': addFormSubmitted && !cpf.startDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.startDate.invalid || cpf.startDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'START_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 2nd row -->
+          <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label" for="endDate">{{'END_DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="k.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="endDate" ngbDatepicker #k="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.endDate.invalid, 'is-valid': addFormSubmitted && !cpf.endDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.endDate.invalid || cpf.endDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'END_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="source">{{'SOURCE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="source" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.source.invalid, 'is-valid': addFormSubmitted && !cpf.source.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.source.invalid || cpf.source.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SOURCE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

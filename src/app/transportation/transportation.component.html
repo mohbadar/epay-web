@@ -1,0 +1,83 @@
+<div class="row">
+	<div class="col-12">
+	  <div class="content-header">{{ 'TRANSPORTATION'|translate }}</div>
+	</div>
+</div>
+<section>
+	<div class="row">
+		<div class="col-12">
+			<div class="card-deck-wrapper">
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["TRANSPORTATION_MODULE", "TRANS_REQUEST_CREATE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/transport/requests/add']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-plus fa-lg text-primary mr-2"></i>{{ 'NEW_REQUEST'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["TRANSPORTATION_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/transport/requests/my']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-file-text fa-lg text-primary mr-2"></i>{{ 'MY_REQUESTS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class=" col-lg-4 col-md-4 col-12 mb-2 mb-md-0">
+
+					</div>
+				</div>
+				<hr />
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["TRANSPORTATION_MODULE", "TRANS_REQUEST_LIST"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/transport/requests']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-file-text fa-lg text-primary mr-2"></i>{{ 'REQUESTS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["TRANSPORTATION_MODULE", "TRANS_DRIVER_LIST"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/transport/drivers']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-users fa-lg text-primary mr-2"></i>{{ 'DRIVERS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["TRANSPORTATION_MODULE", "TRANS_VEHICLE_LIST"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/transport/vehicles']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-truck fa-lg text-primary mr-2"></i>{{ 'VEHICLES'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr />
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["TRANSPORTATION_MODULE", "TRANS_DASHBOARD"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/transport/dashboard']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-pie-chart fa-lg text-primary mr-2"></i>{{ 'DASHBOARD'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["TRANSPORTATION_MODULE", "TRANS_WIKI"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/transport/wiki']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-pie-chart fa-lg text-primary mr-2"></i>{{ 'WIKI'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>

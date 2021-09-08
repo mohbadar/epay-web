@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-12 col-sm-12">
+    <div class="row">
+      <div class="col-12 col-sm-3">
+        <ul class="list-unstyled mb-0 marginTOPUI">
+          <li class="d-inline-block mr-2">
+            <div class="radio radio-primary">
+              <input type="radio" name="color-radio" (click)="RadioClicked($event)" value="all" id="color-radio-7"
+              checked>
+              <label for="color-radio-7">{{'ALL'|translate}}</label>
+            </div>
+          </li>
+          <li class="d-inline-block mr-2">
+            <div class="radio radio-primary">
+              <input type="radio" name="color-radio" (click)="RadioClicked($event)" value="status" id="color-radio-4"
+                >
+              <label for="color-radio-4">{{'DOCUMENT_TYPE'|translate}}</label>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-12 col-sm-4" *ngIf="showStatus">
+        <div class="form-group">
+          <label for="ministry">{{'DOCUMENT_TYPE'|translate}}
+          </label>
+          <div class="controls">
+            <ng-select [items]="Types$|async" bindLabel="name" bindValue="id" 
+            (change)="loadDocumentByType($event)">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <div class="row justify-content-md-center" style="direction: ltr !important">
+      <ngx-charts-bar-vertical [view]="vertical_chart_opt.view" [scheme]="vertical_chart_opt.colorScheme"
+        [results]="documentByEntity?documentByEntity.data:''" [gradient]="vertical_chart_opt.gradient"
+        [xAxis]="vertical_chart_opt.showXAxis" [yAxis]="vertical_chart_opt.showYAxis"
+        [legend]="vertical_chart_opt.showLegend" [legendTitle]="vertical_chart_opt.legendTitle"
+        [showXAxisLabel]="vertical_chart_opt.showXAxisLabel"
+        [showYAxisLabel]="vertical_chart_opt.showYAxisLabel" [xAxisLabel]="vertical_chart_opt.xAxisLabel"
+        [yAxisLabel]="vertical_chart_opt.yAxisLabel">
+      </ngx-charts-bar-vertical>
+    </div>
+      <br>
+      <br>
+  </div>
+</div>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

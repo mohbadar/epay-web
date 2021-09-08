@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-6 mt-2">
+    <div class="primary font-medium-2 text-bold-600">{{'DOCUMENT_DETAILS'|translate}}</div>
+    <!-- <p class="content-sub-header mb-1">Configure account settings to your needs.</p> -->
+  </div>
+  <div class="col-6">
+    <button class="btn btn-default pull-right" (click)="goToDocumentsList()"
+      style="border:1px solid #c9c7c7">{{'DOCUMENTS_LIST'|translate}}</button>
+  </div>
+</div>
+<ng-container *ngIf="!loading">
+  <div class="row">
+    <div class="col-md-3 mt-3">
+      <!-- Nav tabs -->
+      <ul class="nav-pills" ngbNav #nav="ngbNav" [(activeId)]="active" orientation="vertical">
+        <li ngbNavItem="document">
+          <a ngbNavLink>
+            <i class="ft-settings mr-1 align-middle"></i>
+            <span class="align-middle">{{ 'DOCUMENT'|translate }}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <app-view-document [docId]="docId" [documentDetails]="documentDetails"
+              (fetchDocumentEvent)="fetchDocument($event)"></app-view-document>
+          </ng-template>
+        </li>
+        <li ngbNavItem="executions">
+          <a ngbNavLink>
+            <i class="ft-lock mr-1 align-middle"></i>
+            <span class="align-middle">{{ 'EXECUTIONS'|translate }}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <app-execution-document [docId]="docId" [documentDetails]="documentDetails"></app-execution-document>
+          </ng-template>
+        </li>
+        <li ngbNavItem="followups">
+          <a ngbNavLink>
+            <i class="ft-lock mr-1 align-middle"></i>
+            <span class="align-middle">{{ 'PURSUIT'|translate }}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <app-follow-up-document [docId]="docId" [documentDetails]="documentDetails"></app-follow-up-document>
+          </ng-template>
+        </li>
+        <li ngbNavItem="comments">
+          <a ngbNavLink>
+            <i class="ft-info mr-1 align-middle"></i>
+            <span class="align-middle">{{ 'COMMENTS'|translate }}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <app-comment-document [docId]="docId"></app-comment-document>
+          </ng-template>
+        </li>
+        <li ngbNavItem="attachments">
+          <a ngbNavLink>
+            <i class="ft-info mr-1 align-middle"></i>
+            <span class="align-middle">{{ 'ATTACHMENTS'|translate }}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <app-attachment-document [docId]="docId"></app-attachment-document>
+          </ng-template>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <!-- Tab panes -->
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div [ngbNavOutlet]="nav" class=""></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

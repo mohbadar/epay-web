@@ -1,0 +1,97 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'EDIT'|translate}} {{'MEDAL_MARK'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="medalType">{{'MEDAL_TYPE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="medalType" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.medalType.invalid, 'is-valid': addFormSubmitted && !cpf.medalType.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.medalType.invalid || cpf.medalType.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'MEDAL_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="approvedSource">{{'APPROVED_AUTHORITY'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="approvedSource" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.approvedSource.invalid, 'is-valid': addFormSubmitted && !cpf.approvedSource.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.approvedSource.invalid || cpf.approvedSource.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'APPROVED_AUTHORITY'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="maktubNumber">{{'NOMBER'|translate}}&nbsp;{{'COMMAND'|translate}}/{{'DECREE'|translate}}/{{'MAKTUB'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="maktubNumber" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.maktubNumber.invalid, 'is-valid': addFormSubmitted && !cpf.maktubNumber.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.maktubNumber.invalid || cpf.maktubNumber.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'NOMBER'|translate}}&nbsp;{{'COMMAND'|translate}}/{{'DECREE'|translate}}/{{'MAKTUB'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label" for="maktubDate">{{'DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="k.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="maktubDate" ngbDatepicker #k="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.maktubDate.invalid, 'is-valid': addFormSubmitted && !cpf.maktubDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.maktubDate.invalid || cpf.maktubDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

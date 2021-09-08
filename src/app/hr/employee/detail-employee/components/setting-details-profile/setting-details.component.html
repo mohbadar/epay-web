@@ -1,0 +1,192 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'PROFILE_SETTING'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="table-responsive-sm">
+        <table class="table">
+          <tbody>
+            <tr class="d-flex" *ngIf="!data.training">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery" [checked]="data.training" (change)="changeTraining($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'SEMINAR'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.reward">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery" [checked]="data.reward" (change)="changeReward($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'REWARD'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.panelty">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changePanelty($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'PENALTY'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.publication">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery" (change)="changePublication($event)"  size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'PUBLICATION'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.Hononary_service">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery" (change)="changeHononary($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'HONORARY_SERVICE'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex"  *ngIf="!data.medal">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changeMark($event)"  size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'MEDAL_MARK'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.military">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changeMilitary($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'MILITARY_SERVICE'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.political_party">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changeParty($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'POLITICAL_PARTY'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            
+            <tr class="d-flex" *ngIf="!data.salary">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changeSalary($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'SALARY'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.family_members">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changeFamily($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'FAMILY_MEMBERS'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.travel">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changeTravel($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'TRAVEL_INFORMATION'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.transfer">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changeTransfer($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'TRANSFER'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.promotion">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changePromotion($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'PROMOTION'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.academic_degree">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changeAcademic($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'ACADEMIC-DEGREE'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.accountability">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery" (change)="changeAccountability($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'ACCOUNTABILITY'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.off_duty_crime">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changeCrime($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'OFF_DUTY_CRIMES'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+            <tr class="d-flex" *ngIf="!data.fired_from_duty">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery"  (change)="changeFired($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'FIRED_FROM_DUTY'|translate}}&nbsp;{{'NONE'|translate}}</span>
+              </td>
+            </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" (click)="submit()">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="dismiss()">{{ 'CLOSE' | translate }}</button>
+</div>

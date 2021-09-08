@@ -1,0 +1,294 @@
+<div class="modal-header" *ngIf="!dataLoadingFlag">
+	<h4 class="modal-title">
+		{{ task.title }}
+	</h4>
+	<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">x</button> -->
+</div>
+<div class="row ml-1 mr-1" *ngIf="!dataLoadingFlag">
+	<ngb-progressbar class="col-12" showValue="true" type="success" [value]="task.progress"></ngb-progressbar>
+</div>
+<div class="modal-body taskboard-modal" *ngIf="!dataLoadingFlag">
+    <div class="row" >
+        <!-- <div class="col-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <h5 class="content-header">{{ 'task title' }}</h5>
+                <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div> -->
+        <div class="col-12 col-sm-12 col-md-12">
+            <div class="row">
+                <div class="col-9 border-left  border-right">
+					<div class="row">
+						<div class="col-12">
+							<h5 class="mb-2 text-bold-700">
+								<i class="fa ft-menu mr-2"></i>
+								<span>
+									<i class="ft-edit-2 mr-1 primary cursor-pointer" (click)="editTaskDescription();" *ngIf="isOwner"></i>
+									{{'DESCRIPTION'|translate}}
+								</span>
+							</h5>
+						</div>
+						<div class="col-12">
+							<p class="text-wrap" *ngIf="!showEditTaskDesctiption">
+								{{ task.description}}
+							</p>
+							<div *ngIf="showEditTaskDesctiption">
+								<div class="form-group mb-2">
+									<input id="basic-form-9" class="form-control" [(ngModel)]="tempTaskTitle">
+									<textarea id="basic-form-9" rows="4" class="form-control" [(ngModel)]="tempTaskDescription"></textarea>
+								</div>
+								<div class="form-group mb-2 justify-content-end">
+									<button class="btn btn-primary btn-save mr-1" (click)="updateTaskDescription()">{{ 'SAVE'|translate }}</button>
+									<button class="btn btn-secondary btn-fill" (click)="cancelEditTaskDescription()" type="button">{{ 'CANCEL' | translate }}</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<h5 class="mt-4 mb-2 text-bold-700">
+								<i class="fa ft-paperclip mr-2"></i>
+								<i class="ft-plus mr-1 primary cursor-pointer" (click)="newAttachment();"></i>
+								{{'ATTACHMENTS'|translate}}
+							</h5>
+						</div>
+						<div class="col-12" *ngIf="showNewTaskAttachment">
+							<add-task-attachment [taskId]="taskId" (response)="addAttachment($event)" (cancelResponse)="cancelAttachment()"></add-task-attachment>
+						</div>
+						<div class="col-12" *ngFor="let taskAttachment of taskAttachments; let taskAttachmentIndex=index">
+							<div class="media py-2">
+								<button class="btn btn-primary round btn-sm" (click)="downloadAttachment(taskAttachment.id)">
+									<i class="ft ft-download"></i>
+								</button>
+								<div class="media-body mr-1 ml-1">
+									<h5 class="font-medium-1 mb-0">{{ taskAttachment.fileName }}</h5>
+									<p class="grey font-small-3 m-0">{{ taskAttachment?.createdBy.name }}</p>
+								</div>
+								<span class="grey font-small-3 m-0">{{ baseService.parseDateObjectAsDate(taskAttachment.createdAt) | jalali }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="row" *ngIf="task.parent">
+						<div class="col-12">
+							<h5 class="mt-4 mb-2 text-bold-700">
+								<i class="fa ft-bookmark mr-2"></i>
+								{{'PARENT_TASK'|translate}}
+							</h5>
+						</div>
+						<div class="col-12">
+							<div class="media py-2">
+								<button class="btn btn-primary round btn-sm" (click)="viewTask(task.parent)">
+									<i class="ft ft-eye"></i>
+								</button>
+								<div class="media-body mr-1 ml-1">
+									<h5 class="font-medium-1 mb-0">{{ task.parent.title }}</h5>
+									<p class="grey font-small-3 m-0">{{ task.parent?.createdBy.name }}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<h5 class="mt-4 mb-2 text-bold-700">
+								<i class="fa ft-server mr-2"></i>
+								<i class="ft-plus mr-1 primary cursor-pointer" (click)="newSubTask();" *ngIf="isOwner"></i>
+								{{'SUB_TASKS'|translate}}
+							</h5>
+						</div>
+						<div class="col-12" *ngIf="showAddSubTask">
+							<div class="input-group">
+								<ng-select [items]="taskboardOrphanTasks$" [(ngModel)]="selectedSubTask" class="col-9" bindLabel="title" bindValue="id">
+								</ng-select>
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" (click)="addSubTask()">
+										<i class="ft ft-file-plus"></i>
+									</button>
+									<button class="btn btn-secondary" type="button" (click)="cancelSubTask()">
+										<i class="ft ft-x"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-12" *ngFor="let subTask of subTasks; let subTaskIndex=index">
+							<div class="media py-2">
+								<button class="btn btn-primary round btn-sm" (click)="viewTask(subTask)">
+									<i class="ft ft-eye"></i>
+								</button>
+								<div class="media-body mr-1 ml-1">
+									<h5 class="font-medium-1 mb-0">{{ subTask.title }}</h5>
+									<p class="grey font-small-3 m-0">{{ subTask?.createdBy.name }}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<h5 class="mt-4 mb-2 text-bold-700">
+								<i class="fa ft-list mr-2"></i>
+								<i class="ft-plus mr-1 primary cursor-pointer" (click)="newExecution();"></i>
+								{{'EXECUTIONS'|translate}}
+							</h5>
+						</div>
+						<div class="col-12" *ngIf="showNewTaskExecution">
+							<add-task-execution [taskId]="taskId" (response)="addExecution($event)" (cancelResponse)="cancelExecution()"></add-task-execution>
+						</div>
+						<div class="col-12" *ngFor="let taskExecution of taskExecutions; let taskExecutionIndex=index">
+							<div class="media py-2">
+								<img class="mr-3 avatar rounded" src="assets/img/portrait/small/face-0.png" alt="Avatar" width="35">
+								<div class="media-body">
+									<h4 class="font-medium-1 mb-0">{{ taskExecution?.createdBy.name }}</h4>
+									<p class="grey font-small-3 m-0">{{ taskExecution.details }}</p>
+									<ngb-progressbar showValue="true" type="success" [value]="taskExecution.progress"></ngb-progressbar>
+								</div>
+								<button *ngIf="taskExecution.attachmentPath"
+								class="btn btn-primary round btn-sm" (click)="downloadExecutionAttachment(taskExecution.id)">
+								<i class="ft ft-download"></i>
+							  </button>&nbsp;&nbsp;
+								<span> {{ baseService.parseDateObjectAsDate(taskExecution.createdAt) | jalali }} </span>
+								<!-- <i class="ft-edit mr-1 primary cursor-pointer" (click)="editComment(taskExecution.id);"></i>
+								<i class="ft-trash-2 danger cursor-pointer" (click)="deleteComment(taskExecution.id);"></i> -->
+								<!-- <button type="button" class="btn bg-light-primary">
+								  <i class="ft-user-check"></i>
+								</button> -->
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<h5 class="mt-4 mb-2 text-bold-700">
+								<i class="fa ft-more-vertical mr-2"></i>{{'COMMENTS'|translate}}
+							</h5>
+						</div>
+						<section class="col-12 px-3 py-2">
+							<div class="d-flex align-items-center">
+								<form [formGroup]="commentForm" class="col-12">
+									<div class="form-group row">
+										<input type="text" name="comment" formControlName="comment" class="form-control chat-message-send mr-2 col-10"
+											placeholder="Type your message here">
+										<button type="button" class="btn btn-outline-info btn-icon align-items-center"
+											title="{{'ADD'|translate}}" (click)="addComment()">
+											<i class="fa fa-comment"></i>
+										</button>
+									</div>
+								</form>
+							</div>
+							<div class="row align-items-center">
+								<div class="col-12" *ngFor="let taskComment of taskComments; let taskCommentIndex=index">
+									<div class="media py-2">
+										<img class="mr-3 avatar rounded" src="assets/img/portrait/small/face-0.png" alt="Avatar" width="35">
+										<div class="media-body">
+											<h4 class="font-medium-1 mb-0">{{ taskComment.createdBy.name }}</h4>
+											<p class="grey font-small-3 m-0">{{ taskComment.comment }}</p>
+										</div>
+										<span> {{ baseService.parseDateObjectAsDate(taskComment.createdAt) | jalali }} </span>
+										<i class="ft-edit mr-1 primary cursor-pointer" (click)="editComment(taskComment.id);"></i>
+										<i class="ft-trash-2 danger cursor-pointer" (click)="deleteComment(taskComment.id);"></i>
+										<!-- <button type="button" class="btn bg-light-primary">
+										  <i class="ft-user-check"></i>
+										</button> -->
+									</div>
+								</div>
+
+							</div>
+						</section>
+					</div>
+
+                </div>
+                <div class="col-3 border-right  border-left">
+					<div class="row" *ngIf="!isTaskArchived">
+						<div class="form-group mb-2">
+							<i class="ft-briefcase mr-1 warning cursor-pointer" (click)="archiveTask();"></i>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group mb-2">
+							<label class="col-12 font-weight-bold">
+								<i class="ft-plus mr-1 primary ft-zoom-in" (click)="showTaskStatusHistory();"></i>
+								{{ 'STATUS'|translate }}
+							</label>
+							<p class="col-12 mb-0 form-control-static">{{ task.status }}</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group mb-2">
+							<label class="col-12 font-weight-bold">{{ 'REPORTER'|translate }}</label>
+							<p class="col-12 mb-0 form-control-static">{{ task.createdBy.name }} <span class="grey font-small-1 m-0">{{ 'OWNER'|translate }}</span></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group mb-2">
+							<label class="col-12 font-weight-bold">
+								<i class="ft-plus mr-1 primary cursor-pointer" (click)="addTaskAssignee();"></i>
+								{{ 'ASSIGNED_TO'|translate }}
+							</label>
+							<p *ngFor="let assignee of task.assignedTo;" class="col-12 mb-0 form-control-static">{{ assignee.name }}</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-12">
+							<hr class="my-2" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group mb-2">
+							<label class="col-12 font-weight-bold">
+								{{ 'CREATED_AT'|translate }}
+							</label>
+							<p class="col-12 mb-0 form-control-static">
+								{{ baseService.parseDateObjectAsDate(task?.createdAt) | jalali }}</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group mb-2">
+							<label class="col-12 font-weight-bold">
+								<i class="ft-edit-2 mr-1 primary cursor-pointer" *ngIf="isOwner" (click)="addDueDate();"></i>
+								{{ 'DUE_DATE'|translate }}
+							</label>
+							<p class="col-12 mb-0 form-control-static">{{ task?.dueDate | jalali }}</p>
+							<span *ngIf="task?.dueDate != null && task?.completionDate == null" class="badge badge-pill mx-2" [ngClass]="{'bg-light-success':remaingingPassedDays > 0, 'bg-light-danger':remaingingPassedDays < 0 , 'bg-light-warning':remaingingPassedDays == 0 }">
+								{{ remaingingPassedDays }} {{ 'DAY'|translate }}
+							</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group mb-2">
+							<label class="col-12 font-weight-bold">
+								<i class="ft-edit-2 mr-1 primary cursor-pointer" *ngIf="isOwner" (click)="addCompletionDate();"></i>
+								{{ 'COMPLETION_DATE'|translate }}
+							</label>
+							<p class="col-12 mb-0 form-control-static">{{ task?.completionDate | jalali}}</p>
+							<span *ngIf="task?.completionDate != null" class="badge badge-pill mx-2" [ngClass]="{'bg-light-success':dueDays > completionDays, 'bg-light-danger':dueDays < completionDays , 'bg-light-warning':dueDays == completionDays }">
+								{{ completionDays }} {{ 'DAY'|translate }}
+							</span>
+						</div>
+					</div>
+
+                    <!-- <div class="row">
+						<div class="col-12">
+							<ul class="navbar-nav">
+								<li class="i18n-dropdown dropdown nav-item ml-2 mr-2" display="dynamic" ngbDropdown>
+									<button type="button" class="caret-off nav-link d-flex align-items-center btn btn-outline-info btn-icon round align-items-center"
+										title="{{'ADD'|translate}}" data-toggle="dropdown" id="dropdown-flag" (click)="addMember()" ngbDropdownToggle>
+										<i class="fa fa-plus"></i>
+									</button>
+									<div ngbDropdownMenu class="dropdown-menu dropdown-menu-right text-left" aria-labelledby="dropdown-flag">
+										<input type="text" id="hidden-label-form-1" class="form-control" [placeholder]="'TITLE'|translate">
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

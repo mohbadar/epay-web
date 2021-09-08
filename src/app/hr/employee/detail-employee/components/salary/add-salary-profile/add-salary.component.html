@@ -1,0 +1,147 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'ADD'|translate}} {{'SALARY'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="profileJob">{{'POSITION_TITLE'|translate}}
+            </label>
+            <div class="controls">
+              <ng-select [items]="profileJob$|async" bindLabel="positionTitle" bindValue="id" formControlName="profileJob"
+                (clear)="setToNull(addForm,'profileJob')">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="cadreSalary">{{'CADRE_SALARY'|translate}}
+              <span class="required-field">*</span>
+            </label>
+            <div class="controls">
+              <input type="number" formControlName="cadreSalary" class="form-control" (change)="changeInputTotal($event)"
+                [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.cadreSalary.invalid, 'is-valid': addFormSubmitted && !cpf.cadreSalary.invalid }"
+                required>
+              <div *ngIf="addFormSubmitted && (cpf.cadreSalary.invalid || cpf.cadreSalary.errors?.required)"
+                class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                {{'CADRE_SALARY'|translate}} {{'IS_REQUIRED'|translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="original">{{'PROFESSONAL_SALARY'|translate}}
+              <span class="required-field">*</span>
+            </label>
+            <div class="controls">
+              <input type="number" formControlName="original" class="form-control" (change)="changeInputTotal($event)"
+                [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.original.invalid, 'is-valid': addFormSubmitted && !cpf.original.invalid }"
+                required>
+              <div *ngIf="addFormSubmitted && (cpf.original.invalid || cpf.original.errors?.required)"
+                class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                {{'ORIGINAL_SALARY'|translate}} {{'IS_REQUIRED'|translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="originalSalary">{{'ORIGINAL_SALARY'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="number" formControlName="originalSalary" class="form-control" (change)="changeInputTotal($event)"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.originalSalary.invalid, 'is-valid': addFormSubmitted && !cpf.originalSalary.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.originalSalary.invalid || cpf.originalSalary.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'ORIGINAL_SALARY'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="patentSalary">{{'PATENT_SALARY'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="number" formControlName="patentSalary" class="form-control" (change)="changeInputTotal($event)"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.patentSalary.invalid, 'is-valid': addFormSubmitted && !cpf.patentSalary.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.patentSalary.invalid || cpf.patentSalary.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PATENT_SALARY'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="extraSalary">{{'EXTRA_SALARY'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="number" formControlName="extraSalary" class="form-control" (change)="changeInputTotal($event)"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.extraSalary.invalid, 'is-valid': addFormSubmitted && !cpf.extraSalary.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.extraSalary.invalid || cpf.extraSalary.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'EXTRA_SALARY'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="macul">{{'MACUL'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="number" formControlName="macul" class="form-control" (change)="changeInputTotal($event)"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.macul.invalid, 'is-valid': addFormSubmitted && !cpf.macul.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.macul.invalid || cpf.macul.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'MACUL'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+              <strong><span>{{'TOTAL'|translate}}:
+              </span></strong> &nbsp;
+             <strong> <span>{{total}}</span></strong>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

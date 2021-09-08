@@ -1,0 +1,46 @@
+<section id="ngx-datatables-server-side">
+	<div class="row">
+		<div class="col-12 mt-2">
+			<h4>{{'SCHEDULED_VISITS'|translate}}</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav-tabs justify-content-left navCustomPadding">
+					<!-- <li [ngbNavItem]="1">
+						<a ngbNavLink class="nav-link d-flex align-items-center">
+							<span>{{'SCHEDULED_VISITS'|translate}}</span>
+						</a>
+						<ng-template ngbNavContent>
+							<list-schedule-visit></list-schedule-visit>
+						</ng-template>
+					</li> -->
+					<li [ngbNavItem]="2">
+						<a ngbNavLink class="nav-link d-flex align-items-center">
+							<span>{{'SCHEDULED_VISITORS'|translate}}</span>
+						</a>
+						<ng-template ngbNavContent>
+							<list-schedule-visitor></list-schedule-visitor>
+						</ng-template>
+					</li>
+                    <li [ngbNavItem]="3">
+						<a ngbNavLink class="nav-link d-flex align-items-center">
+							<span>{{'SCHEDULED_VEHICLES'|translate}}</span>
+						</a>
+						<ng-template ngbNavContent>
+							<list-schedule-vehicle></list-schedule-vehicle>
+						</ng-template>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div [ngbNavOutlet]="nav"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+	[fullScreen]="true">
+</ngx-spinner>

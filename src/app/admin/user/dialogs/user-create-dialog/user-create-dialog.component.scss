@@ -1,0 +1,60 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    min-width: 450px;
+    min-height: 100% !important;
+}
+
+.container > * {
+    width: 100%;
+}
+
+.mat-dialog-content {
+    min-height: 25vh;
+}
+.modal.fade.in {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+.form {
+    display: flex;
+    padding-top: 6px;
+}
+
+.mat-form-field {
+    font-size: 16px;
+    flex-grow: 1;
+}
+
+.loader {
+    position: fixed;
+    left: 0;
+    right: 0;
+    display: block;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    opacity: 0.3;
+    background-color: rgb(227, 231, 243);
+    display: none;
+}
+
+.loader .fa {
+    color: #000000;
+    font-size: 40px;
+    width: 46px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 40px;
+}
+
+.d-block {
+    display: block !important;
+}

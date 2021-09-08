@@ -1,0 +1,31 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'APPROVE_PROFILE'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="table-responsive-sm">
+        <table class="table">
+          <tbody>
+            <tr class="d-flex">
+              <td class="col-3">
+                <div class="switchery-success d-flex align-items-center">
+                  <ui-switch class="switchery" (change)="changeApprove($event)" size="small"></ui-switch>
+                </div>
+              </td>
+              <td class="col-9">
+                <span class="align-middle">{{'APPROVE_PROFILE'|translate}}</span>
+              </td>
+            </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" *ngIf="openFile" [disabled]="loading" (click)="submit()">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="dismiss()">{{ 'CLOSE' | translate }}</button>
+</div>

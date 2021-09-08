@@ -1,0 +1,61 @@
+<div class="modal-header">
+	<h4>{{ 'REQUEST_DETAILS'| translate }}</h4>
+	<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body" style="padding-bottom:40px;">
+	<div class="row">
+		<div class="col-12" *ngIf="!dataLoadingFlag">
+			<form>
+			  <div class="form-group row">
+				<div class="col-6 col-md-3"><strong>{{'ID'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.id }}</div>
+			  </div>
+				<div class="form-group row">
+				<div class="col-6 col-md-3"><strong>{{'REQUESTING_DEPARTMENT'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.requestingDepartment?.nameDr }}</div>
+				<div class="col-6 col-md-3"><strong>{{'HAS_RETURN'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.hasReturn }}</div>
+			  </div>
+			  <div class="form-group row">
+				<div class="col-6 col-md-3"><strong>{{'PICKUP_LOCATION'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.pickupLocation }}</div>
+				<div class="col-6 col-md-3"><strong>{{'DROP_OFF_LOCATION'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.dropOffLocation }}</div>
+			  </div>
+  
+			  <div class="form-group row">
+				<div class="col-6 col-md-3"><strong>{{'PICKUP_DATE'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.pickupDate }}</div>
+				<div class="col-6 col-md-3"><strong>{{'PICKUP_TIME'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.pickupTime }}</div>
+				<div class="col-6 col-md-3"><strong>{{'RETURN_TIME'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.returnTime }}</div>
+			  </div>
+  
+			  <div class="form-group row">
+				<div class="col-6 col-md-3"><strong>{{'DETAILS'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.details }}</div>
+			  </div>
+  
+			  <div class="form-group row">
+				<div class="col-6 col-md-3"><strong>{{'STATUS'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.status }}</div>
+				<div class="col-6 col-md-3"><strong>{{'RESOLUTION'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.resolution }}</div>
+			  </div>
+  
+			  <div class="form-group row">
+				<div class="col-6 col-md-3"><strong>{{'DRIVER_NAME'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.driver?.fullName }}</div>
+				<div class="col-6 col-md-3"><strong>{{'PLATE_NO'|translate}}</strong></div>
+				<div class="col-6 col-md-3">{{ request.vehicle?.plateNo }}</div>
+			  </div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal-footer taskboard-modal-footer">
+	<button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+</div>

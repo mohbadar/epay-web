@@ -1,0 +1,10 @@
+<form [formGroup]="commentForm" class="col-12">
+    <div class="form-group row">
+        <textarea name="comment" formControlName="comment" class="form-control chat-message-send mr-2 col-10"
+            placeholder="Type your message here"></textarea>
+        <button type="button" class="btn btn-outline-info btn-icon align-items-center"
+            title="{{'ADD'|translate}}" (click)="addComment()">
+            <i class="fa fa-comment"></i>
+        </button>
+    </div>
+</form>

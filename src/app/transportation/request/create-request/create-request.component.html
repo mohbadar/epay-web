@@ -1,0 +1,124 @@
+<div class="row">
+	<div class="col-12">
+		<div class="content-header">{{'CREATE_REQUEST'|translate}}</div>
+	</div>
+</div>
+<section id="basic-input" id="newForm">
+  	<div class="row">
+    	<div class="col-12">
+      		<div class="card">
+        		<div class="card-content">
+         			<div class="card-body">
+						<form [formGroup]="newForm" (ngSubmit)="submitForm()">
+							<div class="row">
+								<div class="col-sm-12 col-md-6">
+									<div class="form-group">
+										<label for="users-list-role">{{'REQUESTING_DEPARTMENT'|translate}}<span class="required-field">*</span></label>
+										<ng-select [items]="departments$ | async" bindLabel="name" bindValue="id"
+											formControlName="requestingDepartmentId">
+										</ng-select>
+									</div>
+								</div>
+								<div class="col-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="hasReturn">{{'HAS_RETURN'|translate}}<span class="required-field">*</span></label>
+										<div class="controls">
+											<ul class="list-unstyled mb-0">
+												<li class="d-inline-block mr-2">
+												  <div class="radio radio-primary">
+													<input type="radio" [value]=true id="active" formControlName="hasReturn" (change)="toggleReturnTime()">
+													<label class="text-primary" for="active">{{ 'YES'|translate }}</label>
+												  </div>
+												</li>
+												<li class="d-inline-block">
+												  <div class="radio radio-danger">
+													<input type="radio" [value]=false id="inactive" formControlName="hasReturn" (change)="toggleReturnTime()">
+													<label class="text-danger" for="inactive">{{ 'NO'|translate }}</label>
+												  </div>
+												</li>
+											</ul>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="pickupLocation">{{'PICKUP_LOCATION'|translate}}<span class="required-field">*</span></label>
+										<div class="controls">
+											<input type="text" formControlName="pickupLocation" class="form-control" required>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="dropOffLocation">{{'DROP_OFF_LOCATION'|translate}}<span class="required-field">*</span></label>
+										<div class="controls">
+											<input type="text" formControlName="dropOffLocation" class="form-control" required>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class='col-6 col-sm-6 col-md-6'>
+									<div class="form-group">
+										<label class="form-control-label" for="pickupDate">{{'PICKUP_DATE'|translate}}
+											<span class="required-field">*</span>
+										</label>
+										<div class="input-group">
+											<div class="input-group-append">
+											<button class="btn btn-outline-secondary calendar" (click)="pickupDate.toggle()" type="button">
+												<i class="fa fa-calendar"></i>
+											</button>
+											</div>
+											<input class="form-control" name="pickupDate" formControlName="pickupDate" ngbDatepicker
+												id="pickupDate" #pickupDate="ngbDatepicker" >
+										</div>
+									</div>
+								</div>
+
+								<div class="mr-3 ml-3">
+									<div class="form-group">
+									<label> {{'PICKUP_TIME'|translate}}<span class="required-field">*</span></label>
+									<ngb-timepicker formControlName="pickupTime" [spinners]="spinners"></ngb-timepicker>
+									</div>
+								</div>
+
+								<div class="mr-5 ml-5" *ngIf="showReturnTime">
+									<div class="form-group">
+									<label> {{'RETURN_TIME'|translate}}</label>
+									<ngb-timepicker formControlName="returnTime" [spinners]="spinners"></ngb-timepicker>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12 col-sm-12">
+									<div class="form-group">
+										<label>{{'DETAILS'|translate}}<span class="required-field">*</span></label>
+										<div class="controls">
+											<textarea rows="2" formControlName="details" class="form-control"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 col-sm-12">
+									<div class="form-group">
+									<button type="submit" class="btn btn-info">{{'SAVE'|translate}}
+										<span style="margin-left:10px;"></span>
+									</button>
+									<button type="button" class="btn btn-warning mr-1" [routerLink]="'/transport/requests/my'">
+										<span style="margin-right:10px;"></span> {{'CLOSE'|translate}}</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

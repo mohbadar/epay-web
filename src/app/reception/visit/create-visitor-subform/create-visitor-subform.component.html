@@ -1,0 +1,176 @@
+<div class="row" [formGroup]="visitorForm">
+	<div class="col-8 col-sm-12 col-md-8">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+						<label for="firstName">{{'FIRST_NAME'|translate}}
+							<span class="required-field">*</span>
+						</label>
+						<div class="controls">
+							<input type="text" formControlName="firstName" class="form-control" required>
+							<small *ngIf="getError('firstName') as error" class="text-danger">{{ error }}</small>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+					<label for="lastName">{{'LAST_NAME'|translate}}
+					</label>
+					<div class="controls">
+						<input type="text" formControlName="lastName" class="form-control">
+						<small *ngIf="getError('lastName') as error" class="text-danger">{{ error }}</small>
+					</div>
+					</div>
+				</div>
+
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+					<label for="fatherName">{{'FATHER_NAME'|translate}}<span class="required-field">*</span></label>
+					<div class="controls">
+						<input type="text" formControlName="fatherName" class="form-control" required>
+						<small *ngIf="getError('fatherName') as error" class="text-danger">{{ error }}</small>
+					</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-sm-4">
+					<div class="form-group">
+					<label for="phone">{{'CONTACT_NO'|translate}}<span class="required-field">*</span></label>
+					<div class="controls">
+						<input type="text" formControlName="phone" class="form-control" (keypress)="keyPress($event)" required>
+						<small *ngIf="getError('phone') as error" class="text-danger">{{ error }}</small>
+						<small *ngIf="visitorForm.controls.phone.errors && (visitorForm.controls.phone.errors.maxlength || visitorForm.controls.phone.errors.minlength)" class="text-danger">
+							{{ 'PHONE_NO_VALIDATION_ERROR'|translate }}
+						</small>
+					</div>
+					</div>
+				</div>
+				<div class="col-12 col-sm-4">
+					<div class="form-group">
+					<label for="email">{{'EMAIL'|translate}}</label>
+					<div class="controls">
+						<input type="text" formControlName="email" class="form-control">
+						<small *ngIf="getError('email') as error" class="text-danger">{{ error }}</small>
+					</div>
+					</div>
+				</div>
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+					<label for="tazkira">{{'TAZKIRA'|translate}}</label>
+					<div class="controls">
+						<input type="text" formControlName="tazkira" class="form-control">
+						<small *ngIf="getError('tazkira') as error" class="text-danger">{{ error }}</small>
+					</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+					<label for="tazkira">{{'DESIGNATION'|translate}}</label>
+					<div class="controls">
+						<input type="text" formControlName="designation" class="form-control">
+						<small *ngIf="getError('designation') as error" class="text-danger">{{ error }}</small>
+					</div>
+					</div>
+				</div>
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+					<label for="tazkira">{{'PROFESSION_TYPE'|translate}}</label>
+					<div class="controls">
+						<ul class="list-unstyled mb-0">
+							<li class="d-inline-block mr-1">
+							  <div class="radio radio-primary">
+								<input type="radio" value="CIVILIAN" [id]="'civilian-' + index" formControlName="professionType">
+								<label class="text-primary" [for]="'civilian-' + index">{{ 'CIVILIAN'|translate }}</label>
+							  </div>
+							</li>
+							<li class="d-inline-block">
+							  <div class="radio radio-danger">
+								<input type="radio" value="MILITARY" [id]="'military-' + index" formControlName="professionType">
+								<label class="text-danger" [for]="'military-' + index">{{ 'MILITARY'|translate }}</label>
+							  </div>
+							</li>
+						</ul>
+					</div>
+					</div>
+				</div>
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+					<label for="tazkira">{{'ALLOW_CARRY_SMART_PHONE'|translate}}</label>
+					<div class="controls">
+						<ul class="list-unstyled mb-0">
+							<li class="d-inline-block mr-2">
+								<div class="radio radio-primary">
+								<input type="radio" [value]=true [id]="'allowSP-' + index" formControlName="allowSmartPhone">
+								<label class="text-primary" [for]="'allowSP-' + index">{{ 'YES'|translate }}</label>
+								</div>
+							</li>
+							<li class="d-inline-block">
+								<div class="radio radio-danger">
+								<input type="radio" [value]=false [id]="'NotAllowSP-' + index" formControlName="allowSmartPhone">
+								<label class="text-danger" [for]="'NotAllowSP-' + index">{{ 'NO'|translate }}</label>
+								</div>
+							</li>
+						</ul>
+					</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+					<label for="tazkira">{{'ORGANIZATION_TYPE'|translate}}</label>
+					<div class="controls">
+						<ng-select [items]="organizationTypes$ | async" bindLabel="nameEn" bindValue="id"
+							formControlName="organizationType">
+						</ng-select>
+						<small *ngIf="getError('organizationType') as error" class="text-danger">{{ error }}</small>
+					</div>
+					</div>
+				</div>
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+					<label for="tazkira">{{'ORGANIZATION'|translate}}</label>
+					<div class="controls">
+						<ng-select [items]="organizations$ | async" bindLabel="nameEn" bindValue="id"
+							formControlName="organization">
+						</ng-select>
+						<small *ngIf="getError('organization') as error" class="text-danger">{{ error }}</small>
+					</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-sm-12">
+					<div class="form-group">
+						<label for="address">{{'ADDRESS'|translate}}</label>
+						<div class="controls">
+							<textarea rows="2" formControlName="address" class="form-control"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12 col-sm-12 col-md-4">
+		<div class="text-center mt-2" style="margin: auto;">
+			<div class="containerProfile">
+				<span class="required-field">*</span>
+				<img [src]="visitorPhoto.url" (error)="imageError($event.target)" width="230" height="230" alt="Avatar" class="imageProfile"
+				id="imageId" class="rounded" class="img-thumbnail">
+				<div class="middleProfile">
+					<span class="btn btn-block btn-sm btn-info"
+						(click)="changePhoto()">{{ 'CHANGE'  | translate }}</span>
+				</div>
+				<br>
+				<small *ngIf="getError('photo') as error" class="text-danger">{{ error }}</small>
+			</div>
+		</div>
+	</div>
+</div>
+<hr />

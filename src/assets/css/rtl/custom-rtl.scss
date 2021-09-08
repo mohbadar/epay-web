@@ -1,0 +1,166 @@
+
+    @import './components.css';
+    @import './rtl.css';
+    @import './vertical-overlay-menu.css';
+    @import './horizontal-menu.css';
+    @import './bootstrap-rtl-min.scss';
+
+body[dir=rtl] {
+  //   body {
+  //     direction: rtl;
+  //   }
+
+  .app-sidebar .navigation li.has-sub>a:after {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180desg);
+    transform: rotate(180deg);
+  }
+
+  .app-sidebar .navigation li.has-sub.open>a:after {
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+
+  .context-menu-item>.context-menu-list {
+    right: 100%;
+  }
+
+  div.hopscotch-bubble .hopscotch-bubble-arrow-container.left {
+    left: -34px;
+  }
+
+  .tagging .tag {
+    padding: 7px 0 7px 24px;
+  }
+
+  .tagging .tag span {
+    border-radius: 0 2px 2px 0;
+  }
+
+  .tagging .tag .tag-i {
+    right: auto;
+    left: 8px;
+  }
+
+  .main-content .wizard>.steps>ul>li:before {
+    right: 0;
+    left: auto;
+  }
+
+  .main-content .wizard>.steps>ul>li:after {
+    right: auto !important;
+    left: 0;
+  }
+
+  .cropper-container {
+    direction: ltr !important;
+  }
+
+  .swiper-button-next:after {
+    font-size: 25px;
+
+    content: '\e844' !important;
+  }
+
+  .swiper-button-prev:after {
+    font-size: 25px;
+
+    content: '\e843' !important;
+  }
+
+  .dataTables_filter {
+    text-align: left !important;
+  }
+
+  body .sidebar-content.ps--active-y {
+    right: 0 !important;
+  }
+
+  body .sidebar-content .ps__rail-y {
+    right: 96% !important;
+    left: 0 !important;
+  }
+
+  .submenu-icon,
+  .carousel-control-prev span[class*='icon'],
+  .carousel-control-next span[class*='icon'],
+  .swiper-button-next:after,
+  .swiper-button-prev:after,
+  .dropdown-submenu .dropdown-item:after {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+
+  // .progress-bar-animated {
+  //   -webkit-animation: progress-bar-stripes 40s linear infinite;
+  //   animation: progress-bar-stripes 40s linear infinite;
+  // }
+
+
+
+
+  .dropdown .dropdown-menu .dropdown-submenu .dropdown-menu,
+  .dropup .dropdown-menu .dropdown-submenu .dropdown-menu,
+  .dropright .dropdown-menu .dropdown-submenu .dropdown-menu,
+  .dropleft .dropdown-menu .dropdown-submenu .dropdown-menu {
+    right: 100% !important;
+    left: auto !important;
+  }
+
+  .dropdown .dropdown-menu .dropdown-submenu>a:after,
+  .dropup .dropdown-menu .dropdown-submenu>a:after,
+  .dropright .dropdown-menu .dropdown-submenu>a:after,
+  .dropleft .dropdown-menu .dropdown-submenu>a:after {
+    right: auto !important;
+    left: 14px !important;
+  }
+
+  .dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+    text-align: right !important;
+  }
+
+  .vertical-overlay-menu .main-menu .navigation li.has-sub>a:not(.mm-next):after {
+    right: auto !important;
+    left: 15px !important;
+    content: '\f104' !important;
+
+  }
+
+  .navbar .navbar-container .notification {
+    left: 14px !important;
+    right: auto !important;
+  }
+
+  .navbar .navbar-brand-center .navbar-header .logo .logo-img {
+    margin: 0 !important;
+  }
+
+  // ngb datepicker RTL config 
+  .ngb-dp-header .custom-select {
+    background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat left 1rem center/8px 10px !important;
+  }
+
+  .ngb-dp-content div {
+    text-align: center !important;
+  }
+
+  .ngb-dp-navigation-chevron {
+    transform: rotate(45deg) !important;
+  }
+
+  .right .ngb-dp-navigation-chevron {
+    transform: rotate(-135deg) !important;
+  }
+
+  .horizontal.large-empty-symbols ul.steps-indicator li:not(:last-child):after {
+      right: calc(50% + 25px) !important;
+  }
+
+  .navbar .langimg {
+      margin-left: 5px;
+  }
+}

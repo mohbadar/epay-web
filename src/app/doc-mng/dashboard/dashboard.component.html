@@ -1,0 +1,146 @@
+<section id="minimal-statistics-bg">
+  <div class="row">
+    <div class="col-12 mb-1">
+      <h6>{{'GENERAL_DASHBOARD'|translate}}</h6>
+    </div>
+  </div>
+  <br><br><br>
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2">
+          <div class="card card-inverse" style="background-color: #a83232;">
+            <div class="card-content">
+              <div class="card-body">
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h3 class="card-text">{{outgoing}}</h3>
+                    <span>{{'OUTGOINGDOCUMENTS'|translate}}</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                    <i class="ft-send font-large-2 float-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="card card-inverse bg-info">
+            <div class="card-content">
+              <div class="card-body">
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h3 class="card-text">{{incoming}}</h3>
+                    <span>{{'ّINCOMMINGDOCUMENTS'|translate}}</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                    <i class="ft-check-square font-large-1 float-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="card card-inverse bg-success">
+            <div class="card-content">
+              <div class="card-body">
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h3 class="card-text">{{processed}}</h3>
+                    <span>{{'PROCCESSED_DOC'|translate}}</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                    <i class="ft-archive font-large-1 float-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="card card-inverse bg-primary">
+            <div class="card-content">
+              <div class="card-body">
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h3 class="card-text">{{underprocess}}</h3>
+                    <span>{{'UNDER_PROCESS_DOC'|translate}}</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                    <i class="ft-user font-large-1 float-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="card card-inverse bg-warning">
+            <div class="card-content">
+              <div class="card-body">
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h3 class="card-text">{{unprocessed}}</h3>
+                    <span>{{'UN_PROCESSED_DOC'|translate}}</span>
+                  </div>
+                  <div class="media-right align-self-center">
+                    <i class="ft-file font-large-1 float-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Donot Charts-->
+<br>
+<br>
+<br>
+<div class="row text-left">
+  <div class="col-sm-12">
+    <div class="card">
+      <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs justify-content-left navCustomPadding">
+        <li [ngbNavItem]="1">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span>{{'DOCUMENT_BASED_ON_ENTITY'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <!-- content here -->
+            <app-dashboard-based-entity></app-dashboard-based-entity>
+            <br>
+            <br>
+            <br>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span>{{'DOCUMENT_BASED_ON_STATUS'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <!-- content here -->
+            <app-dashboard-based-status></app-dashboard-based-status>
+            <br>
+            <br>
+            <br>
+          </ng-template>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div [ngbNavOutlet]="nav"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+  <ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

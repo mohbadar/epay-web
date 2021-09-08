@@ -1,0 +1,376 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">{{'CREATE_VISIT'|translate}}</div>
+  </div>
+</div>
+<section id="basic-input">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <ng-container *ngIf="!showForm">
+              <form [formGroup]="searchForm">
+                <div class="row">
+                  <div class="col-12 col-sm-6">
+                    <label for="subject">{{'PHONE_OR_EMAIL'|translate}}<span class="required-field">*</span></label>
+                    <fieldset>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <button type="button" class="btn btn-outline-success inline btn-icon"
+                            (click)="open(content, i)">
+                            <i class="fa fa-search icon"></i>
+                          </button>
+                        </div>
+                        <input type="text" class="form-control" formControlName="searchKey" required />
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group pull-right">
+                      <label for="subject"></label>
+                      <div class="controls">
+                        <button type="button" class="btn btn-outline-success round btn-icon mr-1 mb-1"
+                          (click)="addNewVisitor()">
+                          <!-- {{'NEW'|translate}} -->
+                          <i class="ft ft-plus"></i>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+            </ng-container>
+
+            <ng-container *ngIf="showForm">
+              <form [formGroup]="visitorForm" (ngSubmit)="submit()">
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <h5>{{ 'VISIT_INFO'|translate }}</h5>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-8">
+                    <div class="row">
+                      <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+                          <label for="users-list-role">{{'HOST'|translate}}</label>
+                          <ng-select [items]="profiles$ | async" bindValue="id" [trackByFn]="trackByFn"
+                            [minTermLength]="2" typeToSearchText="Please enter 2 or more characters"
+                            [typeahead]="profileInput$" (change)="candidateChange($event)">
+                            <ng-template ng-header-tmp>
+                              <tr class="d-flex">
+                                <th class="col">
+                                  {{ "FIRST_NAME" | translate }}
+                                </th>
+                                <th class="col">
+                                  {{ "LAST_NAME" | translate }}
+                                </th>
+                                <th class="col">
+                                  {{ "FATHER_NAME" | translate }}
+                                </th>
+                              </tr>
+                            </ng-template>
+                            <ng-template ng-label-tmp let-item="item">
+                              <tr class="d-flex">
+                                <td class="col">
+                                  {{item.firstName}}
+                                </td>
+                                <td class="col">
+                                  {{item.lastName}}
+                                </td>
+                                <td class="col">
+                                  {{ item.fatherName}}
+                                </td>
+                              </tr>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                              <tr class="d-flex">
+                                <td class="col">
+                                  {{item.firstName}}
+                                </td>
+                                <td class="col">
+                                  {{item.lastName}}
+                                </td>
+                                <td class="col">
+                                  {{ item.fatherName}}
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </ng-select>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-4">
+                        <div class="form-group">
+                          <label for="subject">{{'SUBJECT'|translate}}<span class="required-field">*</span></label>
+                          <div class="controls">
+                            <input type="text" formControlName="visitSubject" class="form-control"
+                              [ngClass]="{ 'is-invalid': visitorFormSubmitted && vstF.visitSubject.invalid, 'is-valid': visitorFormSubmitted && !vstF.visitSubject.invalid }"
+                              required>
+                            <div
+                              *ngIf="visitorFormSubmitted && (vstF.visitSubject.invalid || vstF.visitSubject.errors?.required)"
+                              class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                              {{'SUBJECT'|translate}} {{'IS_REQUIRED'|translate}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-4">
+                        <div class="form-group">
+                          <label for="visitSource">{{'SOURCE'|translate}}<span class="required-field">*</span></label>
+                          <div class="controls">
+                            <input type="text" formControlName="visitSource" class="form-control"
+                              [ngClass]="{ 'is-invalid': visitorFormSubmitted && vstF.visitSource.invalid, 'is-valid': visitorFormSubmitted && !vstF.visitSource.invalid }"
+                              required>
+                            <div
+                              *ngIf="visitorFormSubmitted && (vstF.visitSource.invalid || vstF.visitSource.errors?.required)"
+                              class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                              {{'SOURCE'|translate}} {{'IS_REQUIRED'|translate}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='col-12 col-sm-6 col-md-2'>
+                        <div class="form-group">
+                          <label class="form-control-label" for="visitDate">{{'VISIT_DATE'|translate}}
+                            <span class="required-field">*</span>
+                          </label>
+                          <div class="input-group">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-secondary calendar" (click)="pr.toggle()" type="button">
+                                <i class="fa fa-calendar"></i>
+                              </button>
+                            </div>
+                            <input class="form-control" name="visitDate" formControlName="visitDate" ngbDatepicker
+                              id="visitDate" #pr="ngbDatepicker"
+                              [ngClass]="{ 'is-invalid': visitorFormSubmitted && vstF.visitDate.invalid, 'is-valid': visitorFormSubmitted && !vstF.visitDate.invalid }"
+                              required>
+
+                            <div
+                              *ngIf="visitorFormSubmitted && (vstF.visitDate.invalid || vstF.visitDate.errors?.required)"
+                              class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                              {{'VISIT_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2 col-lg-2">
+                        <div class="form-group">
+                          <label> {{ 'VISIT_TIME'|translate}}</label>
+                          <ngb-timepicker formControlName="visitTime" [spinners]="spinners"></ngb-timepicker>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <hr>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <!-- visitor info -->
+
+                      <div class="col-12 col-sm-12 col-md-12">
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                              <h5>{{ 'VISITOR_INFO'|translate }}</h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-12 col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label for="firstName">{{'FIRST_NAME'|translate}}
+                                <span class="required-field">*</span>
+                              </label>
+                              <div class="controls">
+                                <input type="text" formControlName="firstName" class="form-control"
+                                  [ngClass]="{ 'is-invalid': visitorFormSubmitted && cpf.firstName.invalid, 'is-valid': visitorFormSubmitted && !cpf.firstName.invalid }"
+                                  required>
+                                <div
+                                  *ngIf="visitorFormSubmitted && (cpf.firstName.invalid || cpf.firstName.errors?.required)"
+                                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                                  {{'FIRST_NAME '|translate}} {{'IS_REQUIRED'|translate}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label for="lastName">{{'LAST_NAME'|translate}}
+                              </label>
+                              <div class="controls">
+                                <input type="text" formControlName="lastName" class="form-control"
+                                  [ngClass]="{ 'is-invalid': visitorFormSubmitted && cpf.lastName.invalid, 'is-valid': visitorFormSubmitted && !cpf.lastName.invalid }">
+                                <div
+                                  *ngIf="visitorFormSubmitted && (cpf.lastName.invalid || cpf.lastName.errors?.required)"
+                                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                                  {{'LAST_NAME '|translate}} {{'IS_REQUIRED'|translate}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label for="fatherName">{{'FATHER_NAME'|translate}}
+                                <span class="required-field">*</span>
+                              </label>
+                              <div class="controls">
+                                <input type="text" formControlName="fatherName" class="form-control"
+                                  [ngClass]="{ 'is-invalid': visitorFormSubmitted && cpf.fatherName.invalid, 'is-valid': visitorFormSubmitted && !cpf.fatherName.invalid }"
+                                  required>
+                                <div
+                                  *ngIf="visitorFormSubmitted && (cpf.fatherName.invalid || cpf.fatherName.errors?.required)"
+                                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                                  {{'FATHER_NAME '|translate}} {{'IS_REQUIRED'|translate}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-sm-4">
+                            <div class="form-group">
+                              <label for="phone">{{'PHONE_NUMBER'|translate}}<span
+                                  class="required-field">*</span></label>
+                              <div class="controls">
+                                <input type="text" formControlName="phone" class="form-control"
+                                  [ngClass]="{ 'is-invalid': visitorFormSubmitted && cpf.phone.invalid, 'is-valid': visitorFormSubmitted && !cpf.phone.invalid }"
+                                  required>
+                                <div *ngIf="visitorFormSubmitted && (cpf.phone.invalid || cpf.phone.errors?.required)"
+                                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                                  {{'PHONE_NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-4">
+                            <div class="form-group">
+                              <label for="email">{{'EMAIL'|translate}}</label>
+                              <div class="controls">
+                                <input type="text" formControlName="email" class="form-control"
+                                  [ngClass]="{ 'is-invalid': visitorFormSubmitted && cpf.email.invalid, 'is-valid': visitorFormSubmitted && !cpf.email.invalid }">
+                                <div *ngIf="visitorFormSubmitted && (cpf.email.invalid || cpf.email.errors?.required)"
+                                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                                  {{'EMAIL'|translate}} {{'IS_REQUIRED'|translate}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6 col-md-4">
+                            <label></label>
+                            <ul class="list-unstyled mb-0">
+                              <li class="d-inline-block mr-2">
+                                <div class="radio radio-primary">
+                                  <input type="radio" name="color-radio" (click)="RadioClicked($event)" value="tazkira"
+                                    id="color-radio-2" checked>
+                                  <label for="color-radio-2">{{'TAZKIRA'|translate}}</label>
+                                </div>
+                              </li>
+                              <li class="d-inline-block mr-2">
+                                <div class="radio radio-primary">
+                                  <input type="radio" (click)="RadioClicked($event)" value="card" name="color-radio"
+                                    id="color-radio-1">
+                                  <label for="color-radio-1">{{'CARD'|translate}}</label>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-sm-6 col-md-4" *ngIf="tazkira">
+                            <div class="form-group">
+                              <label for="tazkira">{{'TAZKIRA'|translate}}
+                              </label>
+                              <div class="controls">
+                                <input type="text" formControlName="tazkira" class="form-control"
+                                  [ngClass]="{ 'is-invalid': visitorFormSubmitted && cpf.tazkira.invalid, 'is-valid': visitorFormSubmitted && !cpf.tazkira.invalid }">
+                                <div
+                                  *ngIf="visitorFormSubmitted && (cpf.tazkira.invalid || cpf.tazkira.errors?.required)"
+                                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                                  {{'TAZKIRA'|translate}} {{'IS_REQUIRED'|translate}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6 col-md-4" *ngIf="card">
+                            <div class="form-group">
+                              <label for="card">{{'CARD'|translate}}
+                              </label>
+                              <div class="controls">
+                                <input type="text" formControlName="card" class="form-control"
+                                  [ngClass]="{ 'is-invalid': visitorFormSubmitted && cpf.card.invalid, 'is-valid': visitorFormSubmitted && !cpf.card.invalid }">
+                                <div *ngIf="visitorFormSubmitted && (cpf.card.invalid || cpf.card.errors?.required)"
+                                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                                  {{'CARD'|translate}} {{'IS_REQUIRED'|translate}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-8">
+                            <div class="form-group">
+                              <label for="address">{{'ADDRESS'|translate}}</label>
+                              <div class="controls">
+                                <textarea rows="5" formControlName="address" class="form-control"></textarea>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="row">
+                          <div class="col-12 col-sm-4">
+                            <div class="form-group">
+                              <button type="submit" class="btn btn-info">
+                                {{'SAVE'|translate}}
+                                <span style="margin-left:10px;">
+                                </span>
+                              </button>
+                              <button type="button" class="btn btn-warning mr-1" (click)="routeHome()">
+                                <span style="margin-right:10px;">
+                                </span> {{'CLOSE'|translate}}</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-sm-12 col-md-4">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <webcam [height]="300" [width]="300" [trigger]="triggerObservable"
+                          (imageCapture)="handleImage($event)" *ngIf="showWebcam" [imageQuality]="1"></webcam>
+
+                      </div>
+                      <div class="col-md-12">
+                        <button type="button" class="btn btn-outline-danger btn-icon mr-1 mb-1"
+                          (click)="triggerSnapshot();"><i class="ft ft-maximize"></i></button>
+                          <button type="button" *ngIf="webcamImage" class="btn btn-outline-success btn-icon mr-1 mb-1"
+                          (click)="uploadImage();"><i class="ft ft-upload"></i></button>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="snapshot" *ngIf="webcamImage">
+                          <img [src]="webcamImage.imageAsDataUrl" class="photo users-avatar-shadow rounded" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </ng-container>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

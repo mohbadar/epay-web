@@ -1,0 +1,48 @@
+<div class="row">
+	<div class="col-12">
+		<div class="content-header">
+			{{ 'TASKBOARDS'|translate }}
+			<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" title="Create Taskboard"
+				(click)="createTaskboard()">
+				<i class="ft ft-plus"></i>
+			</button>
+		</div>
+	</div>
+</div>
+<section>
+	<div class="row">
+		<div class="col-12">
+			<div class="card-deck-wrapper">
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngFor="let taskboard of mergedBoards; let taskboardIndex=index">
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/task_mng/taskboards/' + taskboard.id]">
+							<div class="card-body pl-0 pr-0">
+								<h4 class="card-title">
+									{{ taskboard.title }}
+									<span class="grey font-small-1 m-0 pull-right">{{ (taskboard.isPublic===true? 'PUBLIC': 'PRIVATE')|translate }}</span>
+								</h4>
+								<span class="badge badge-pill badge-round bg-light-info font-small-1 pull-right">{{taskboard.createdBy.name}}</span>
+								<p class="card-text">{{ taskboard.description }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+        <!--showing two times ?-->
+        <!--
+				<hr />
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngFor="let taskboard of shared; let taskboardIndex=index">
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/task_mng/taskboards/' + taskboard.id]">
+							<div class="card-body">
+								<h4 class="card-title">{{ taskboard.title }}</h4>
+								<p class="card-text">{{ taskboard.description }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+        -->
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-md-12">
+        <form [formGroup]="myForm" (ngSubmit)="submit()">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" placeholder="Registry Name" name="name" class="form-control" formControlName="name"
+                    required />
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" placeholder="Description" name="description" class="form-control"
+                    formControlName="description" required />
+            </div>
+
+            <div class="form-group">
+                <label>Slug</label>
+                <input type="text" placeholder="Slug" name="slug" class="form-control"
+                    formControlName="slug" required />
+            </div>
+
+            <div class="form-group">
+                <label>Registry Type</label>
+                <select id="form_type" data-title="Single Select" name="form_type"
+                    class="selectpicker form-type-selectpicker" required data-style="btn-primary btn-fill btn-block"
+                    data-menu-style="dropdown-blue" formControlName="registryType">
+                    <option value="" disabled selected>Select Type</option>
+                    <option value="Map layer">Map layer</option>
+                    <option value="dashboard">Dashboard</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Content</label>
+                <textarea placeholder="Content" name="content" class="form-control" formControlName="content"
+                    required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Active</label>
+                <div>
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-inline-block mr-2">
+                          <div class="radio radio-primary">
+                            <input type="radio" name="color-radio" id="color-radio-1" checked>
+                            <label for="color-radio-1">Primary</label>
+                          </div>
+                        </li>
+                        <li class="d-inline-block mr-2">
+                          <div class="radio radio-secondary">
+                            <input type="radio" name="color-radio" id="color-radio-2">
+                            <label for="color-radio-2">Secondary</label>
+                          </div>
+                        </li>
+                    </ul>
+                    <!-- <bSwitch [switch-on-color]="'primary'" [switch-off-text]="' '" [switch-on-text]="' '"
+                        formControlName="active" name="active">
+                    </bSwitch> -->
+                </div>
+            </div>
+
+            <div class="">
+                <button type="submit" class="btn btn-primary btn-sm btn-fill mx-2" [disabled]="myForm.invalid">
+                    Submit</button>&nbsp;&nbsp;
+                <!-- <button type="submit" class="btn btn-primary btn-sm btn-fill mx-2" >Submit</button>&nbsp;&nbsp; -->
+                <span class="btn btn-warning btn-fill btn-sm mx-2" (click)="cancelRegistration()">Cancel</span>
+            </div>
+        </form>
+    </div>
+</div>

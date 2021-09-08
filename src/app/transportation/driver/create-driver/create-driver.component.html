@@ -1,0 +1,149 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">{{'CREATE_DRIVER'|translate}}</div>
+  </div>
+</div>
+<section id="basic-input" id="newForm">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+          	<form [formGroup]="newForm" (ngSubmit)="submitForm()">
+              <div class="row">
+                <div class="col-md-12">
+									<div class="form-group">
+										<h5>{{ 'DRIVER_INFO'|translate }}</h5>
+									</div>
+								</div>
+                <div class="col-12 col-sm-12 col-md-12">
+                  <div class="row">
+                  	<div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="fullName">{{'FULL_NAME'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="fullName" class="form-control" required>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="fullName">{{ 'FATHER_NAME'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="fatherName" class="form-control" required>
+												</div>
+											</div>
+										</div>
+                    <div class='col-12 col-sm-6 col-md-4'>
+											<div class="form-group">
+												<label class="form-control-label" for="dateOfBirth">{{'DATE_OF_BIRTH'|translate}}
+													<span class="required-field">*</span>
+												</label>
+												<div class="input-group">
+													<div class="input-group-append">
+													<button class="btn btn-outline-secondary calendar" (click)="rDate.toggle()" type="button">
+														<i class="fa fa-calendar"></i>
+													</button>
+													</div>
+													<input class="form-control" name="dateOfBirth" formControlName="dateOfBirth" ngbDatepicker
+														id="dateOfBirth" #rDate="ngbDatepicker" >
+												</div>
+											</div>
+										</div>
+
+                    <div class='col-12 col-sm-6 col-md-4'>
+											<div class="form-group">
+												<label class="form-control-label" for="licenseIssueDate">{{'License_Issue_Date'|translate}}
+													<span class="required-field">*</span>
+												</label>
+												<div class="input-group">
+													<div class="input-group-append">
+													<button class="btn btn-outline-secondary calendar" (click)="licenseIssueDate.toggle()" type="button">
+														<i class="fa fa-calendar"></i>
+													</button>
+													</div>
+													<input class="form-control" name="licenseIssueDate" formControlName="licenseIssueDate" ngbDatepicker
+														id="licenseIssueDate" #licenseIssueDate="ngbDatepicker" >
+												</div>
+											</div>
+										</div>
+
+
+                    <div class='col-12 col-sm-6 col-md-4'>
+											<div class="form-group">
+												<label class="form-control-label" for="licenseExpiryDate">{{'License_Expiry_Date'|translate}}
+													<span class="required-field">*</span>
+												</label>
+												<div class="input-group">
+													<div class="input-group-append">
+													<button class="btn btn-outline-secondary calendar" (click)="licenseExpiryDate.toggle()" type="button">
+														<i class="fa fa-calendar"></i>
+													</button>
+													</div>
+													<input class="form-control" name="licenseExpiryDate" formControlName="licenseIssueDate" ngbDatepicker
+														id="licenseExpiryDate" #licenseExpiryDate="ngbDatepicker" >
+												</div>
+											</div>
+										</div>
+
+                    <div class="col-12 col-sm-6 col-md-3">
+											<div class="form-group">
+												<label for="fullName">{{'LICENSE_CLASS'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="licenseClass" class="form-control" required>
+												</div>
+											</div>
+										</div>
+
+
+                    <div class="col-12 col-sm-12 col-md-3">
+                      <div class="text-center mt-2" style="margin: auto;">
+                        <div class="containerProfile">
+                          <span class="required-field">*</span>
+                          <img [src]="visitorPhoto.url" (error)="imageError($event.target)" width="230" height="230" alt="Avatar" class="imageProfile"
+                          id="imageId" class="rounded" class="img-thumbnail">
+                          <div class="middleProfile">
+                            <span class="btn btn-block btn-sm btn-info"
+                              (click)="changePhoto()">{{ 'CHANGE'  | translate }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="col-12 col-sm-12">
+											<div class="form-group">
+												<label>{{'DETAILS'|translate}}</label>
+												<div class="controls">
+													<textarea rows="2" formControlName="address" class="form-control"></textarea>
+												</div>
+											</div>
+										</div>
+
+
+                      <div class="col-12 col-sm-12">
+                        <div class="form-group">
+                        <button type="submit" class="btn btn-info">
+                          {{'SAVE'|translate}}
+                          <span style="margin-left:10px;">
+                          </span>
+                        </button>
+                        <button type="button" class="btn btn-warning mr-1" [routerLink]="'/transport/requests'">
+                          <span style="margin-right:10px;">
+                          </span> {{'CLOSE'|translate}}</button>
+                        </div>
+                    </div>
+
+                  </div>
+                </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</section>
+
+
+

@@ -1,0 +1,82 @@
+<section id="ngx-datatables-server-side">
+    <div class="row text-left">
+        <div class="col-12">
+            <div class="content-header">
+                {{ 'MINISTRY_MANAGEMENT' | translate }}
+                <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="refresh()"
+                    [class.fa-spin]="loading" >
+                    <i class="ft ft-refresh-cw"></i>
+                </button>
+                <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="addNew()"
+                *ngIf="globals.principal.hasAuthority(['MINISTRY','MINISTRY_CREATE'])" >
+                    <i class="ft ft-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">                       
+                        <div class="col-md-4 col-12 ml-auto">
+                            <div class="input-group">
+                                <input type="text" #searchBar class="form-control">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" (click)="searchTerm(searchBar.value)">
+                                        <i class="ft ft-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <ng-container *ngIf="dTableFlag">
+                            <ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows"
+                                [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                                [limit]="10" [selectionType]="'single'">
+                                <ngx-datatable-column [name]="'ACTIONS' | translate" [width]="100">
+                                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="row_index">
+                                        <ngx-spinner
+                                        bdColor="rgba(255, 255, 255, 0.100)"
+                                        size="medium"
+                                        color="black"
+                                        type="ball-scale-multiple"
+                                        fullScreen="false">
+                                        </ngx-spinner>
+                                        
+                                        <button 
+                                        class="btn btn-icon round" (click)="viewRecord(row.id)" *ngIf="globals.principal.hasAuthority(['MINISTRY','MINISTRY_VIEW'])"> 
+                                        <i class="ft-eye text-primary cursor-pointer"></i>
+                                        </button>
+
+                                        <button type="button"
+                                        class="btn btn-icon round" *ngIf="globals.principal.hasAuthority(['MINISTRY','MINISTRY_EDIT'])" (click)="editRecord(row.id)">
+                                        <i class="ft-edit text-primary cursor-pointer"></i>
+                                        </button>
+
+                                        <button type="button" class="btn btn-icon round" (click)="deleteRecord(row.id)"
+                                        *ngIf="globals.principal.hasAuthority(['MINISTRY','MINISTRY_DELETE'])" >
+                                            <i class="ft ft-trash text-warning cursor-pointer"></i>
+                                        </button>
+
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [name]="'ID' | translate" prop="id" [width]="50">
+                                    <ng-template ngx-datatable-cell-template let-value="value">
+                                        {{ value }}
+                                      </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [name]="'NAME_ENGLISH' | translate" prop="nameEn"></ngx-datatable-column>
+                                <ngx-datatable-column [name]="'NAME_DARI' | translate" prop="nameDr"></ngx-datatable-column>
+                                <ngx-datatable-column [name]="'NAME_PASHTO' | translate" prop="namePs"></ngx-datatable-column>
+                            </ngx-datatable>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

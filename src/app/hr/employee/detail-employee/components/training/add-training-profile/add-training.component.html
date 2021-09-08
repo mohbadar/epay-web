@@ -1,0 +1,168 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'ADD'|translate}}&nbsp;{{'SEMINAR'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="type">{{'TRAINING_TYPE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="Types" bindLabel="name" bindValue="name" formControlName="type"
+                  (clear)="setToNull(addForm,'type')"
+                  (change)="changeTravel($event)"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.type.invalid, 'is-valid': addFormSubmitted && !cpf.type.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.type.invalid || cpf.type.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'TRAINING_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="title">{{'SEMINAR_TITLE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="title" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.title.invalid, 'is-valid': addFormSubmitted && !cpf.title.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.title.invalid || cpf.title.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SEMINAR_TITLE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label" for="startDate">{{'START_DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="k.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="startDate" ngbDatepicker #k="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.startDate.invalid, 'is-valid': addFormSubmitted && !cpf.startDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.startDate.invalid || cpf.startDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'START_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label" for="endDate">{{'END_DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="p.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="endDate" ngbDatepicker #p="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.endDate.invalid, 'is-valid': addFormSubmitted && !cpf.endDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.endDate.invalid || cpf.endDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'END_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 2nd row -->
+        <div class="row" *ngIf="showCountry">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="country">{{'COUNTRY'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="country$|async" bindLabel="nameDr" bindValue="id" formControlName="country"
+                  (clear)="setToNull(addForm,'country')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.country.invalid, 'is-valid': addFormSubmitted && !cpf.country.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.country.invalid || cpf.country.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'COUNTRY'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showProvince">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="province">{{'PROVINCE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="province$|async" bindLabel="nameDr" bindValue="id" formControlName="province"
+                  (clear)="setToNull(addForm,'province')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.province.invalid, 'is-valid': addFormSubmitted && !cpf.province.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.province.invalid || cpf.province.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PROVINCE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="seminarType">{{'SEMINAR_TYPE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="trainingTypes" bindLabel="name" bindValue="name" formControlName="seminarType"
+                  (clear)="setToNull(addForm,'seminarType')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.seminarType.invalid, 'is-valid': addFormSubmitted && !cpf.seminarType.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.seminarType.invalid || cpf.seminarType.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SEMINAR_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

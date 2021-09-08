@@ -1,0 +1,186 @@
+<section id="ngx-datatables-server-side">
+    <div class="row">
+        <div class="col-12 mt-2">
+            <h4>{{ 'DRAFT_EXECUTIONS_LIST'|translate }}</h4>
+        </div>
+    </div>
+    <!-- Filter starts -->
+    <div class="row">
+        <div class="col-12">
+            <div class="users-list-filter px-2">
+                <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+                    <div class="row border rounded py-2 mb-2 mx-n2">
+                        <div class="col-12 col-sm-6 col-lg-2">
+                            <label for="users-list-role">{{'ID'|translate}}</label>
+                            <fieldset class="form-group">
+                                <input type="text" class="form-control" formControlName="id" />
+                            </fieldset>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-2">
+                            <label for="users-list-role">{{'DOCUMENT_NO'|translate}}</label>
+                            <fieldset class="form-group">
+                                <input type="text" class="form-control" formControlName="document_no" />
+                            </fieldset>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-2">
+                            <label for="users-list-status">{{'DOCUMENT_TYPE'|translate}}</label>
+                            <fieldset class="form-group">
+                                <ng-select [items]="documentTypes$ | async" bindLabel="nameDr" bindValue="id"
+                                    formControlName="document_type_id">
+                                </ng-select>
+                            </fieldset>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <label for="from_department_id">{{'FROM_DEPARTMENT'|translate}}</label>
+                            <fieldset class="form-group">
+                                <ng-select [items]="departments$ | async" bindLabel="name" bindValue="value"
+                                    formControlName="from_department_id">
+                                </ng-select>
+                            </fieldset>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-2">
+                            <label>{{'EXECUTION_TYPE' | translate}}</label>
+                            <fieldset class="form-group">
+                                <ng-select formControlName="document_execution_type_id"
+                                    [items]="documentExecutionTypesList" bindLabel="nameDr" bindValue="id">
+                                </ng-select>
+                            </fieldset>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="form-group">
+                                <label class="form-control-label"
+                                    for="documentDate">{{'DOCUMENT_EXECUTION_DATE'|translate}}
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+                                            type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </div>
+                                    <input class="form-control" name="document_execution_date"
+                                        formControlName="document_execution_date" ngbDatepicker
+                                        id="document_execution_date" #d="ngbDatepicker">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-2 d-flex align-items-center">
+                            <button type="submit" class="btn btn-primary btn-block users-list-clear">
+                                {{'SEARCH'|translate}}
+                            </button>&nbsp;
+                            <button type="reset" class="btn btn-warning btn-block users-list-clear"
+                                style="margin-top:initial" (click)="resetFilters()">
+                                {{'CLEAR'|translate}}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Filter ends -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+                        (click)="reload()">
+                        <i class="ft ft-refresh-cw"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+                        title="Add Profile" [disabled]="loading" (click)="addNewRecord()">
+                        <i class="ft ft-plus"></i>
+                    </button>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <ng-container *ngIf="tableOptions">
+                            <ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns"
+                                [virtualization]="false" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                                [footerHeight]="50" rowHeight="auto" [limit]="tableOptions.length"
+                                [loadingIndicator]="dataLoadingFlag" [scrollbarH]="true" (page)="setPage($event)"
+                                [reorderable]="reorderable" [swapColumns]="swapColumns" [externalPaging]="true"
+                                [externalSorting]="true" [count]="recordsTotal" [offset]="tableOptions.draw"
+                                [sorts]="[{prop: 'ID', dir: 'desc'}]" (sort)="onSort($event)">
+                                <ngx-datatable-column name="{{'ACTIONS'|translate}}" [width]="200" [sortable]="false">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <button type="button"
+                                            class="btn btn-outline-warning btn-icon round mr-1 mb-1 pull-right"
+                                            (click)="viewQRCode(row.ID)">
+                                            <i class="ft ft-slack"></i>
+                                        </button>
+                                        <button type="button"
+                                            class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+                                            [routerLink]="['/doc_mng/documents/' + row.ID]">
+                                            <i class="ft ft-eye"></i>
+                                        </button>
+                                        <button type="button"
+                                            class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+                                            (click)="viewContent(row.CONTENT)">
+                                            <i class="ft ft-info"></i>
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'ID'|translate}}" prop="ID" [width]="100">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'CONTENT'|translate}}" prop="CONTENT" [width]="100">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'DOCUMENT_TYPE'|translate}}" prop="DOCUMENT_TYPE">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'DOCUMENT_NO'|translate}}" prop="DOCUMENT_NO">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'DOCUMENT_DATE'|translate }}" prop="DOCUMENT_DATE">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.DOCUMENT_DATE | date: 'yyyy-MM-dd'|jalali}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'DOCUMENT_EXECUTION_TYPE'|translate}}"
+                                    prop="DOCUMENT_EXECUTION_TYPE">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'DOCUMENT_EXECUTION_DATE'|translate }}"
+                                    prop="DOCUMENT_EXECUTION_DATE">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.DOCUMENT_EXECUTION_DATE | date: 'yyyy-MM-dd'|jalali}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'PRIORITY_TYPE'|translate}}" prop="PRIORITY_TYPE">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.PRIORITY_TYPE|translate }}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'SECURITY_LEVEL'|translate}}" prop="SECURITY_LEVEL">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.SECURITY_LEVEL|translate }}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'SCOPE'|translate}}" prop="SCOPE">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.SCOPE|translate }}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'STATUS'|translate}}" prop="STATUS">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'FROM_ENTITY'|translate}}" prop="FROM_DEPARTMENT">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'TO_DEPARTMENT'|translate}}" prop="TO_DEPARTMENT">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'TITLE'|translate}}" prop="TITLE"></ngx-datatable-column>
+                                <ngx-datatable-column name="{{'CREATED_AT'|translate }}" prop="ENTRY_DATE">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.CREATED_AT | date: 'yyyy-MM-dd'|jalali}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'CREATED_BY'|translate}}" prop="CREATED_BY">
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+    [fullScreen]="true">
+</ngx-spinner>

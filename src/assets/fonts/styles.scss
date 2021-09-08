@@ -1,0 +1,406 @@
+/* You can add global styles to this file, and also import other style files */
+@import './assets/css/rtl.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,700&display=swap");
+
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+// ng-wizard
+@import '~ng-wizard/themes/ng_wizard.min.css';
+@import '~ng-wizard/themes/ng_wizard_theme_dots.min.css';
+
+@font-face {
+    font-family: "Bahij Halvetica";
+    src: url("./assets/fonts/bahij_helvetica_neue_bold_by_bahijvirtualacademy-dammcmt_0.ttf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Bahij Halvetica";
+    src: url("./assets/fonts/Bahij_Helvetica_Neue-Light_1.ttf");
+    font-weight: lighter;
+}
+
+@font-face {
+    font-family: "Bahij Halvetica";
+    src: url("./assets/fonts/bahij_helvetica_neue_roman_by_bahijvirtualacademy-dammd50_0.ttf");
+    font-weight: normal;
+}
+
+/* 
+.modal-backdrop.show {
+    opacity: 0.5 !important;
+}
+
+.modal {
+    opacity: 1 !important;
+}
+
+.modal.fade .modal-dialog {
+    transform: translate(0,0) !important;
+}
+
+.modal .modal-header {
+    display: flex;
+}
+
+.modal .modal-title {
+    flex: auto;
+} */
+
+.full-height{
+    height: 100% !important;
+}
+.r-0 {
+    right: 0;
+}
+
+.l-0 {
+    left: 0;
+}
+
+.t-align-initial {
+    text-align: initial;
+}
+
+.radio {
+    position: relative;
+}
+
+.radio input {
+    position: absolute;
+    z-index: 100;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.m-photo {
+    height: 220px !important;
+    width: 200px !important;
+}
+
+.welcome-page {
+    background-image: url('./assets/img/polcherkhi.jpg');
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+}
+
+.rtl .ngb-toasts {
+    right: auto !important;
+    left: 0 !important;
+}
+
+.table-features {
+    padding: 1rem .4rem;
+    /* border: 1px solid #282560; */
+    margin-bottom: 4px;
+}
+
+.btn-icon-sm .fa {
+    font-size: 14px !important;
+}
+
+.input-group-append,
+.input-group-prepend {
+    display: flex;
+}
+
+.sidebar .nav li {
+    flex: 100%;
+}
+
+.sidebar .nav li a {
+    display: block;
+    padding: .5rem;
+}
+
+.sidebar .nav p .caret {
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    border-top: 4px solid;
+}
+
+.sidebar .nav li a p {
+    text-align: initial;
+}
+
+.navbar {
+    padding: 0px !important;
+    background-color: rgba(255, 255, 255, .96) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+
+.navbar .navbar-brand {
+    margin: 0px !important;
+    padding: 0px 15px !important;
+}
+
+.navbar-toggle {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.lang-menu {
+    margin-left: auto;
+    order: 2;
+}
+
+.u-image {
+    max-height: 210px;
+}
+
+.flat-card {
+    background-color: #ffffff;
+    border: .5px solid grey;
+}
+
+.m-input-group {
+    position: relative;
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: stretch;
+    align-items: stretch;
+    width: 100%;
+}
+
+.required-field {
+    color: red;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(226, 226, 226);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(138, 137, 137);
+}
+
+/* General CSS */
+.no-data {
+    width: 100%;
+    border-radius: 0px;
+    color: #bfc0c0;
+}
+
+.popover-body {
+    border-radius: 10px;
+    text-align: center;
+}
+
+.popover-body .stat-option:hover {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4 {
+    font-weight: 300;
+    margin: 0px !important;
+}
+
+.cl-grey {
+    color: grey;
+}
+
+
+.wrap-text {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*********************************/
+/*  FORM VALIDATION CSS          */
+/*********************************/
+/* .ng-valid[required],
+.ng-valid.required {
+    border: .1px solid #6dff74;
+}
+
+.ng-invalid:not(form) {
+    border: .1px solid #ffeea0;
+} */
+
+
+hr {
+    border: 0;
+    clear: both;
+    display: block;
+    width: 100%;
+    border-top: 1px solid #eee;
+    height: 1px;
+}
+
+.full-width {
+    position: fixed;
+    width: calc(100% - 260px);
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    padding: 12px;
+    background-color: rgba(133, 133, 133, 0.377);
+}
+
+.full-width .card {
+    height: 100%;
+}
+
+.nodata.jumbotron {
+    padding: 2rem 1rem !important;
+}
+
+.fa-trash {
+    color: #dc3545;
+}
+
+.fa-edit {
+    color: #28a745;
+}
+
+.fa-eye {
+    color: #007bff;
+}
+
+.btn-social {
+    color: #138496;
+}
+
+.btn-refresh {
+    color: #ffc107;
+}
+
+.color-orange {
+    color: darkorange;
+}
+.color-blue{
+    color: #007bff;
+}
+.color-green{
+    color: #138496;
+}
+.btn-orange{
+    background-color: darkorange !important;
+}
+
+.invalid-feedback {
+    display: block !important;
+}
+
+.ng-select-is-invalid .ng-select-container {
+    border-color: #dc3545 !important;
+}
+
+.info-available {
+    margin-bottom: 1rem;
+}
+
+.sidebar {
+    // background: linear-gradient(to bottom, #447DF7 0%, rgba(83, 60, 225, 0.7) 100%)
+    background-color: #2366f7;
+}
+
+// .sidebar[data-color=blue]:after, .bootstrap-navbar[data-color=blue]:after {
+//     background:  none !important;
+// }
+
+body, html {
+    height:100%;
+  }
+  
+  /*
+   * Off Canvas sidebar at medium breakpoint
+   * --------------------------------------------------
+   */
+  @media screen and (max-width: 992px) {
+  
+    .row-offcanvas {
+      position: relative;
+      -webkit-transition: all 0.25s ease-out;
+      -moz-transition: all 0.25s ease-out;
+      transition: all 0.25s ease-out;
+    }
+  
+    .row-offcanvas-left
+    .sidebar-offcanvas {
+      left: -33%;
+    }
+  
+    .row-offcanvas-left.active {
+      left: 33%;
+      margin-left: -6px;
+    }
+  
+    .sidebar-offcanvas {
+      position: absolute;
+      top: 0;
+      width: 33%;
+      height: 100%;
+    }
+  }
+  
+  /*
+   * Off Canvas wider at sm breakpoint
+   * --------------------------------------------------
+   */
+  @media screen and (max-width: 34em) {
+    .row-offcanvas-left
+    .sidebar-offcanvas {
+      left: -45%;
+    }
+  
+    .row-offcanvas-left.active {
+      left: 45%;
+      margin-left: -6px;
+    }
+    
+    .sidebar-offcanvas {
+      width: 45%;
+    }
+  }
+  
+  .card {
+      overflow:hidden;
+  }
+  
+  .card-body .rotate {
+      z-index: 8;
+      float: right;
+      height: 100%;
+  }
+  
+  .card-body .rotate i {
+      color: rgba(20, 20, 20, 0.15);
+      position: absolute;
+      left: 0;
+      left: auto;
+      right: -10px;
+      bottom: 0;
+      display: block;
+      -webkit-transform: rotate(-44deg);
+      -moz-transform: rotate(-44deg);
+      -o-transform: rotate(-44deg);
+      -ms-transform: rotate(-44deg);
+      transform: rotate(-44deg);
+  }
+  

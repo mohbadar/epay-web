@@ -1,0 +1,154 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'EDIT'|translate}}&nbsp;{{'TRAVEL_INFORMATION'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="type">{{'TRAVEL_TYPE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="travelTypes" bindLabel="name" bindValue="name" formControlName="type"
+                  (clear)="setToNull(addForm,'type')"
+                  (change)="changeTravel($event)"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.type.invalid, 'is-valid': addFormSubmitted && !cpf.type.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.type.invalid || cpf.type.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'TRAVEL_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="MaktubNo">{{'MAKTUB_NUMBER'|translate}}/{{'DECREE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="MaktubNo" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.MaktubNo.invalid, 'is-valid': addFormSubmitted && !cpf.MaktubNo.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.MaktubNo.invalid || cpf.MaktubNo.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'MAKTUB_NUMBER'|translate}}/{{'DECREE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label" for="date">{{'DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="k.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="date" ngbDatepicker #k="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.date.invalid, 'is-valid': addFormSubmitted && !cpf.date.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.date.invalid || cpf.date.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 2nd row -->
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="profileJob">{{'POSITION_TITLE'|translate}}
+              </label>
+              <div class="controls">
+                <ng-select [items]="profileJob$|async" bindLabel="positionTitle" bindValue="id" formControlName="profileJob"
+                  (clear)="setToNull(addForm,'profileJob')">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          </div>
+        <div class="row" *ngIf="showCountry">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="country">{{'COUNTRY'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="country$|async" bindLabel="nameDr" bindValue="id" formControlName="country"
+                  (clear)="setToNull(addForm,'country')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.country.invalid, 'is-valid': addFormSubmitted && !cpf.country.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.country.invalid || cpf.country.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'COUNTRY'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showProvince">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="province">{{'PROVINCE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="province$|async" bindLabel="nameDr" bindValue="id" formControlName="province"
+                  (clear)="setToNull(addForm,'province')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.province.invalid, 'is-valid': addFormSubmitted && !cpf.province.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.province.invalid || cpf.province.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PROVINCE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="purpose">{{'PURPOSE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="purpose" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.purpose.invalid, 'is-valid': addFormSubmitted && !cpf.purpose.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.purpose.invalid || cpf.purpose.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PURPOSE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

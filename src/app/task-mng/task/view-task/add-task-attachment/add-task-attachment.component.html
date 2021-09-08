@@ -1,0 +1,25 @@
+<form class="border round ml-2 p-2" [formGroup]="newForm"  id="newForm">
+	<br>
+	<div class="row">
+		<div class="col-12 col-sm-6" style="margin-top: auto !important;">
+			<div class="form-group">
+			  <button (click)="fileInput.click()" class="btn btn-fill btn-primary form-control">
+				   {{ 'ADD_FILE' | translate }}
+			  </button>
+			  <input type="file" class="d-none" name="attachment" #fileInput (change)="fileChangeListener($event)">
+		  </div>
+		  </div>
+		  <div class="col-12 col-sm-6">
+			<strong><span id="fileName"></span></strong>
+		  </div>
+	</div>
+	<div class="row">
+		<div class="form-group mb-2 justify-content-end" *ngIf="uploadIcon">
+			<button class="btn btn-success btn-fill"  type="button" (click)="submitForm()">{{ 'UPLOAD' | translate }}</button>
+		</div>
+		&nbsp;&nbsp;
+		<div class="form-group mb-2 justify-content-end">
+			<button class="btn btn-secondary btn-fill" (click)="cancel()" type="button">{{ 'CANCEL' | translate }}</button>
+		</div>
+	</div>
+</form>

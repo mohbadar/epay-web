@@ -1,0 +1,60 @@
+<div class="modal-header">
+<h4 class="modal-title">{{ "ADD_IMAGE" | translate }}</h4>
+<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-12">
+        </div>
+        <form autocomplete="off" [formGroup]="attachmentForm" class="row col-12" (ngSubmit)="onFormSubmit()">
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="fileName">{{'FILE_NAME'|translate}}<span class="required-field">*</span></label>
+                    <div class="controls">
+                        <input type="text" formControlName="fileName" class="form-control"
+                            [placeholder]="'WHAT_IS_THE_NAME_OF_FILE?' | translate"
+                            [ngClass]="{ 'error-border': attachmentForm.get('fileName').hasError('required') && (attachmentForm.get('fileName').touched) }">
+                    </div>
+                    <div *ngIf="attachmentForm.get('fileName').hasError('required') && (attachmentForm.get('fileName').touched)"
+                        class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+                        {{'FILE_NAME'|translate}} {{'IS_REQUIRED'|translate}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="fileName">{{'FILE'|translate}}<span class="required-field">*</span></label>
+                <div class="upload-status">
+                    <div class="file-name">{{ attachmentFileNames.attachment.name }}
+                    </div>
+                    <input style="display: none" #attachmentInput formControlName="attachment"
+                        (change)="onSelectFile($event, 'attachment')" type="file">
+                    <div>
+                        <i title="Choose File" class="ft-file-text text-primary cursor-pointer"
+                            [title]="'SELECT_FILE' | translate" (click)="attachmentInput.click()"> {{'SELECT_FILE' |
+                            translate}}</i>
+                        <hr style="margin: 0; margin-top: 5px;"
+                            [ngClass]="{ 'error-border': attachmentForm.get('attachment').hasError('required') && (attachmentForm.get('attachment').touched) }" />
+                    </div>
+                </div>
+                <div *ngIf="attachmentForm.get('attachment').hasError('required') && (attachmentForm.get('attachment').touched)"
+                    class="text-danger"> <i class="ft-alert-circle align-middle"></i>
+                    {{'ATTACHMENT'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+            </div>
+            <div style="margin-right: 15px; margin-top:10px;" class="progress-bar bg-success"
+                attr.aria-valuenow="{{ filesToBeUploaded.attachment.progress }}" aria-valuemin="0" aria-valuemax="100"
+                [ngStyle]="{ width: filesToBeUploaded.attachment.progress + '%' }">
+                {{ filesToBeUploaded.attachment.progress }}%
+            </div>
+            <div class="col-12" style="text-align: center; margin-top: 20px;">
+                <button type="submit" class="btn btn-primary btn-fill mr-2">{{ 'SAVE' | translate }}</button>
+                <button class="btn btn-warning btn-fill" type="button" (click)="closeModal()">{{ 'CLOSE' | translate
+                    }}</button>
+            </div>
+        </form>
+    </div>
+</div>

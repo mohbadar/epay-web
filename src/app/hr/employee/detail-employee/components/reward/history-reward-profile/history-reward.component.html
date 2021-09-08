@@ -1,0 +1,40 @@
+<div class="modal-header">
+	<h4 class="modal-title">{{'HISTORY'|translate}}&nbsp;&nbsp;{{'REWARD'|translate}}</h4>
+	<button type="button" class="close" aria-label="Close" (click)="dismiss()">
+	  <span aria-hidden="true">&times;</span>
+	</button>
+  </div>
+  <div class="modal-body">
+	<div class="row">
+	  <div class="col-12 col-sm-12">
+		<ng-container *ngIf="dTableFlag">
+			<ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows" [scrollbarH]="true"
+				[columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+				[limit]="10">
+				<ngx-datatable-column [name]="'CASH_AMOUNT' | translate" prop="cashAmount"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'APPRECIATION_DEGREE' | translate" prop="appreciationDegree"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'SUGGESTION_NUMBER' | translate" prop="suggestedNumber"></ngx-datatable-column>	
+				<ngx-datatable-column [name]="'SUGGESTION_DATE' | translate" prop="suggestedDate">
+					<ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.suggestedDate | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+				</ngx-datatable-column>
+				<ngx-datatable-column [name]="'SUGGESTED_SOURCE' | translate" prop="suggestedSource"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'DECREE_NUMBER' | translate" prop="decreeNumber"></ngx-datatable-column>		
+				<ngx-datatable-column [name]="'DECREE_DATE' | translate" prop="decreeDate">
+					<ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.decreeDate | date: 'yyyy-MM-dd' | jalali}}
+                      </ng-template>
+				</ngx-datatable-column>
+				<ngx-datatable-column [name]="'SUGGESTED_DECREE' | translate" prop="degreeSource"></ngx-datatable-column>		
+				<ngx-datatable-column [name]="'CREATED_BY' | translate" prop="createdBy"></ngx-datatable-column>
+				<ngx-datatable-column [name]="'UPDATED_BY' | translate" prop="updatedBy"></ngx-datatable-column>
+			</ngx-datatable>
+		</ng-container>
+	  </div>
+	</div>
+  </div>
+  <div class="modal-footer">
+	<button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+  </div>
+  

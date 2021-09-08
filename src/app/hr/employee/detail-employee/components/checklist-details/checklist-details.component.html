@@ -1,0 +1,224 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'CHECKLIST'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="table-responsive-sm">
+        <table class="table">
+          <tbody>
+            <tr class="d-flex">
+              <td class="col-2"> <i class="fa fa-picture-o  mr-1 font-weight-bolder text-success align-middle"></i></td>
+              <td class="col-6"><span class="align-right">{{'PHOTO'|translate}}</span></td>
+              <td class="text-truncate col-4"> 
+                <i *ngIf="data.photo" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                <i *ngIf="!data.photo" class=" danger font-weight-bolder  p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2"> <i class="icon-docs mr-1 font-weight-bolder text-success align-middle"></i></td>
+              <td class="col-6"><span class="align-right">{{'FILES'|translate}}</span></td>
+              <td class="text-truncate col-4"> 
+                <i *ngIf="data.document" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                <i *ngIf="!data.document" class=" danger font-weight-bolder  p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2"> <i class="ft-check-square mr-1 font-weight-bolder text-success align-middle"></i></td>
+              <td class="col-6"><span class="align-right">{{'PRIMARY_INFORMATION'|translate}}</span></td>
+              <td class="text-truncate col-4"> 
+                <i *ngIf="data.primaryInfo" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                <i *ngIf="!data.primaryInfo" class=" danger font-weight-bolder  p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-book-open mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'EDUCATION'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.education" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.education" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-award mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'REWARD'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.reward" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.reward" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-folder-minus mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'PENALTY'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.panelty" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.panelty" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-file-text mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'PUBLICATION'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.publication" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.publication" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-copy mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'HONORARY_SERVICE'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.Hononary_service" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.Hononary_service" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-bell mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'MEDAL_MARK'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.medal" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.medal" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-user-plus mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'FAMILY_MEMBERS'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.family_members" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.family_members" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-file-plus mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'MEDICAL_REPORT'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.medical" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.medical" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-shield mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'MILITARY_SERVICE'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.military" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.military" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-user-plus mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'POLITICAL_PARTY'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.political_party" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.political_party" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-aperture mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'TRAVEL_INFORMATION'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.travel" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.travel" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-send mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'TRANSFER'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.transfer" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.transfer" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-trending-up mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'PROMOTION'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.promotion" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.promotion" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-bar-chart-line mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'ACADEMIC-DEGREE'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.academic_degree" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.academic_degree" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-dollar-sign mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'SALARY'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.salary" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.salary" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-lock mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'ACCOUNTABILITY'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.accountability" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.accountability" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-slack mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'OFF_DUTY_CRIMES'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.off_duty_crime" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.off_duty_crime" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+            <tr class="d-flex">
+              <td class="col-2">
+                <i class="ft-user-minus mr-1 text-success font-weight-bolder  align-middle"></i>
+              </td>
+              <td class="col-6"><span class="align-middle">{{'FIRED_FROM_DUTY'|translate}}</span></td>
+              <td class="text-truncate col-4">
+                  <i *ngIf="data.fired_from_duty" class="text-info font-weight-bolder p-0 ft-check font-medium-3"></i>
+                  <i *ngIf="!data.fired_from_duty" class=" danger font-weight-bolder p-0 ft-x font-medium-3"></i>
+              </td>
+            </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>

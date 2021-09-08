@@ -1,0 +1,111 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">{{'EDIT_VEHICLE'|translate}}</div>
+  </div>
+</div>
+<section id="basic-input" id="newForm">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+          	<form [formGroup]="newForm" (ngSubmit)="submitForm()">
+              <div class="row">
+                <div class="col-md-12">
+									<div class="form-group">
+										<h5>{{ 'VEHICLE_INFO'|translate }}</h5>
+									</div>
+								</div>
+                <div class="col-12 col-sm-12 col-md-12">
+                  <div class="row">
+
+                  	<div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="vehicleClass">{{'VEHICLE_CLASS'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="vehicleClass" class="form-control" required>
+												</div>
+											</div>
+										</div>
+
+                    <div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="manufacturer">{{'MANUFACTURER'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="manufacturer" class="form-control" required>
+												</div>
+											</div>
+										</div>
+
+                    <div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="model">{{'MODEL'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="model" class="form-control" required>
+												</div>
+											</div>
+										</div>
+
+                    <div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="type">{{'TYPE'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="type" class="form-control" required>
+												</div>
+											</div>
+										</div>
+
+                    <div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="year">{{'YEAR'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="year" class="form-control" required>
+												</div>
+											</div>
+										</div>
+
+                    <div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="colour">{{'COLOUR'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="colour" class="form-control" required>
+												</div>
+											</div>
+										</div>
+
+                    <div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="plateNo">{{'PLATE_NO'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="plateNo" class="form-control" required>
+												</div>
+											</div>
+										</div>
+
+                      <div class="col-12 col-sm-12">
+                        <div class="form-group">
+                        <button type="submit" class="btn btn-info">
+                          {{'SAVE'|translate}}
+                          <span style="margin-left:10px;">
+                          </span>
+                        </button>
+                        <button type="button" class="btn btn-warning mr-1" [routerLink]="'/transport/vehicles'">
+                          <span style="margin-right:10px;">
+                          </span> {{'CLOSE'|translate}}</button>
+                        </div>
+                    </div>
+
+                  </div>
+                </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</section>
+
+
+
+

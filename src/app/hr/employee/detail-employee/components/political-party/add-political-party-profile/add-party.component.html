@@ -1,0 +1,57 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'ADD'|translate}}&nbsp;{{'POLITICAL_PARTY'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="type">{{'PARTY_TYPE'|translate}}
+              <span class="required-field">*</span>
+            </label>
+            <div class="controls">
+              <ng-select [items]="partytypes" bindLabel="name" bindValue="name"
+                formControlName="type" (clear)="setToNull(addForm,'type')"
+                [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.type.invalid, 'is-valid': addFormSubmitted && !cpf.type.invalid }"
+                required>
+              </ng-select>
+              <div *ngIf="addFormSubmitted && (cpf.type.invalid || cpf.type.errors?.required)"
+                class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                {{'PARTY_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="name">{{'PARTY_NAME'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="name" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.name.invalid, 'is-valid': addFormSubmitted && !cpf.name.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.name.invalid || cpf.name.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PARTY_NAME'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>
+

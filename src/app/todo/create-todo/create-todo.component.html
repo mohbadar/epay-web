@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h4 class="modal-title"> {{ 'NEW_TODO'|translate }} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+</div>
+<form [formGroup]="newForm" id="excelUploadForm" (ngSubmit)="submitForm()">
+    <div class="modal-body taskboard-modal">
+        <div class="container">
+            <div class="form-group">
+                <label class="sr-only" for="hidden-label-form-1">{{ 'SUBJECT'|translate }}<span class="required-field">*</span></label>
+                <input type="text" id="hidden-label-form-1" class="form-control round" formControlName="subject" [placeholder]="'SUBJECT'|translate">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="hidden-label-form-6">{{ 'DETAILS'|translate }}</label>
+                <textarea id="hidden-label-form-6" rows="4" class="form-control round" formControlName="details" [placeholder]="'DETAILS'|translate"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="bgColor">{{'BACKGROUND_COLOR'|translate}}</label>
+                
+                <ng-select formControlName="bgColor" [placeholder]="'BACKGROUND_COLOR'|translate">
+                    <ng-option *ngFor="let item of bgColors$" [value]="item.id">{{ item.name|translate }}</ng-option>
+                </ng-select>
+                
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer taskboard-modal-footer">
+        <button class="btn btn-primary btn-save">{{ 'CREATE'|translate }}</button>
+        <button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+    </div>
+</form>

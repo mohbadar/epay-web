@@ -1,0 +1,125 @@
+<div class="row">
+	<div class="col-12">
+		<div class="content-header">{{'CREATE_EMPLOYEE'|translate}}</div>
+	</div>
+</div>
+<section id="basic-input" id="newForm">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-content">
+					<div class="card-body">
+						<form [formGroup]="newForm" (ngSubmit)="onSubmit()">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+									<!--  <h5>{{ 'INFO'|translate }}</h5> -->
+									</div>
+								</div>
+								<div class="col-12 col-sm-12 col-md-12">
+									<div class="row">
+
+										<div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="docNo">{{'DOCUMENT_NO'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<input type="text" formControlName="documentNo" class="form-control" required>
+													<small *ngIf="getError('documentNo') as error" class="text-danger">{{ error }}</small>
+												</div>
+											</div>
+										</div>
+
+										<div class='col-12 col-sm-6 col-md-4'>
+											<div class="form-group">
+												<label class="form-control-label" for="documentDate">{{'DOCUMENT_DATE'|translate}}
+													<span class="required-field">*</span>
+												</label>
+												<div class="input-group">
+													<div class="input-group-append">
+														<button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+															<i class="fa fa-calendar"></i>
+														</button>
+													</div>
+													<input class="form-control" name="DocumentDate" formControlName="documentDate" ngbDatepicker
+														id="documentDate" #d="ngbDatepicker" >
+													<small *ngIf="getError('documentDate') as error" class="text-danger">{{ error }}</small>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="users-list-role">{{'FROM_DEPARTMENT'|translate}}<span class="required-field">*</span></label>
+												<ng-select [items]="departments$ | async" bindLabel="nameEn" bindValue="id" formControlName="fromDepartment">
+												</ng-select>
+												<small *ngIf="getError('fromDepartment') as error" class="text-danger">{{ error }}</small>
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="users-list-role">{{'TO_DEPARTMENT'|translate}}<span class="required-field">*</span></label>
+												<ng-select [items]="departments$ | async" bindLabel="nameEn" bindValue="id" formControlName="toDepartment">
+												</ng-select>
+												<small *ngIf="getError('toDepartment') as error" class="text-danger">{{ error }}</small>
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="users-list-role">{{'CC_DEPARTMENTS'|translate}}</label>
+												<ng-select multiple="true" [items]="departments$ | async" bindLabel="nameEn" bindValue="id" formControlName="ccDepartments">
+												</ng-select>
+											</div>
+										</div>
+                                    </div>
+									<div class="row">
+										<div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="isNewDoc">{{'IS_NEW_DOCUMENT'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<ul class="list-unstyled mb-0">
+														<li class="d-inline-block mr-2">
+														  <div class="radio radio-primary">
+															<input type="radio" [value]=true id="active" formControlName="isNewDoc" >
+															<label class="text-primary" for="active">{{ 'YES'|translate }}</label>
+														  </div>
+														</li>
+														<li class="d-inline-block">
+														  <div class="radio radio-danger">
+															<input type="radio" [value]=false id="inactive" formControlName="isNewDoc" >
+															<label class="text-danger" for="inactive">{{ 'NO'|translate }}</label>
+														  </div>
+														</li>
+													</ul>
+												</div>
+
+											</div>
+										</div>
+									</div>
+									<hr />
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12">
+                                            <div class="form-group">
+                                            <button type="submit" class="btn btn-info">{{'SAVE'|translate}}
+                                                <span style="margin-left:10px;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-warning mr-1" [routerLink]="'/reception/visits'">
+                                                <span style="margin-right:10px;"></span> {{'CLOSE'|translate}}
+                                            </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade" [fullScreen]="true">
+</ngx-spinner>

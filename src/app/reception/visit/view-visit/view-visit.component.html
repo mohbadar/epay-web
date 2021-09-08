@@ -1,0 +1,145 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">{{'VISIT_DETAILS'|translate}}</div>
+    </div>
+</div>
+<section id="basic-input">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body" *ngIf="!dataLoadingFlag">
+						<form>
+							<div class="row">
+								<h5 class="mb-2 text-bold-500">{{ 'VISIT_INFO'|translate }}</h5>
+							</div>
+							<div class="form-group row">
+								<div class="col-6 col-md-3"><strong>{{'HOST_DEPARTMENT'|translate}}</strong></div>
+								<div class="col-6 col-md-3">{{ visit?.department.nameEn }}</div>
+								<div class="col-6 col-md-3"><strong>{{'HOST'|translate}}</strong></div>
+								<div class="col-6 col-md-3">{{ visit.host }}</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-6 col-md-1"><strong>{{'SUBJECT'|translate}}</strong></div>
+								<div class="col-6 col-md-2">{{ visit.subject }}</div>
+								<div class="col-6 col-md-1"><strong>{{'SOURCE'|translate}}</strong></div>
+								<div class="col-6 col-md-2">{{ visit.source }}</div>
+								<div class="col-6 col-md-1"><strong>{{'VISIT_DATE'|translate}}</strong></div>
+								<div class="col-6 col-md-2">{{visit.visitDate | jalali}}</div>
+								<div class="col-6 col-md-1"><strong>{{'VISIT_TIME'|translate}}</strong></div>
+								<div class="col-6 col-md-2">{{ visit.visitTime }}</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-6 col-md-3"><strong>{{'REMARKS'|translate}}</strong></div>
+								<div class="col-6 col-md-9">{{ visit.remarks }}</div>
+							</div>
+							<hr />
+							<div class="form-group row">
+								<div class="col-6 col-md-1"><strong>{{'CREATED_BY'|translate}}</strong></div>
+								<div class="col-6 col-md-2">{{ visit.createdBy?.name }}</div>
+								<div class="col-6 col-md-1"><strong>{{'CREATED_AT'|translate}}</strong></div>
+								<div class="col-6 col-md-2">{{ parseDateObjectAsDate(visit.createdAt) }}</div>
+								<div class="col-6 col-md-1"><strong>{{'UPDATED_BY'|translate}}</strong></div>
+								<div class="col-6 col-md-2">{{ visit.updatedBy?.name }}</div>
+								<div class="col-6 col-md-1"><strong>{{'UPDATED_AT'|translate}}</strong></div>
+								<div class="col-6 col-md-2">{{ parseDateObjectAsDate(visit.updatedAt) }}</div>
+							</div>
+							<hr />
+							<div class="row">
+								<h5 class="mb-2 text-bold-500">{{ 'VEHICLE_INFO'|translate }}</h5>
+							</div>
+							<div class="row match-height">
+								<div class="col-md-6 col-12" *ngFor="let vehicle of vehicles; let vehicleIndex=index">
+									<div class="card card-outline-info box-shadow-0 text-center">
+										<div class="card-content">
+											<div class="card-body">
+											<div class="row d-flex">
+												<div class="col-4">
+													<img [src]="'api/public/vehicle/' + vehicle.id + '/photo?size=250x250'"
+														(error)="vehicleImageError($event.target)" width="150" height="150" alt="Avatar" id="imageId" class="rounded" (click)="displayPhoto('VEHICLE', vehicle.id)">
+													<!-- <img src="assets/img/elements/01.png" alt="element 01" width="190" class="mt-sm-2"> -->
+												</div>
+												<div class="col-8">
+													<div class="form-group row">
+														<div class="col-6 col-md-6"><strong>{{'DRIVER_NAME'|translate}}</strong></div>
+														<div class="col-6 col-md-6">{{ vehicle.driverName }}</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-6 col-md-6"><strong>{{'PLATE_NO'|translate}}</strong></div>
+														<div class="col-6 col-md-6">{{ vehicle.plateNo }}</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-6 col-md-6"><strong>{{'COLOR'|translate}}</strong></div>
+														<div class="col-6 col-md-6">{{ vehicle.color }}</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-6 col-md-6"><strong>{{'MODAL'|translate}}</strong></div>
+														<div class="col-6 col-md-6">{{ vehicle.modal }}</div>
+													</div>
+												</div>
+											</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<h5 class="mb-2 text-bold-500">{{ 'VISITOR_INFO'|translate }}</h5>
+							</div>
+							<div class="row match-height">
+								<div class="col-md-6 col-12" *ngFor="let visitor of visitors; let visitorIndex=index">
+									<div class="card card-outline-info box-shadow-0 text-center">
+										<div class="card-content">
+											<div class="card-body">
+											<div class="row d-flex">
+												<div class="col-4">
+													<h5>{{ visitorIndex+1 }}</h5>
+													<img [src]="'api/public/visitor/' + visitor.id + '/photo?size=250x250'"
+														(error)="imageError($event.target)" width="150" height="150" alt="Avatar" id="imageId" class="rounded" (click)="displayPhoto('VISITOR', visitor.id)">
+													<!-- <img src="assets/img/elements/01.png" alt="element 01" width="190" class="mt-sm-2"> -->
+												</div>
+												<div class="col-8">
+													<div class="form-group row">
+														<div class="col-6 col-md-6"><strong>{{'FIRST_NAME'|translate}}</strong></div>
+														<div class="col-6 col-md-6">{{ visitor.firstName }}</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-6 col-md-6"><strong>{{'LAST_NAME'|translate}}</strong></div>
+														<div class="col-6 col-md-6">{{ visitor.lastName }}</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-6 col-md-6"><strong>{{'FATHER_NAME'|translate}}</strong></div>
+														<div class="col-6 col-md-6">{{ visitor.fatherName }}</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-6 col-md-6"><strong>{{'PHONE_NO'|translate}}</strong></div>
+														<div class="col-6 col-md-6">{{ visitor.phoneNo }}</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-6 col-md-6"><strong>{{'EMAIL'|translate}}</strong></div>
+														<div class="col-6 col-md-6">{{ visitor.email }}</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-6 col-md-6"><strong>{{'TAZKIRA'|translate}}</strong></div>
+														<div class="col-6 col-md-6">{{ visitor.tazkira }}</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-6 col-md-6"><strong>{{'ADDRESS'|translate}}</strong></div>
+														<div class="col-6 col-md-6">{{ visitor.address }}</div>
+													</div>
+												</div>
+											</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade" [fullScreen]="true">
+</ngx-spinner>

@@ -1,0 +1,65 @@
+<div class="row" [formGroup]="vehicleForm">
+	<div class="col-8 col-sm-12 col-md-8">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-12 col-sm-12 col-md-12">
+					<div class="form-group">
+						<label for="driverName">{{'DRIVER_NAME'|translate}}<span class="required-field">*</span></label>
+						<div class="controls">
+							<input type="text" formControlName="driverName" class="form-control" required>
+							<small *ngIf="getError('driverName') as error" class="text-danger">{{ error }}</small>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+					<label for="vehiclePlateNo">{{'VEHICLE_PLATE_NO'|translate}}<span class="required-field">*</span></label>
+					<div class="controls">
+						<input type="text" formControlName="vehiclePlateNo" class="form-control">
+						<small *ngIf="getError('vehiclePlateNo') as error" class="text-danger">{{ error }}</small>
+					</div>
+					</div>
+				</div>
+
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+					<label for="vehicleColor">{{'VEHICLE_COLOR'|translate}}<span class="required-field">*</span></label>
+					<div class="controls">
+						<input type="text" formControlName="vehicleColor" class="form-control" required>
+						<small *ngIf="getError('vehicleColor') as error" class="text-danger">{{ error }}</small>
+					</div>
+					</div>
+				</div>
+
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="form-group">
+						<label for="vehicleModal">{{'VEHICLE_MODAL'|translate}}<span class="required-field">*</span></label>
+						<div class="controls">
+							<input type="text" formControlName="vehicleModal" class="form-control" required>
+							<small *ngIf="getError('vehicleModal') as error" class="text-danger">{{ error }}</small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12 col-sm-12 col-md-4">
+		<div class="text-center mt-2" style="margin: auto;">
+			<div class="containerProfile">
+				<span class="required-field">*</span>
+				<img [src]="vehiclePhoto.url" (error)="imageError($event.target)" width="230" height="230" alt="Avatar" class="imageProfile"
+				id="imageId" class="rounded" class="img-thumbnail">
+				<div class="middleProfile">
+					<span class="btn btn-block btn-sm btn-info"
+						(click)="changePhoto()">{{ 'CHANGE'  | translate }}</span>
+				</div>
+				<br>
+				<small *ngIf="getError('photo') as error" class="text-danger">{{ error }}</small>
+			</div>
+		</div>
+	</div>
+</div>
+<hr />

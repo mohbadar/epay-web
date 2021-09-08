@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h4 class="modal-title"> {{ 'EDIT_BOARD'|translate }} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">x</button> -->
+</div>
+<form [formGroup]="editForm" (ngSubmit)="submitForm()" id="editForm" *ngIf="!dataLoadingFlag">
+    <div class="modal-body taskboard-modal">
+        <div class="container">
+            <div class="form-group">
+                <label class="sr-only" for="hidden-label-form-1">{{ 'TITLE'|translate }}</label>
+                <input type="text" id="hidden-label-form-1" class="form-control round" formControlName="title" [placeholder]="'TITLE'|translate">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="hidden-label-form-6">{{ 'DESCRIPTION'|translate }}</label>
+                <textarea id="hidden-label-form-6" rows="4" class="form-control round" formControlName="description" [placeholder]="'DESCRIPTION'|translate"></textarea>
+            </div>
+
+            <div class="form-group">
+                <tag-input formControlName="tags" [modelAsStrings]="true"></tag-input>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer taskboard-modal-footer">
+        <button class="btn btn-primary btn-save">{{ 'CREATE'|translate }}</button>
+        <button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+    </div>
+</form>

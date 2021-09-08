@@ -1,0 +1,167 @@
+<!-- Taskboard Starts -->
+<section id="taskboard" class="app-taskboard" *ngIf="!taskboardLoadingFlag">
+	<div class="row">
+		<div class="col-12">
+			<div class="my-3">
+				<div class="form-group">
+					<span class="content-header">{{ taskboard.title }}</span>
+					<span class="mr-1 ml-1 avatar" *ngFor="let member of memberList">
+						<img class="rounded" src="assets/img/portrait/small/face-0.png" alt="Avatar" width="35">
+					</span>
+					<button type="button" class="btn info btn-sm ml-1 mr-1 mb-1" title="Add Taskboard Memeber"  *ngIf="isOwner"
+						(click)="addTaskboardMember()">
+						<i class="ft ft-plus"></i>
+					</button>
+					<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" title="Create Task"
+						(click)="createTask()">
+						<i class="ft ft-plus"></i>
+					</button>
+					<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" title="Create Task"
+						(click)="refresh()">
+						<i class="ft ft-refresh-cw"></i>
+					</button>
+					<button type="button" class="btn btn-outline-warning btn-icon round mr-1 mb-1 pull-right" title="Filter Tasks" *ngIf="isOwner"
+						(click)="editTaskboard()">
+						<i class="ft ft-edit"></i>
+					</button>
+					<button type="button" class="btn btn-outline-warning btn-icon round mr-1 mb-1 pull-right" title="Filter Tasks">
+						<i class="ft ft-filter"></i>
+					</button>
+					<button type="button" class="btn btn-outline-secondary btn-icon round mr-1 mb-1 pull-right" title="Archieve Tasks"  *ngIf="isOwner || isMember"
+						(click)="showArchievedTasks()">
+						<i class="ft ft-briefcase"></i>
+					</button>
+				</div>
+				<p class="mb-2">{{ taskboard.description }}</p>
+				<!-- <button type="button" class="btn btn-primary mr-2" (click)="addTask()">
+					<span class="d-flex align-items-center">
+						<i class="ft-plus mr-1"></i>
+						<span>Create</span>
+					</span>
+				</button> -->
+				<!-- <button type="button" class="btn bg-light-primary">
+					<span class="d-flex align-items-center">
+						<i class="ft-filter mr-1"></i>
+						<span>Filter</span>
+					</span>
+				</button> -->
+			</div>
+		</div>
+	</div>
+	<hr class="zero-margin"/>
+	<div class="container-fluid">
+		<div class="row flex-row flex-nowrap overflow-auto">
+			<div class="col-xl-3 col-sm-6 col-12" *ngFor="let status of statusList; let statusIndex=index">
+				<h5 class="mt-2 mb-0">
+				<span class="d-flex align-items-center">
+					<span>{{ status.status }}</span>
+				</span>
+				</h5>
+				<div class='dragdrop-container' [dragula]='"task-group"' [id]="status.status" [dragulaModel]="status.tasks">
+
+					<div class="card mb-3" *ngFor='let task of status.tasks' [attr.task-id]="task.id">
+						<div class="card-body p-2">
+							<div class="row">
+								<ngb-progressbar class="col-12" showValue="true" type="success" [value]="task.progress"></ngb-progressbar>
+							</div>
+							<div class="d-flex justify-content-between mb-2">
+								<!-- <span class="badge bg-light-{{task.badgeClass}}">{{task.title}}</span> -->
+								<span class="font-medium-1">{{task.title}}</span>
+								<div>
+									<button type="button" class="btn btn-icon round pull-right" title="View Task"
+										(click)="viewTask(task)">
+										<i class="ft ft-eye primary"></i>
+									</button>
+									<button type="button" class="btn btn-icon round pull-right" title="Delete Task" *ngIf="isOwner"
+										(click)="deleteTask(task)">
+										<i class="ft ft-trash-2 danger"></i>
+									</button>
+									<!-- <i class="ft-eye mr-1 primary cursor-pointer" (click)="viewTask(task);"></i> -->
+									<!-- <i class="ft-trash-2 danger cursor-pointer" (click)="deleteTask(task.taskId);"></i> -->
+								</div>
+							</div>
+							<p *ngIf="task.messageType === 'text'">{{task.description}}</p>
+							<div *ngIf="task.messageType === 'image'"
+								class="d-flex justify-content-center overflow-hidden rounded my-3">
+								<img [src]="task.taskMessage" alt="ToDo Pic" height="350">
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<div class="d-flex font-small-2">
+									<div class="mr-2" *ngIf="task.createdOn != ''"><i class="ft-clock mr-1"></i>{{task.createdOn}}</div>
+									<div class="mr-2" *ngIf="task.messageCount != ''">
+										<i class="ft-message-square mr-1"></i>{{task.messageCount}}</div>
+									<div *ngIf="task.linkCount != ''"><i class="ft-link mr-1"></i>{{task.linkCount}}</div>
+								</div>
+								<ul class="list-unstyled users-list m-0 d-flex align-items-center" *ngIf="task.isUserImg">
+									<li *ngFor="let img of task.assignedTo">
+										<img class="rounded-circle" [src]="img" alt="Avatar" height="24" width="24">
+									</li>
+								</ul>
+								<ul class="list-unstyled users-list m-0 d-flex align-items-center" *ngIf="!task.isUserImg">
+									<li>
+										<span class="badge badge-pill badge-round bg-light-info font-small-1">{{task.createdBy.name}}</span>
+									</li>
+								</ul>
+							</div>
+							<div class="d-flex mt-1 justify-content-end align-items-center">
+								<ul class="list-unstyled users-list m-0 d-flex align-items-center" *ngIf="!task.isUserImg">
+									<li *ngFor="let assignee of task.assignedTo" class="ml-1">
+										<span class="badge badge-pill badge-round bg-light-secondary font-small-1">{{assignee.name}}</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-1 col-sm-1 col-12" *ngIf="isOwner">
+				<h5 class="mt-2 mb-0">
+					<span class="d-flex align-items-center">
+						<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" title="Create Task"
+							(click)="createStatus()">
+							<i class="ft ft-plus"></i>
+						</button>
+					</span>
+				</h5>
+				<!-- <div class='dragdrop-container' [dragula]='"task-group"' id="Management" [dragulaModel]='managementTasks'>
+					<div class="card mb-3" *ngFor='let task of managementTasks' [attr.task-id]="task.taskId">
+						<div class="card-body">
+						<div class="d-flex justify-content-between mb-2">
+							<span class="badge bg-light-{{task.badgeClass}}">{{task.taskTitle}}</span>
+							<div>
+							<i class="ft-edit mr-1 primary cursor-pointer" (click)="editTask(task);"></i>
+							<i class="ft-trash-2 danger cursor-pointer" (click)="deleteTask(task.taskId);"></i>
+							</div>
+						</div>
+						<p *ngIf="task.messageType === 'text'">{{task.taskMessage}}</p>
+						<div *ngIf="task.messageType === 'image'"
+							class="d-flex justify-content-center overflow-hidden rounded my-3">
+							<img [src]="task.taskMessage" alt="ToDo Pic" height="350">
+						</div>
+						<div class="d-flex justify-content-between align-items-center">
+							<div class="d-flex font-small-2">
+							<div class="mr-2" *ngIf="task.createdOn != ''"><i class="ft-clock mr-1"></i>{{task.createdOn}}</div>
+							<div class="mr-2" *ngIf="task.messageCount != ''"><i
+								class="ft-message-square mr-1"></i>{{task.messageCount}}</div>
+							<div *ngIf="task.linkCount != ''"><i class="ft-link mr-1"></i>{{task.linkCount}}</div>
+							</div>
+							<ul class="list-unstyled users-list m-0 d-flex align-items-center" *ngIf="task.isUserImg">
+							<li *ngFor="let img of task.assignedTo">
+								<img class="rounded-circle" [src]="img" alt="Avatar" height="24" width="24">
+							</li>
+							</ul>
+							<ul class="list-unstyled users-list m-0 d-flex align-items-center" *ngIf="!task.isUserImg">
+							<li *ngFor="let badge of task.assignedTo">
+								<span class="badge badge-pill badge-round bg-light-{{badge.class}} font-small-1">{{badge.name}}</span>
+							</li>
+							</ul>
+						</div>
+						</div>
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Taskboard Ends -->

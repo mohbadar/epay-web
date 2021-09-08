@@ -1,0 +1,2802 @@
+<section class="users-view" *ngIf="showViewData">
+
+
+    <!-- Media object ends -->
+    <div class="row">
+      <div class="col-12 col-sm-3 mt-2">
+        <h6>{{'PROFILE_DETAILS'|translate}}</h6>
+      </div>
+      <div class="col-12 col-sm-7 mt-2"></div>
+      <div class="col-12 col-sm-2 mt-2">
+        <button class="btn btn-default btn-sm customFload" (click)="profileList()"
+          style="border:1px solid #c9c7c7">{{'PROFILE_LIST'|translate}}</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <!-- User detail starts -->
+        <div class="card customShadow">
+          <div class="card-content">
+            <div class="card-body paddingcustom">
+              <div class="row">
+                <div class="col-12 col-sm-9">
+                  <div class="media d-flex align-items-center">
+                    <div class="text-center mt-2" style="margin: auto;">
+                      <div class="containerProfile">
+                        <img [src]="'api/public/profile/' + data.id + '/photo?size=250x250'"
+                          (error)="imageError($event.target)" width="150" height="150" alt="Avatar" class="imageProfile"
+                          id="imageId" class="rounded" class="img-thumbnail">
+                        <div class="middleProfile">
+                          <span class="btn btn-block btn-sm btn-info"
+                            (click)="changePhoto()">{{ 'CHANGE'  | translate }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="media-body ml-4">
+                      <h4 class="lineHeightH">
+                        <span
+                          class="users-view-name mr-1">{{data.firstName?data.firstName:''}}&nbsp;&nbsp;{{data.lastName?data.lastName:''}}</span>
+                        &nbsp;&nbsp;<span class="font-medium-1">[ {{data.positionTitle? data.positionTitle:''}} ]</span>
+                        <span class="text-muted font-medium-1 mr-2" *ngIf="data.ministry">
+                          <span class="users-view-username"> {{data.ministry?data.ministry:''}}</span>
+                        </span>
+                        <span class="text-muted font-medium-1 mr-2" *ngIf="data.authority">
+                          <span class="users-view-username"> {{data.authority?data.authority:''}}</span>
+                        </span>
+                        <span class="text-muted font-medium-1 mr-2" *ngIf="data.commission">
+                          <span class="users-view-username"> {{data.commission?data.commission:''}}</span>
+                        </span>
+                      </h4>
+                      <br />
+                      <span class="mr-1">{{'STATUS'|translate}}: &nbsp;{{ data?.status }}</span> &nbsp;
+                      <span class="mr-3">{{'GRADE'|translate}}: &nbsp;{{data?.grade }} {{data?.militaryGrade }}</span>&nbsp;
+                      <span class="mr-3">{{'POSITION'|translate}}: &nbsp;{{data?.position }} {{data?.militaryPosition}}</span>&nbsp;
+                      <span class="mr-3">{{data?.profileCode}}</span>
+                      <span class="mr-3">{{ data?.year | jalali }}</span> &nbsp;
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-3 d-flex justify-content-end align-items-center pull-left">
+                  <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="printProfile()" title="{{'PRINT_PROFILE'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE','PROFILE_PRINT'])">
+                        <i class="ft ft-printer"></i>
+                      </button>
+                    </div>
+                    <div class="col-sm-2" *ngIf="!data.approve">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="approveProfile()" title="Approve Profile">
+                        <i class="ft ft-check"></i>
+                      </button>
+                    </div>
+                    <div class="col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="profileSetting()"
+                      title="{{'PROFILE_SETTING'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_SETTING'])">
+                        <i class="ft ft-settings"></i>
+                      </button>
+                    </div>
+                    <div class="col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="openChecklist()"
+                        title="{{'PROFILE_CHECK_LIST'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_CHECKLIST'])">
+                        <i class="fa fa-th-list"></i>
+                      </button>
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Progress bar starts here -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card custom-style-card">
+          <div class="card-content">
+            <div class="card-body ProgressBarCustom">
+              <div class="row">
+                <div class="col-12 col-sm-12">
+                  <div class="wrap">
+                    <ngb-progressbar type="success" [value]="totalProgress?totalProgress:0" [striped]="true"
+                      [animated]="true"><i>{{totalProgress? totalProgress:0}}%</i>
+                    </ngb-progressbar>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- profile navbar starts here -->
+    <div class="row">
+      <div class="col-md-3 mt-0">
+        <!-- Nav tabs -->
+        <ul class="nav flex-column nav-pills custumNav" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'general'}"
+              (click)="setActiveTab('general')" id="general-tab" data-toggle="tab" role="tab" aria-controls="general"
+              aria-selected="true">
+              <i class="ft-check-square mr-1 align-middle"></i>
+              <span class="align-middle">{{'PRIMARY_INFORMATION'|translate}}</span>
+              <i *ngIf="Tab.primaryInfo" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="LoadEducation()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'info'}"
+              (click)="setActiveTab('info')" id="info-tab" data-toggle="tab" role="tab" aria-controls="info"
+              aria-selected="false">
+              <i class="ft-book-open mr-1 align-middle"></i>
+              <span class="align-middle">{{'EDUCATION'|translate}}</span>
+              <i *ngIf="Tab.education" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="loadWorkExperience()" (click)="loadMilitaryService()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'work-experience'}"
+              (click)="setActiveTab('work-experience')" id="work-experience-tab" data-toggle="tab" role="tab" aria-controls="work-experience"
+              aria-selected="false">
+              <i class="ft-box mr-1 align-middle"></i>
+              <span class="align-middle">{{'WORK_EXPERIENCE'|translate}}</span>
+              <i class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="loadTraining()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'training'}"
+              (click)="setActiveTab('training')" id="training-tab" data-toggle="tab" role="tab" aria-controls="training"
+              aria-selected="false">
+              <i class="ft-box mr-1 align-middle"></i>
+              <span class="align-middle">{{'SEMINAR'|translate}}</span>
+              <i *ngIf="Tab.training" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="loadReward()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'rewards'}"
+              (click)="setActiveTab('rewards')" id="rewards-tab" data-toggle="tab" role="tab" aria-controls="rewards"
+              aria-selected="false">
+              <i class="ft-award mr-1 align-middle"></i>
+              <span class="align-middle">{{'REWARD'|translate}}</span>
+              <i *ngIf="Tab.reward" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="loadPanelty()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'panalties'}"
+              (click)="setActiveTab('panalties')" id="panalties-tab" data-toggle="tab" role="tab"
+              aria-controls="panalties" aria-selected="false">
+              <i class="ft-folder-minus mr-1 align-middle"></i>
+              <span class="align-middle">{{'PENALTY'|translate}}</span>
+              <i *ngIf="Tab.panelty" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="LoadPublication()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'publications'}"
+              (click)="setActiveTab('publications')" id="publications-tab" data-toggle="tab" role="tab"
+              aria-controls="publications" aria-selected="false">
+              <i class="ft-file-text mr-1 align-middle"></i>
+              <span class="align-middle">{{'PUBLICATION'|translate}}</span>
+              <i *ngIf="Tab.publication" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="loadHonorary()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'honorary-service'}"
+              (click)="setActiveTab('honorary-service')" id="honorary-service-tab" data-toggle="tab" role="tab"
+              aria-controls="honorary-service" aria-selected="false">
+              <i class="ft-copy mr-1 align-middle"></i>
+              <span class="align-middle">{{'HONORARY_SERVICE'|translate}}</span>
+              <i *ngIf="Tab.Hononary_service" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadMedal()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'medal-mark'}"
+              (click)="setActiveTab('medal-mark')" id="medal-mark-tab" data-toggle="tab" role="tab"
+              aria-controls="medal-mark" aria-selected="false">
+              <i class="ft-bell mr-1 align-middle"></i>
+              <span class="align-middle">{{'MEDAL_MARK'|translate}}</span>
+              <i *ngIf="Tab.medal" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadFamilyMember()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'family-members'}"
+              (click)="setActiveTab('family-members')" id="family-members-tab" data-toggle="tab" role="tab"
+              aria-controls="family-members" aria-selected="false">
+              <i class="ft-user-plus mr-1 align-middle"></i>
+              <span class="align-middle">{{'FAMILY_MEMBERS'|translate}}</span>
+              <i *ngIf="Tab.family_members" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadMedicalReport()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'medical-reports'}"
+              (click)="setActiveTab('medical-reports')" id="medical-reports-tab" data-toggle="tab" role="tab"
+              aria-controls="medical-reports" aria-selected="false">
+              <i class="ft-file-plus mr-1 align-middle"></i>
+              <span class="align-middle">{{'MEDICAL_REPORT'|translate}}</span>
+              <i *ngIf="Tab.medical" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadMilitaryService()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'military-service'}"
+              (click)="setActiveTab('military-service')" id="military-service-tab" data-toggle="tab" role="tab"
+              aria-controls="military-service" aria-selected="false">
+              <i class="ft-shield mr-1 align-middle"></i>
+              <span class="align-middle">{{'MILITARY_SERVICE'|translate}}</span>
+              <i *ngIf="Tab.military" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadPoliticalParty()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'political-party'}"
+              (click)="setActiveTab('political-party')" id="political-party-tab" data-toggle="tab" role="tab"
+              aria-controls="political-party" aria-selected="false">
+              <i class="ft-user-plus mr-1 align-middle"></i>
+              <span class="align-middle">{{'POLITICAL_PARTY'|translate}}</span>
+              <i *ngIf="Tab.political_party" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadTravel()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'travel-information'}"
+              (click)="setActiveTab('travel-information')" id="travel-information-tab" data-toggle="tab" role="tab"
+              aria-controls="travel-information" aria-selected="false">
+              <i class="ft-aperture mr-1 align-middle"></i>
+              <span class="align-middle">{{'TRAVEL_INFORMATION'|translate}}</span>
+              <i *ngIf="Tab.travel" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadTransfer()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'transfer'}"
+              (click)="setActiveTab('transfer')" id="transfer-tab" data-toggle="tab" role="tab" aria-controls="transfer"
+              aria-selected="false">
+              <i class="ft-send mr-1 align-middle"></i>
+              <span class="align-middle">{{'TRANSFER'|translate}}</span>
+              <i *ngIf="Tab.transfer" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadPromotion()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'promotion'}"
+              (click)="setActiveTab('promotion')" id="promotion-tab" data-toggle="tab" role="tab"
+              aria-controls="promotion" aria-selected="false">
+              <i class="ft-trending-up mr-1 align-middle"></i>
+              <span class="align-middle">{{'PROMOTION'|translate}}</span>
+              <i *ngIf="Tab.promotion" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadAcademicDegree()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'academic-degree'}"
+              (click)="setActiveTab('academic-degree')" id="academic-degree-tab" data-toggle="tab" role="tab"
+              aria-controls="academic-degree" aria-selected="false">
+              <i class="ft-bar-chart-line mr-1 align-middle"></i>
+              <span class="align-middle">{{'ACADEMIC-DEGREE'|translate}}</span>
+              <i *ngIf="Tab.academic_degree" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadSalary()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'salary'}"
+              (click)="setActiveTab('salary')" id="salary-tab" data-toggle="tab" role="tab" aria-controls="salary"
+              aria-selected="false">
+              <i class="ft-dollar-sign mr-1 align-middle"></i>
+              <span class="align-middle">{{'SALARY'|translate}}</span>
+              <i *ngIf="Tab.salary" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadAccountability()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'accountability'}"
+              (click)="setActiveTab('accountability')" id="accountability-tab" data-toggle="tab" role="tab"
+              aria-controls="accountability" aria-selected="false">
+              <i class="ft-lock mr-1 align-middle"></i>
+              <span class="align-middle">{{'ACCOUNTABILITY'|translate}}</span>
+              <i *ngIf="Tab.accountability" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadCrimes()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'personal-crimes'}"
+              (click)="setActiveTab('personal-crimes')" id="personal-crimes-tab" data-toggle="tab" role="tab"
+              aria-controls="personal-crimes" aria-selected="false">
+              <i class="ft-slack mr-1 align-middle"></i>
+              <span class="align-middle">{{'OFF_DUTY_CRIMES'|translate}}</span>
+              <i *ngIf="Tab.off_duty_crime" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadFired()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'fired-duty'}"
+              (click)="setActiveTab('fired-duty')" id="fired-duty-tab" data-toggle="tab" role="tab"
+              aria-controls="fired-duty" aria-selected="false">
+              <i class="ft-user-minus mr-1 align-middle"></i>
+              <span class="align-middle">{{'FIRED_FROM_DUTY'|translate}}</span>
+              <i *ngIf="Tab.fired_from_duty" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+          <li class="nav-item" (click)="scrollWindow()" (click)="loadRetirements()">
+            <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'retirement'}"
+              (click)="setActiveTab('retirement')" id="retirement-tab" data-toggle="tab" role="tab"
+              aria-controls="retirement" aria-selected="false">
+              <i class="ft-user-minus mr-1 align-middle"></i>
+              <span class="align-middle">{{'RETIREMENT'|translate}}</span>
+              <i *ngIf="Tab.resignation" class="ft-check align-middle iconMargin font-weight-bolder"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <!-- Tab panes -->
+        <div class="card customMarginTop customShadow">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="tab-content">
+                <!-- General Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'general'}" id="general" role="tabpanel"
+                  aria-labelledby="general-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs justify-content-left navCustomPadding">
+                        <li [ngbNavItem]="1">
+                          <a ngbNavLink class="nav-link d-flex align-items-center">
+                            <i class="ft-user mr-1"></i>
+                            <span class="d-none d-sm-block">{{'INFO'|translate}}</span>
+                          </a>
+                          <ng-template ngbNavContent>
+                            <!-- Account content starts -->
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'FATHERNAME'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.firstName?data.fatherName:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin" *ngIf="data.grandFatherName">
+                                {{'GRAND_FATHER_NAME'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.grandFatherName?data.grandFatherName:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'DATEBIRTH'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.dob?data.dob:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'DATEBIRTH_GREGORIAN'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{dobGregorianA?dobGregorianA:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'BIRTH_PLACE'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.birthCountry?data.birthCountry:''}},&nbsp;
+                                {{data.birthProvince?data.birthProvince:''}},&nbsp;
+                                {{data.birthDistrict?data.birthDistrict:''}},&nbsp;
+                                {{data.birthVillage?data.birthVillage:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'ORIGINAL_RESIDENCE'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.originalCountry?data.originalCountry:''}},&nbsp;
+                                {{data.originalProvince?data.originalProvince:''}},&nbsp;
+                                {{data.originalDistrict?data.originalDistrict:''}},&nbsp;
+                                {{data.originalVillage?data.originalVillage:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'CURRENT_RESIDENCE'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.currentCountry?data.currentCountry:''}},&nbsp;
+                                {{data.currentProvince?data.currentProvince:''}},&nbsp;
+                                {{data.currentDistrict?data.currentDistrict:''}},&nbsp;
+                                {{data.currentVillage?data.currentVillage:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'NATIONLITY'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.nationality?data.nationality:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'ETHNICITY'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.ethnic?data.ethnic:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'RELIGION'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.religion?data.religion:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin" *ngIf="data.sect">
+                                {{'SECT'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.sect?data.sect:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'GENDER'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.gender?data.gender:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'BLOOD_TYPE'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.blood?data.blood:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'YEAR'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data?.year | jalali}}
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="data.phone">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'PHONE_NUMBER'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.phone?data.phone:''}}
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="data.email">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'EMAIL'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.email?data.email:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin" *ngIf="data.nationalLanguages.length != 0">
+                                {{'NATIONAL_LANGUAGE'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                <span *ngFor="let m of data.nationalLanguages">{{data.nationalLanguages?m:''}}&nbsp;&nbsp;</span>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin" *ngIf="data.language.length != 0">
+                                {{'INTERNATIONAL_LANGUAGE'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                <span *ngFor="let m of data.language">{{data.language?m:''}}&nbsp;&nbsp;</span>
+                              </div>
+                            </div>
+  
+                            <br />
+                            <h5 class="mb-2 text-bold-500"><i
+                                class="fa fa-id-card mr-2 customInfoMargin"></i>{{'TAZKIRA_INFORMATION'|translate}}
+                            </h5>
+                            <hr class="mt-1 mt-sm-2">
+                            <div class="row" *ngIf="data.tazkiraNumber">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'TAZKIRA_NUMBER'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.tazkiraNumber? data.tazkiraNumber:''}}
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="data.tazkiraTog">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'TOG'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.tazkiraTog? data.tazkiraTog:''}}
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="data.tazkiraRegister">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'REGISTER_NUMBER'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.tazkiraRegister? data.tazkiraRegister:''}}
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="data.tazkiraPage">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'PAGE'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.tazkiraPage?data.tazkiraPage:''}}
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="data.tazkiraDate">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'TAZKIRA_DATA'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data?.tazkiraDate | jalali}}
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="data.tazkiraPlace">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'TAZKIRA_PLACE'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6">
+                                {{data.tazkiraPlace? data.tazkiraPlace:''}}
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="data.enid">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'ELECTRONIC_TAZKIRA'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6 mt-1">
+                                {{data.enid? data.enid:''}}
+                              </div>
+                            </div>
+                            <!-- Account content ends -->
+                          </ng-template>
+                        </li>
+                        <li [ngbNavItem]="2">
+                          <a ngbNavLink class="nav-link d-flex align-items-center">
+                            <i class="ft-briefcase mr-1"></i>
+                            <span class="d-none d-sm-block">{{'FIRSTAPPOINTMENT'|translate}}</span>
+                          </a>
+                          <ng-template ngbNavContent>
+                            <!-- Information content starts -->
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin" *ngIf="data.appointType">
+                                {{'DECREE'|translate}}/{{'COMMAND'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6 mt-1">
+                                {{data.appointType? data.appointType:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin" *ngIf="data.suggestionNumber">
+                                {{'SUGGESTION_NUMBER'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6 mt-1">
+                                {{data.suggestionNumber? data.suggestionNumber:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin" *ngIf="data.suggestionDate">
+                                {{'SUGGESTION_DATE'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6 mt-1">
+                                {{data?.suggestionDate | jalali}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'FIRST_APPOINT_DATE'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6 mt-1">
+                                {{data?.appointDate | jalali}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'NOMBER'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6 mt-1">
+                                {{data.decreeNumber? data.decreeNumber:''}}
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="data.qadamDay">
+                              <div class="col-12 col-sm-4 customInfoMargin">
+                                {{'QADAM'|translate}}:
+                              </div>
+                              <div class="col-12 col-sm-6 mt-1">
+                                {{'QADAM_YEAR'|translate}}: {{data.qadamYear?data.qadamYear:''}}&nbsp;&nbsp;
+                                {{'QADAM_MONTH'|translate}}:
+                                {{data.qadamMonth?data.qadamMonth:''}}&nbsp;&nbsp; {{'QADAM_DAY'|translate}}:
+                                {{data.qadamDay?data.qadamDay:''}}
+                              </div>
+                            </div>
+                            <!-- Information content ends -->
+                          </ng-template>
+                        </li>
+                      </ul>
+                      <div class="tab-content">
+                        <div [ngbNavOutlet]="nav"></div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button"  class="btn btn-outline-info btn-icon round" title="{{'EDIT'|translate}}"
+                        (click)="editInfo()" *ngIf="globals.principal.hasAuthority(['PROFILE','PROFILE_EDIT']) && !data.approve">
+                        <i class="ft ft-edit-2"></i>
+                      </button>
+                      <button type="button"  class="btn btn-outline-info btn-icon round" title="{{'EDIT'|translate}}"
+                        (click)="editInfo()" *ngIf="globals.principal.hasAuthority(['PROFILE','PROFILE_APPROVE_EDIT']) && data.approve">
+                        <i class="ft ft-edit-2"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Education Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'info'}" id="info" role="tabpanel"
+                  aria-labelledby="info-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="fa fa-book mr-2 customInfoMargin"></i>{{'EDUCATION'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addEducation()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_EDUCATION_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let e of allEducation">
+                          <div class="row">
+                            <div class="col-12 col-sm-9">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{allEducation? e.level.nameDr:''}} &nbsp;
+                                  <span  class=" font-weight-normal" *ngIf="e.insideWork">[{{'InSIDE_WORK'|translate}}]</span>
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="e.profileJob">
+                                <div class="col-12 col-sm-4">
+                                  {{'POSITION_TITLE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{e.profileJob?e.profileJob.positionTitle:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'FIELD_OF_STUDY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{allEducation? e.fieldOfStudy:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="e.university">
+                                <div class="col-12 col-sm-4">
+                                  {{'EDUCATION_UNIVERSITY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{allEducation? e.university:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="e.startDate">
+                                <div class="col-12 col-sm-4">
+                                  {{'START_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{e?.startDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'GRADUATION_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{e?.graduationDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'COUNTRY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{allEducation? e.country.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'UNIVERSITY_TYPE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{allEducation?e.universityType:''}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                              &nbsp;&nbsp; 
+                              <button type="button" title="{{'EDIT'|translate}}"
+                                class="btn btn-outline-success btn-sm round" (click)="editEduction(e.id)" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_EDUCATION_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>&nbsp;&nbsp;
+                              <button type="button" title="{{'HISTORY'|translate}}"
+                                class="btn btn-outline-info btn-sm round" (click)="historyEduction(e.id)" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_EDUCATION_HISTORY'])">
+                                <i class="ft ft-archive"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_EDUCATION_DELETE'])"
+                                (click)="confirmDeletedModelDetail(deleteContent,'education',e.id)">
+                                <i class="ft-trash-2"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'work-experience'}" id="work-experience" role="tabpanel"
+                  aria-labelledby="work-experience-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-briefcase mr-2 customInfoMargin"></i>{{'WORK_EXPERIENCE'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addJobBreak()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_JOB_BREAK_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let wpo of allWorkExperience">
+                          <div class="row">
+                            <div class="col-12 col-sm-9">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{wpo?.positionTitle}}&nbsp;&nbsp;<span class=" font-weight-normal" *ngIf="wpo.accountability">[{{'ACCOUNTABILITY'|translate}}]</span>
+                                  <span class=" font-weight-normal" *ngIf="wpo.jobBreak">[{{'JOB_BREAK'|translate}}]</span>
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'START_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{wpo?.maktubDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="wpo.maktubNumber">
+                                <div class="col-12 col-sm-4">
+                                  {{'MAKTUB_NUMBER'|translate}}:
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{wpo?.maktubNumber}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="wpo.ministry">
+                                <div class="col-12 col-sm-4">
+                                  {{'MINISTRY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{wpo.ministry?wpo.ministry.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="wpo.authority">
+                                <div class="col-12 col-sm-4">
+                                  {{'AUTHORITY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{wpo.authority?wpo.authority.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="wpo.commission">
+                                <div class="col-12 col-sm-4">
+                                  {{'COMMISSION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{wpo.commission?wpo.commission.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="wpo.intialJob">
+                                <div class="col-12 col-sm-4">
+                                  {{'INITIAL_JOB'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{'YES'|translate}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="wpo.position">
+                                <div class="col-12 col-sm-4">
+                                  {{'POSITION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{wpo.position?wpo.position.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="wpo.militaryPosition">
+                                <div class="col-12 col-sm-4">
+                                  {{'POSITION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{wpo.militaryPosition?wpo.militaryPosition.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="wpo.isPanelty">
+                                <div class="col-12 col-sm-4">
+                                  {{'PENALTY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{'YES'|translate}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="wpo.isReward">
+                                <div class="col-12 col-sm-4">
+                                  {{'REWARD'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{'YES'|translate}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'END_DATE'|translate}}:
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{wpo?.endDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="wpo.breakDetail">
+                                <div class="col-12 col-sm-4">
+                                  {{'REASON'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{wpo?.breakDetail}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="wpo.status">
+                                <div class="col-12 col-sm-4">
+                                  {{'STATUS'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{wpo.status?wpo.status.nameDr:''}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                              &nbsp;&nbsp;
+                              <button type="button" title="{{'EDIT'|translate}}" *ngIf="wpo.jobBreak && globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_JOB_BREAK_EDTI'])" (click)="editBreakJob(wpo.id)"
+                                class="btn btn-outline-success btn-sm round">
+                                <i class="ft ft-edit"></i>
+                              </button>&nbsp;&nbsp;
+                              <button type="button" title="{{'HISTORY'|translate}}"
+                                class="btn btn-outline-info btn-sm round" (click)="historyWorkExperience(wpo.id)" *ngIf="wpo.jobBreak && globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_JOB_BREAK_HISTORY'])">
+                                <i class="ft ft-archive"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="wpo.jobBreak"
+                                (click)="confirmDeletedModelDetail(deleteContent,'work',wpo.id)">
+                                <i class="ft-trash-2"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    <h5 class="mb-2 text-bold-500"><i
+                        class="ft-shield  mr-2 customInfoMargin"></i>{{'MILITARY_SERVICE'|translate}}
+                    </h5>
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let mil of allMilitaryService">
+                          <div class="row">
+                            <div class="col-12 col-sm-12">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'MILITARY_TYPE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{mil?.type}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'START_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{mil?.startDate |jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'END_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{mil?.endDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="mil.detail">
+                                <div class="col-12 col-sm-5">
+                                  {{'DETAILS'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{mil?.detail}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Training training -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'training'}" id="training" role="tabpanel"
+                  aria-labelledby="training-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="fa ft-box mr-2 customInfoMargin"></i>{{'SEMINAR'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addTraining()"
+                        title="{{'ADD'|translate}}"  *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_SEMINAR_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let tra of alltrainings">
+                          <div class="row">
+                            <div class="col-12 col-sm-9">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{tra?.type}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'SEMINAR_TITLE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{tra?.title}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'START_DATE'|translate}}:
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{tra?.startDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'END_DATE'|translate}}:
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{tra?.endDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="tra.country">
+                                <div class="col-12 col-sm-4">
+                                  {{'COUNTRY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{tra.country?tra.country.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="tra.province">
+                                <div class="col-12 col-sm-4">
+                                  {{'PROVINCE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{tra.province?tra.province.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'SEMINAR_TYPE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{tra?.seminarType}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                              &nbsp;&nbsp; 
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editTraining(tra.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_SEMINAR_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>&nbsp;&nbsp;
+                              <button type="button" title="{{'HISTORY'|translate}}"
+                                class="btn btn-outline-info btn-sm round" (click)="historyTraining(tra.id)" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_SEMINAR_EDIT'])">
+                                <i class="ft ft-archive"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_SEMINAR_DELETE'])"
+                                (click)="confirmDeletedModelDetail(deleteContent,'training',tra.id)">
+                                <i class="ft-trash-2"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Rewards Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'rewards'}" id="rewards" role="tabpanel"
+                  aria-labelledby="rewards-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i class="ft-award mr-2 customInfoMargin"></i>{{'REWARD'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addReward()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_REWARD_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let rew of allRewards">
+                          <div class="row">
+                            <div class="col-12 col-sm-9">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{rew.type?rew.type.nameDr:''}}
+                                </div>
+                              </div>
+                                <div class="row marginTopEducation" *ngIf="rew.profileJob">
+                                  <div class="col-12 col-sm-6">
+                                    {{'POSITION_TITLE'|translate}} :
+                                  </div>
+                                  <div class="col-12 col-sm-6">
+                                    {{rew.profileJob?rew.profileJob.positionTitle:''}}
+                                  </div>
+                                </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'SUGGESTION_NUMBER'|translate}}/{{'MAKTUB'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{rew?.suggestedNumber}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'SUGGESTION_DATE'|translate}}/{{'MAKTUB'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{rew?.suggestedDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'SUGGESTED_SOURCE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{rew?.suggestedSource}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'DECREE_NUMBER'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{rew?.decreeNumber}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'DECREE_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{rew?.decreeDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'SUGGESTED_DECREE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{rew?.degreeSource}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="rew.cashAmount">
+                                <div class="col-12 col-sm-6">
+                                  {{'CASH_AMOUNT'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{rew?.cashAmount}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="rew.appreciationDegree">
+                                <div class="col-12 col-sm-6">
+                                  {{'APPRECIATION_DEGREE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{rew?.appreciationDegree}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                              &nbsp;&nbsp;
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editReward(rew.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_REWARD_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>&nbsp;&nbsp;
+                              <button type="button" title="{{'HISTORY'|translate}}"
+                                class="btn btn-outline-info btn-sm round" (click)="historyReward(rew.id)" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_REWARD_EDIT'])">
+                                <i class="ft ft-archive"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_REWARD_DELETE'])"
+                                (click)="confirmDeletedModelDetail(deleteContent,'reward',rew.id)">
+                                <i class="ft-trash-2"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+                <!-- panalties Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'panalties'}" id="panalties" role="tabpanel"
+                  aria-labelledby="panalties-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-folder-minus mr-2 customInfoMargin"></i>{{'PENALTY'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addPanelty()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PENALTY_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let pa of allPanelties">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{allPanelties? pa.type.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'SUGGESTION_NUMBER'|translate}}/{{'MAKTUB'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{allPanelties? pa.suggestedNumber:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'SUGGESTION_DATE'|translate}}/{{'MAKTUB'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{pa?.suggestedDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'SUGGESTED_SOURCE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{allPanelties? pa.suggestedSource:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'DECREE_NUMBER'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{allPanelties? pa.decreeNumber:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'DECREE_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{pa?.decreeDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-6">
+                                  {{'SUGGESTED_DECREE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{allPanelties? pa.degreeSource:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="pa.positionTitle">
+                                <div class="col-12 col-sm-6">
+                                  {{'POSITION_TITLE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{allPanelties? pa.positionTitle:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="pa.ministry">
+                                <div class="col-12 col-sm-6">
+                                  {{'MINISTRY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{allPanelties? pa.ministry.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="pa.authority">
+                                <div class="col-12 col-sm-6">
+                                  {{'AUTHORITY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{allPanelties? pa.authority.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="pa.commission">
+                                <div class="col-12 col-sm-6">
+                                  {{'COMMISSION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{allPanelties? pa.commission.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="pa.position">
+                                <div class="col-12 col-sm-6">
+                                  {{'POSITION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{allPanelties? pa.position.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="pa.militaryPosition">
+                                <div class="col-12 col-sm-6">
+                                  {{'POSITION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{allPanelties? pa.militaryPosition.nameDr:''}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editPanelty(pa.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PENALTY_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PENALTY_DELETE'])"
+                                (click)="confirmDeletedModelDetail(deleteContent,'panelty',pa.id)">
+                                <i class="ft-trash-2"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- publications Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'publications'}" id="publications" role="tabpanel"
+                  aria-labelledby="publications-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-file-text mr-2 customInfoMargin"></i>{{'PUBLICATION'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addPublication()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PUBLICATION_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction"
+                          *ngFor="let pub of allPublicatoin">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{pub.type?pub.type.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'TITLE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{pub?.title}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'PUBLISHED_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{pub?.publishDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'APPROVED_AUTHORITY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{pub?.approvedAuthority}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'MAKTUB_NUMBER'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{pub?.maktubShumara}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'MAKTUB_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{pub?.maktubDate | jalali}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editPublication(pub.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PUBLICATION_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PUBLICATION_DELETE'])"
+                                (click)="confirmDeletedModelDetail(deleteContent,'publication',pub.id)">
+                                <i class="ft-trash-2"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Honorary Service Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'honorary-service'}" id="honorary-service"
+                  role="tabpanel" aria-labelledby="honorary-service-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-copy  mr-2 customInfoMargin"></i>{{'HONORARY_SERVICE'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addHonorary()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_HONORARY_SERVICE_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction"
+                          *ngFor="let hon of allHonoraryServies">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'START_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{hon?.startDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'END_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{hon?.endDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'SOURCE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{hon?.source}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editHonorary(hon.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_HONORARY_SERVICE_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_HONORARY_SERVICE_DELETE'])"
+                                (click)="confirmDeletedModelDetail(deleteContent,'hononary',hon.id)">
+                                <i class="ft-trash-2"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Medal-Mark Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'medal-mark'}" id="medal-mark" role="tabpanel"
+                  aria-labelledby="medal-mark-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-bell  mr-2 customInfoMargin"></i>{{'MEDAL_MARK'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addMedal()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_MEDAL_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let med of allMedals">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{med?.medalType}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'APPROVED_AUTHORITY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{med?.approvedSource}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'NOMBER'|translate}}&nbsp;{{'COMMAND'|translate}}/{{'DECREE'|translate}}/{{'MAKTUB'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{med?.maktubNumber}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{med?.maktubDate | jalali}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editMedal(med.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_MEDAL_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_MEDAL_DELETE'])"
+                                (click)="confirmDeletedModelDetail(deleteContent,'medal',med.id)">
+                                <i class="ft-trash-2"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- family-members Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'family-members'}" id="family-members"
+                  role="tabpanel" aria-labelledby="family-members-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-user-plus  mr-2 customInfoMargin"></i>{{'FAMILY_MEMBERS'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2" *ngIf="!showFamilyCount">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addFamilyMember()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_FAMILY_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let fam of allFamily">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'FAMILY_MEMBERS_TOTAL'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{fam?.familytotal}} &nbsp;{{'PERSON'|translate}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="fam.male">
+                                <div class="col-12 col-sm-5">
+                                  {{'MALE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{fam?.male}} &nbsp;{{'PERSON'|translate}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="fam.female">
+                                <div class="col-12 col-sm-5">
+                                  {{'FEMALE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{fam?.female}} &nbsp;{{'PERSON'|translate}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}"
+                                (click)="editFamilyMember(fam.id)" class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_FAMILY_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_FAMILY_DELETE'])"
+                                (click)="confirmDeletedModelDetail(deleteContent,'family',fam.id)">
+                                <i class="ft-trash-2"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+                <!-- medical-reports Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'medical-reports'}" id="medical-reports"
+                  role="tabpanel" aria-labelledby="medical-reports-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-file-plus  mr-2 customInfoMargin"></i>{{'MEDICAL_REPORT'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2" *ngIf="!medicalReportShow">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addMedicalReport()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_MEDICAL_REPORT_CREATE'])"> 
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let medi of allMedical">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'MEDICAL_REPORT_EXIST'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7" *ngIf="medi.medicalReport">
+                                  {{'YES'|translate}}
+                                </div>
+                                <div class="col-12 col-sm-7" *ngIf="!medi.medicalReport">
+                                  {{'NO'|translate}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}"
+                                (click)="editMedicalReport(medi.id)" class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_MEDICAL_REPORT_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_MEDICAL_REPORT_DELETE'])"
+                                (click)="confirmDeletedModelDetail(deleteContent,'medical',medi.id)">
+                                <i class="ft-trash-2"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- political-party Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'political-party'}" id="political-party"
+                  role="tabpanel" aria-labelledby="political-party-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-user-plus mr-2 customInfoMargin"></i>{{'POLITICAL_PARTY'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addParty()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PARTY_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction"
+                          *ngFor="let poli of allPoliticalParties">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'PARTY_TYPE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{poli?.type}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'PARTY_NAME'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{poli?.name}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editParty(poli.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PARTY_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PARTY_DELETE'])"
+                              (click)="confirmDeletedModelDetail(deleteContent,'party',poli.id)">
+                              <i class="ft-trash-2"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- military-service Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'military-service'}" id="military-service"
+                  role="tabpanel" aria-labelledby="military-service-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-shield  mr-2 customInfoMargin"></i>{{'MILITARY_SERVICE'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addMidicalService()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_MILITARY_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction"
+                          *ngFor="let mil of allMilitaryService">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'MILITARY_TYPE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{mil?.type}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'START_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{mil?.startDate |jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'END_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{mil?.endDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="mil.detail">
+                                <div class="col-12 col-sm-5">
+                                  {{'DETAILS'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{mil?.detail}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}"
+                                (click)="editMilitaryService(mil.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_MILITARY_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_MILITARY_DELETE'])"
+                              (click)="confirmDeletedModelDetail(deleteContent,'military',mil.id)">
+                              <i class="ft-trash-2"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!--travel-information Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'travel-information'}" id="travel-information"
+                  role="tabpanel" aria-labelledby="travel-information-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-aperture  mr-2 customInfoMargin"></i>{{'TRAVEL_INFORMATION'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addTravel()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_TRAVEL_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let trav of allTravels">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{trav?.type}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="trav.country">
+                                <div class="col-12 col-sm-4">
+                                  {{'COUNTRY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{trav.country?trav.country.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="trav.province">
+                                <div class="col-12 col-sm-4">
+                                  {{'PROVINCE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{trav.province?trav.province.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'MAKTUB_NUMBER'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{trav?.maktubNo}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{trav?.date | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="trav.profileJob">
+                                <div class="col-12 col-sm-4">
+                                  {{'POSITION_TITLE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{trav.profileJob?trav.profileJob.positionTitle:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'PURPOSE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{trav?.purpose}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editTravel(trav.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_TRAVEL_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_TRAVEL_DELETE'])"
+                              (click)="confirmDeletedModelDetail(deleteContent,'travel',trav.id)">
+                              <i class="ft-trash-2"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+                <!--transfer Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'transfer'}" id="transfer" role="tabpanel"
+                  aria-labelledby="transfer-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i class="ft-send mr-2 customInfoMargin"></i>{{'TRANSFER'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addTransfer()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_TRANSFER_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let trans of allTransfers">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{trans?.positionTitle}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="trans.ministry">
+                                <div class="col-12 col-sm-4">
+                                  {{'MINISTRY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{trans.ministry?trans.ministry.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="trans.authority">
+                                <div class="col-12 col-sm-4">
+                                  {{'AUTHORITY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{trans.authority?trans.authority.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="trans.commission">
+                                <div class="col-12 col-sm-4">
+                                  {{'COMMISSION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{trans.commission?trans.commission.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="trans.position">
+                                <div class="col-12 col-sm-4">
+                                  {{'POSITION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{trans.position?trans.position.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="trans.militaryPosition">
+                                <div class="col-12 col-sm-4">
+                                  {{'POSITION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{trans.militaryPosition?trans.militaryPosition.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'DECREE_NUMBER'|translate}}/{{'MAKTUB'|translate}}
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                  {{trans?.maktubNumber}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{trans?.maktubDate | jalali}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editTransfer(trans.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_TRANSFER_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_TRANSFER_DELETE'])"
+                              (click)="confirmDeletedModelDetail(deleteContent,'transfer',trans.id)">
+                              <i class="ft-trash-2"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!--promotion Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'promotion'}" id="promotion" role="tabpanel"
+                  aria-labelledby="promotion-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-trending-up mr-2 customInfoMargin"></i>{{'PROMOTION'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addPromotion()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PROMOTION_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let prom of allPromotions">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold" *ngIf="prom.type">
+                                  <i class="ft-chevron-left"></i>{{prom.type?prom.type.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="prom.profileJob">
+                                <div class="col-12 col-sm-4">
+                                  {{'POSITION_TITLE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{prom.profileJob?prom.profileJob.positionTitle:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'GRADE_FROM'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6" *ngIf="prom.oldGrade">
+                                  {{prom.oldGrade?prom.oldGrade.nameDr:''}}
+                                </div>
+                                <div class="col-12 col-sm-6" *ngIf="prom.oldMilitaryGrade">
+                                  {{prom.oldMilitaryGrade?prom.oldMilitaryGrade.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'GRADE_TO'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6" *ngIf="prom.newGrade">
+                                  {{prom.newGrade?prom.newGrade.nameDr:''}}
+                                </div>
+                                <div class="col-12 col-sm-6" *ngIf="prom.newMilitaryGrade">
+                                  {{prom.newMilitaryGrade?prom.newMilitaryGrade.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'DECREE_NUMBER'|translate}}/{{'MAKTUB'|translate}} 
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{prom?.maktubNumber}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-4">
+                                  {{'DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{prom?.maktubDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-12 col-sm-4 marginTopEducation">
+                                  {{'QADAM'|translate}}:
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{'QADAM_YEAR'|translate}}: {{prom?.qadamYear}}&nbsp;&nbsp;
+                                  {{'QADAM_MONTH'|translate}}:
+                                  {{prom?.qadamMonth}}&nbsp;&nbsp; {{'QADAM_DAY'|translate}}:
+                                  {{prom?.qadamDay}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editPromotion(prom.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PROMOTION_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_PROMOTION_DELETE'])"
+                              (click)="confirmDeletedModelDetail(deleteContent,'promotion',prom.id)">
+                              <i class="ft-trash-2"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+  
+                </div>
+  
+                <!-- Academic Degree -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'academic-degree'}" id="academic-degree"
+                  role="tabpanel" aria-labelledby="academic-degree-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="fa fa-book mr-2 customInfoMargin"></i>{{'ACADEMIC-DEGREE'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addAcademicDegree()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_ACADEMIC_DEGREE_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction"
+                          *ngFor="let acad of allAcademicDegree">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{acad.type?acad.type.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'ACADEMIC_DEGREE_TITLE'|translate}}:
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{acad?.title}}
+                                </div>
+                            </div>
+                              <div class="row marginTopEducation">
+                                  <div class="col-12 col-sm-5">
+                                    {{'SHUMARA'|translate}}:
+                                  </div>
+                                  <div class="col-12 col-sm-6">
+                                    {{acad?.shumara}}
+                                  </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'DATE'|translate}}:
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                  {{acad?.date | jalali}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}"
+                                (click)="editAcademicDegree(acad.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_ACADEMIC_DEGREE_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_ACADEMIC_DEGREE_DELETE'])"
+                              (click)="confirmDeletedModelDetail(deleteContent,'academic',acad.id)">
+                              <i class="ft-trash-2"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Salary Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'salary'}" id="salary" role="tabpanel"
+                  aria-labelledby="salary-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-dollar-sign mr-2 customInfoMargin"></i>{{'SALARY'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addSalary()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_SALARY_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let a of allSalaries">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation" *ngIf="a.profileJob">
+                                <div class="col-12 col-sm-5">
+                                  {{'POSITION_TITLE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{a.profileJob?a.profileJob.positionTitle:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'CADRE_SALARY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{allSalaries? a.cadreSalary:''}}&nbsp;&nbsp;{{'AFG'|translate}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'PROFESSONAL_SALARY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{allSalaries? a.original:''}}&nbsp;&nbsp;{{'AFG'|translate}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'ORIGINAL_SALARY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{allSalaries? a.originalSalary:''}}&nbsp;&nbsp;{{'AFG'|translate}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'PATENT_SALARY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{allSalaries? a.patentSalary:''}}&nbsp;&nbsp;{{'AFG'|translate}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'EXTRA_SALARY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{allSalaries? a.extraSalary:''}}&nbsp;&nbsp;{{'AFG'|translate}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'MACUL'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{allSalaries? a.macul:''}}&nbsp;&nbsp;{{'AFG'|translate}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  <strong>{{'TOTAL'|translate}} :</strong>
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  <strong>{{calculateSalary(a)}}&nbsp;&nbsp;{{'AFG'|translate}}</strong>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editSalary(a.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_SALARY_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_SALARY_DELETE'])"
+                              (click)="confirmDeletedModelDetail(deleteContent,'salary',a.id)">
+                              <i class="ft-trash-2"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+                <!--  Accountability Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'accountability'}" id="accountability"
+                  role="tabpanel" aria-labelledby="accountability-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-lock mr-2 customInfoMargin"></i>{{'ACCOUNTABILITY'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addAccountability()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_ACCOUNTABILITY_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let accoun of allAccountabilities">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{accoun?.positionTitle}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'START_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{accoun?.startDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'END_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{accoun?.endDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="accoun.ministry">
+                                <div class="col-12 col-sm-5">
+                                  {{'MINISTRY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{accoun.ministry?accoun.ministry.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="accoun.authority">
+                                <div class="col-12 col-sm-5">
+                                  {{'AUTHORITY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{accoun.authority?accoun.authority.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="accoun.commission">
+                                <div class="col-12 col-sm-5">
+                                  {{'COMMISSION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{accoun.commission?accoun.commission.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="accoun.position">
+                                <div class="col-12 col-sm-5">
+                                  {{'POSITION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{accoun.position?accoun.position.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="accoun.militaryPosition">
+                                <div class="col-12 col-sm-5">
+                                  {{'POSITION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{accoun.militaryPosition?accoun.militaryPosition.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'OLD_POSITION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{accoun?.personName}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editAccountability(accoun.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_ACCOUNTABILITY_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_ACCOUNTABILITY_DELETE'])"
+                              (click)="confirmDeletedModelDetail(deleteContent,'accountability',accoun.id)">
+                              <i class="ft-trash-2"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+                <!--  personal-crimes Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'personal-crimes'}" id="personal-crimes"
+                  role="tabpanel" aria-labelledby="personal-crimes-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-slack mr-2 customInfoMargin"></i>{{'OFF_DUTY_CRIMES'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addCrime()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_CRIME_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" *ngFor="let cri of allCrimes">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation" *ngIf="cri.profileJob">
+                                <div class="col-12 col-sm-5">
+                                  {{'POSITION_TITLE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{cri.profileJob?cri.profileJob.positionTitle:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{cri?.date | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'CRIME_TYPE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{cri?.crimeType}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editCrime(cri.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_CRIME_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_CRIME_DELETE'])"
+                              (click)="confirmDeletedModelDetail(deleteContent,'crime',cri.id)">
+                              <i class="ft-trash-2"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+                <!--  fired-duty Tab -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'fired-duty'}" id="fired-duty" role="tabpanel"
+                  aria-labelledby="fired-duty-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-user-minus mr-2 customInfoMargin"></i>{{'FIRED_FROM_DUTY'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round" (click)="addFired()"
+                        title="{{'ADD'|translate}}"  *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_FIRED_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" 
+                        *ngFor="let fir of allfired">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{fir?fir.type.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'POSITION_TITLE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{fir.profileJob?fir.profileJob.positionTitle:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'DECREE_NUMBER'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{fir?.maktubNumber}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{fir?.maktubDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="fir.profileJob.ministry">
+                                <div class="col-12 col-sm-5">
+                                  {{'MINISTRY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{fir.profileJob.ministry?fir.profileJob.ministry.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="fir.profileJob.authority">
+                                <div class="col-12 col-sm-5">
+                                  {{'AUTHORITY'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{fir.profileJob.authority?fir.profileJob.authority.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="fir.profileJob.commission">
+                                <div class="col-12 col-sm-5">
+                                  {{'COMMISSION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{fir.profileJob.commission?fir.profileJob.commission.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="fir.profileJob.position">
+                                <div class="col-12 col-sm-5">
+                                  {{'POSITION'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{fir.profileJob.position?fir.profileJob.position.nameDr:''}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}" (click)="editFired(fir.id)"
+                                class="btn btn-outline-success btn-sm round"  *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_FIRED_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_FIRED_DELETE'])"
+                              (click)="confirmDeletedModelDetail(deleteContent,'fired',fir.id)">
+                              <i class="ft-trash-2"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- retirement start -->
+                <div class="tab-pane" [ngClass]="{active: activeTab === 'retirement'}" id="retirement" role="tabpanel"
+                  aria-labelledby="retirement-tab">
+                  <div class="row">
+                    <div class="col-12 col-sm-10">
+                      <h5 class="mb-2 text-bold-500"><i
+                          class="ft-user-minus mr-2 customInfoMargin"></i>{{'RETIREMENT'|translate}}
+                      </h5>
+                      <br>
+                    </div>
+                    <div class="col-12 col-sm-2">
+                      <button type="button" class="btn btn-outline-info btn-icon round"  (click)="addRetirement()"
+                        title="{{'ADD'|translate}}" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_RETIREMENT_CREATE'])">
+                        <i class="ft ft-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-12 col-sm-12  border rounded py-2 marginEduction" 
+                        *ngFor="let reti of allRetirements">
+                          <div class="row">
+                            <div class="col-12 col-sm-10">
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-12 font-weight-bold">
+                                  <i class="ft-chevron-left"></i>{{reti?reti.type.nameDr:''}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="reti.maktubNumber">
+                                <div class="col-12 col-sm-5">
+                                  {{'SUGGESTION_NUMBER'|translate}}/{{'MAKTUB'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{reti?.maktubNumber}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="reti.maktubDate">
+                                <div class="col-12 col-sm-5">
+                                  {{'SUGGESTION_DATE'|translate}}/{{'MAKTUB'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{reti?.maktubDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'DECREE_NUMBER'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{reti?.decreeNumber}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation">
+                                <div class="col-12 col-sm-5">
+                                  {{'DECREE_DATE'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{reti?.decreeDate | jalali}}
+                                </div>
+                              </div>
+                              <div class="row marginTopEducation" *ngIf="reti.detail">
+                                <div class="col-12 col-sm-5">
+                                  {{'REASON'|translate}} :
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                  {{reti?.detail}}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                              <button type="button" title="{{'EDIT'|translate}}"  (click)="editRetirement(reti.id)"
+                                class="btn btn-outline-success btn-sm round" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_RETIREMENT_EDIT'])">
+                                <i class="ft ft-edit"></i>
+                              </button>
+                              <button class="btn btn-outline-danger btn-sm round pull-right"
+                              (click)="confirmDeletedModelDetail(deleteContent,'retirement',reti.id)" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_RETIREMENT_DELETE'])">
+                              <i class="ft-trash-2"></i>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- attachments start here -->
+      <div class="col-md-3">
+        <div class="row">
+          <div class="col-12">
+            <div class="card margin-custom-card customShadow customMarginTop">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-body text-left custumMediaMargin">
+                      <h5 class="mb-1 success">{{workYears}}&nbsp;{{'YEAR_E'|translate}} - {{workMonths}}&nbsp;{{'MONTH'|translate}} - {{workDays}}&nbsp; {{'DAY'|translate}}</h5>
+                      <span>{{'WORK_EXPERIENCE'|translate}}</span>
+                    </div>
+                    <div class="media-right align-self-center customGolum">
+                      <i class="ft-briefcase success font-large-2 float-right"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- file start here -->
+          <div class="col-12">
+            <div class="card margin-custom-card customShadow customMarginTop">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="tab-content">
+                    <div class="row">
+                      <div class="col-12 col-sm-9">
+                        <h5 class="mb-2 text-bold-500"><i class="icon-docs mr-2"></i>{{'FILES'|translate}}
+                        </h5>
+                      </div>
+                      <div class="col-12 col-sm-3">
+                        <button type="button" title="{{'ADD_NEW_FILE'|translate}}" (click)="addFile()"
+                          class="btn btn-outline-info btn-sm btn-icon round pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_ATTACHMENT_UPLOAD'])">
+                          <i class="ft ft-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-12 col-sm-12">
+                        <div class="row">
+                          <div class="col-12 col-sm-12">
+                            <button type="button" class="btn btn-outline-primary form-control" (click)="loadDocument()"
+                              (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+                              aria-controls="collapseExample">
+                              {{'DOCUMENT_LIST'|translate}}
+                            </button>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-12 col-sm-12">
+                            <div class="table-responsive" id="collapseExample" [ngbCollapse]="isCollapsed">
+                              <table class="table table-borderless">
+                                <tbody *ngFor="let a of allDocuments">
+                                  <tr class="d-flex border_bottom">
+                                    <td class="col-1"><i class="ft-check text-info font-weight-bolder"></i></td>
+                                    <td class="col-7">{{allDocuments?a.type.nameDr:''}}</td>
+                                    <td  class="col-4">
+                                      <button type="button" title="{{'DELETE_FILE'|translate}}" (click)="confirmDeleteModal(content,a.id)"
+                                        class="btn btn-outline-warning btn-sm pull-right" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_ATTACHMENT_DELETE'])">
+                                        <i class="ft ft-trash-2"></i>
+                                      </button>
+                                        <button type="button" title="{{'DOWNLOAD_FILES'|translate}}"  (click)="downloadAttachment(a.id)"
+                                          class="btn btn-outline-success btn-sm pull-right maringButtonLeft" *ngIf="globals.principal.hasAuthority(['PROFILE_DETAILS','PROFILE_ATTACHMENT_DAWNLOAD'])">
+                                          <i class="ft ft-download"></i>
+                                        </button>
+                                    </td>
+                                  </tr>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- date changer starts here -->
+          <div class="col-12">
+            <div class="card margin-custom-card customShadow customMarginTop">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="tab-content">
+                    <div class="row">
+                      <div class="col-12 col-sm-12">
+                        <h5 class="mb-2 text-bold-500"><i class="fa fa-calendar mr-2"></i>{{'DATE_CHANGER'|translate}}
+                        </h5>
+                      </div>
+                      <hr>
+                      <div class="col-12 col-sm-12">
+                        <form [formGroup]="addForm">
+                        <input type="text" formControlName="gregorian" placeholder="1992-12-28" class="form-control"><br>
+                        <button type="button" class="btn btn-outline-primary form-control" (click)="dateChanger()">{{'DATE_CHANGER'|translate}}</button><br><br>
+                        <input type="text"  formControlName="jalali" placeholder="1371-10-22" class="form-control">
+                      </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <ng-template #content let-modal>
+    <div class="modal-body font-weight-bold">
+      <p>{{ 'ARE_YOU_SURE?' | translate }}</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger"
+        (click)="deleteDocument();modal.close()">{{ 'DELETE' | translate }}</button>
+      <button type="button" class="btn btn-light" (click)="modal.close()">{{ 'CANCEL' | translate }}</button>
+    </div>
+  </ng-template>
+  
+  <ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7"
+    type="ball-spin-clockwise-fade">
+  </ngx-spinner>
+  
+  
+  
+  <ng-template #deleteContent let-modal>
+    <div class="modal-body">
+        <p>{{ "ARE_YOU_SURE?" | translate }}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="generateDeleteRecord(); modal.close()">
+            {{ "DELETE" | translate }}
+        </button>
+        <button type="button" class="btn btn-light" (click)="modal.close()">
+            {{ "CANCEL" | translate }}
+        </button>
+    </div>
+  </ng-template>
+  

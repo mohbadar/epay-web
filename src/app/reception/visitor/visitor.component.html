@@ -1,0 +1,158 @@
+<section id="ngx-datatables-server-side">
+	<div class="row">
+		<div class="col-12 mt-2">
+			<h4>{{'VISITORS'|translate}}</h4>
+		</div>
+	</div>
+	<!-- Filter starts -->
+	<div class="row">
+		<div class="col-12">
+			<div class="users-list-filter px-2">
+			<form>
+				<div class="row border rounded py-2 mb-2 mx-n2">
+				<div class="col-12 col-sm-6 col-lg-3">
+					<label for="users-list-verified">{{'NAME'|translate}}</label>
+					<fieldset class="form-group">
+					<input type="text" class="form-control" />
+					</fieldset>
+				</div>
+
+				<div class="col-12 col-sm-6 col-lg-3">
+				<label for="users-list-role">{{'FATHERNAME'|translate}}</label>
+					<fieldset class="form-group">
+					<input type="text" class="form-control" />
+					</fieldset>
+				</div>
+				<div class="col-12 col-sm-6 col-lg-3">
+					<label for="users-list-status">{{'EMPLOYEE_NAME'|translate}}</label>
+					<fieldset class="form-group">
+					<input type="text" class="form-control" />
+					</fieldset>
+				</div>
+				<div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
+					<button type="button" class="btn btn-primary btn-block users-list-clear">
+					{{'SEARCH'|translate}}
+					</button>&nbsp;
+					<button type="reset" class="btn btn-warning btn-block users-list-clear" style="margin-top:initial">
+					{{'CLEAR'|translate}}
+					</button>
+				</div>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+	<!-- Filter ends -->
+	<div class="row">
+	<div class="col-12">
+		<div class="card">
+		<div class="card-header">
+			<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="reload()">
+			<i class="ft ft-refresh-cw"></i>
+			</button>
+			<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" title="Add Profile"
+			[disabled]="loading" (click)="addNewRecord()" *ngIf='["RECEPTION_MODULE", "RECEP_VISITOR_CREATE"]|authority'>
+			<i class="ft ft-plus"></i>
+			</button>
+
+			<!-- <div class="col-md-3 col-3">
+			<div class="form-group">
+				<select #pageLength class="form-control" (change)="setPageLength(pageLength.value)">
+				<option *ngFor=" let pl of pageLengths" [selected]="20">
+					{{ pl.count }} {{ 'RECORDS' | translate }}
+				</option>
+				<option value="-1">{{ 'ALL' | translate }}</option>
+				</select>
+			</div>
+			</div> -->
+		</div>
+		<div class="card-content">
+			<div class="card-body">
+			<ng-container *ngIf="tableOptions">
+				<!-- ngx-datatables-server-side -->
+				<ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns"
+					[columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="tableOptions.length"
+					[loadingIndicator]="dataLoadingFlag" [scrollbarH]="true" (page)="setPage($event)"
+					[externalPaging]="true" [count]="recordsTotal" [offset]="tableOptions.draw"
+					[sorts]="[{prop: 'ID', dir: 'desc'}]" (sort)="onSort($event)">
+
+					<ngx-datatable-column name="{{'ACTIONS'|translate}}" [width]="70" [sortable]="false">
+						<ng-template let-row="row" ngx-datatable-cell-template>
+							<i class="ft-eye text-primary cursor-pointer mr-2" [routerLink]="['/reception/visitors/' + row.ID]" *ngIf='["RECEPTION_MODULE", "RECEP_VISITOR_VIEW"]|authority'></i>
+							<i class="ft-edit text-primary cursor-pointer" [routerLink]="['/reception/visitors/' + row.ID + '/edit']" *ngIf='["RECEPTION_MODULE", "RECEP_VISITOR_EDIT"]|authority'></i>
+						</ng-template>
+					</ngx-datatable-column>
+					<ngx-datatable-column name="{{'VISIT_STATUS'|translate}}" [width]="180" [sortable]="true">
+						<ng-template let-row="row" ngx-datatable-cell-template>
+							<div class="badge badge-pill" [ngClass]="{'bg-light-success':row.VISIT_RESOLUTION == 'COMPLETED', 'bg-light-danger':row.VISIT_RESOLUTION == 'REJECTED' , 'bg-light-warning':row.VISIT_RESOLUTION == 'WAITING' }">
+								{{ row.VISIT_STATUS|translate }} - {{ row.VISIT_RESOLUTION|translate }}
+							</div>
+						</ng-template>
+					</ngx-datatable-column>
+					<ngx-datatable-column name="{{'STATUS'|translate}}" [width]="120" [sortable]="true">
+						<ng-template let-row="row" ngx-datatable-cell-template>
+							<div class="badge badge-pill" [ngClass]="{'bg-light-success':row.STATUS == 'DONE', 'bg-light-danger':row.STATUS == 'REJECTED' , 'bg-light-warning':row.STATUS == 'WAITING' }">
+								{{ row.STATUS|translate }}
+							</div>
+						</ng-template>
+					</ngx-datatable-column>
+					<ngx-datatable-column name="{{'ID'|translate}}" [width]="50" prop="ID"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'FIRST_NAME'|translate}}" prop="FIRST_NAME">
+						<ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+							<div class="d-flex align-items-center">
+								<div *ngIf="row['ID']; else customAvatar">
+									<img class="rounded-circle mr-1" [src]="'api/public/visitor/' + row.ID + '/photo?size=50x50'"
+									height="50" width="50" alt="datatable-avatar" (click)="displayPhoto(row.ID)">
+								</div>
+								<ng-template #customAvatar>
+									<div class="avatar mr-1 ml-0" class="bg-primary">
+										<div class="avatar-content">{{ name | shortName }}</div>
+									</div>
+								</ng-template>
+								<div class="cell-line-height">
+									<p class="font-medium-1 line-height-1 mb-0">{{ name }}</p>
+								</div>
+							</div>
+						</ng-template>
+					</ngx-datatable-column>
+					<ngx-datatable-column name="{{'LAST_NAME'|translate}}" prop="LAST_NAME"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'FATHER_NAME'|translate}}" prop="FATHER_NAME"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'PHONE_NO'|translate}}" prop="PHONE_NO"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'EMAIL'|translate }}" prop="EMAIL"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'VISIT_DATE'|translate }}" prop="VISIT_DATE">
+						<ng-template let-row="row" ngx-datatable-cell-template>
+							{{row.VISIT_DATE | date: 'yyyy-MM-dd'|jalali}}
+						</ng-template>
+					</ngx-datatable-column>
+					<ngx-datatable-column name="{{'ENTRY_DATE'|translate }}" prop="ENTRY_DATE">
+						<ng-template let-row="row" ngx-datatable-cell-template>
+							{{row.ENTRY_DATE | date: 'yyyy-MM-dd'|jalali}}
+						</ng-template>
+					</ngx-datatable-column>
+					<ngx-datatable-column name="{{'VISIT_TIME'|translate}}" prop="VISIT_TIME"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'ENTRY_TIME'|translate}}" prop="ENTRY_TIME"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'VISITOR_COUNT'|translate}}" prop="VISITOR_COUNT"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'VISIT_CATEGORY'|translate}}" prop="VISIT_CATEGORY">
+						<ng-template let-row="row" ngx-datatable-cell-template>
+							{{row.VISIT_CATEGORY|translate }}
+						</ng-template>
+					</ngx-datatable-column>
+					<ngx-datatable-column name="{{'VISIT_TYPE'|translate}}" prop="VISIT_TYPE">
+						<ng-template let-row="row" ngx-datatable-cell-template>
+							{{row.VISIT_TYPE|translate }}
+						</ng-template>
+					</ngx-datatable-column>
+				</ngx-datatable>
+				<!--/ ngx-datatables-server-side -->
+			</ng-container>
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+</section>
+
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+	[fullScreen]="true">
+</ngx-spinner>

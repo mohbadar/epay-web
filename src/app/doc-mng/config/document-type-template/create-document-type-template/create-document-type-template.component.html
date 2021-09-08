@@ -1,0 +1,90 @@
+<div class="row">
+	<div class="col-6 mt-2">
+		<h4 class="primary text-uppercase">{{'CREATE_DOCUMENT_TYPE_TEMPLATE'|translate}}</h4>
+	</div>
+	<div class="col-6">
+        <button [routerLink]="'/doc_mng/config/document_type_templates'" class="btn btn-default pull-right"
+            style="border:1px solid #c9c7c7">{{'DOCUMENTS_TYPE_TEMPLATE_LIST'|translate}}
+        </button>
+    </div>
+</div>
+<section id="basic-input" id="newForm">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-content">
+					<div class="card-body">
+						<form [formGroup]="newForm" (ngSubmit)="onSubmit()">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+									<!--  <h5>{{ 'INFO'|translate }}</h5> -->
+									</div>
+								</div>
+								<div class="col-12 col-sm-12 col-md-12">
+
+									<div class="row">
+										<div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="users-list-role">{{'ENTITY'|translate}}<span class="required-field">*</span></label>
+												<ng-select [items]="departments$ | async" bindLabel="name" bindValue="id" formControlName="entityId">
+												</ng-select>
+												<small *ngIf="getError('entityId') as error" class="text-danger">{{ error }}</small>
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="users-list-role">{{'DEPARTMENT'|translate}}<span class="required-field">*</span></label>
+												<ng-select [items]="departments$ | async" bindLabel="name" bindValue="id" formControlName="departmentId">
+												</ng-select>
+												<small *ngIf="getError('departmentId') as error" class="text-danger">{{ error }}</small>
+											</div>
+										</div>
+										
+										<div class="col-12 col-sm-6 col-md-4">
+											<div class="form-group">
+												<label for="document_types">{{'DOCUMENT_TYPE'|translate}}<span class="required-field">*</span></label>
+												<ng-select [items]="documentTypesList" [multiple]='false' bindLabel="name" bindValue="id" formControlName="documentTypeId">
+												</ng-select>
+												<small *ngIf="getError('documentTypeId') as error" class="text-danger">{{ error }}</small>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-12 col-sm-12">
+											<div class="form-group">
+												<label>{{'TEMPLATE'|translate}}<span class="required-field">*</span></label>
+												<div class="controls">
+													<textarea dir="ltr" rows="10" formControlName="template" class="form-control"></textarea>
+													<small *ngIf="getError('template') as error" class="text-danger">{{ error }}</small>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<hr />
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12">
+                                            <div class="form-group">
+												<button type="submit" class="btn btn-info">{{'SAVE'|translate}}
+													<span style="margin-left:10px;"></span>
+												</button>
+												<button type="button" class="btn btn-warning mr-1" [routerLink]="'/doc_mng/config/document_type_templates'">
+													<span style="margin-right:10px;"></span> {{'CLOSE'|translate}}
+												</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade" [fullScreen]="true">
+</ngx-spinner>

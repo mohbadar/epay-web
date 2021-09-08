@@ -1,0 +1,31 @@
+<div class="row">
+	<div class="col-12">
+	  <div class="content-header">{{ 'LIBRARY'|translate }}</div>
+	</div>
+</div>
+<section>
+	<div class="row">
+		<div class="col-12">
+			<div class="card-deck-wrapper">
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["LIBRARY_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/library/publications/add']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-plus fa-lg text-primary mr-2"></i>{{ 'REGISTRATION'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["LIBRARY_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/library/publications']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-clock fa-lg text-primary mr-2"></i>{{ 'PUBLICATIONS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

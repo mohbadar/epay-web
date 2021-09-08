@@ -1,0 +1,109 @@
+<section id="ngx-datatables-server-side">
+	<div class="row">
+		<div class="col-12 mt-2">
+			<h4>{{ 'GALLERY' | translate }}</h4>
+		</div>
+	</div>
+
+	<!-- Filter starts -->
+	<div class="row">
+		<div class="col-12">
+			<div class="users-list-filter px-2">
+				<!-- <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+				<div class="row border rounded py-2 mb-2 mx-n2">
+					<div class="col-12 col-sm-6 col-lg-4">
+						<label for="users-list-verified">{{'DOCUMENT_TYPE'|translate}}</label>
+						<fieldset class="form-group">
+							<ng-select [items]="departments$ | async" bindLabel="nameDr" bindValue="nameDr"
+								formControlName="document_type">
+							</ng-select>
+						</fieldset>
+					</div>
+					<div class="col-12 col-sm-6 col-lg-2 d-flex align-items-center">
+						<button type="submit" class="btn btn-primary btn-block users-list-clear">
+							{{'SEARCH'|translate}}
+						</button>&nbsp;
+						<button type="reset" class="btn btn-warning btn-block users-list-clear" style="margin-top:initial" (click)="resetFilters()">
+							{{'CLEAR'|translate}}
+						</button>
+					</div>
+				</div>
+			</form> -->
+			</div>
+		</div>
+	</div>
+	<!-- Filter ends -->
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+						(click)="reload()">
+						<i class="ft ft-refresh-cw"></i>
+					</button>
+					<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+						[title]=" 'ADD_IMAGE' | translate" [disabled]="loading" (click)="addNewRecord()">
+						<i class="ft ft-plus"></i>
+					</button>
+
+					<!-- <div class="col-md-3 col-3">
+					<div class="form-group">
+						<select #pageLength class="form-control" (change)="setPageLength(pageLength.value)">
+						<option *ngFor=" let pl of pageLengths" [selected]="20">
+							{{ pl.count }} {{ 'RECORDS' | translate }}
+						</option>
+						<option value="-1">{{ 'ALL' | translate }}</option>
+						</select>
+					</div>
+					</div> -->
+				</div>
+				<div class="card-content">
+					<div class="card-body">
+						<ng-container *ngIf="tableOptions">
+							<ngx-datatable [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+								rowHeight="auto" #mainDatatable class="bootstrap core-bootstrap" [rows]="rows"
+								[limit]="tableOptions.length" [loadingIndicator]="true" [scrollbarH]="true"
+								[cssClasses]="cssClasses" (page)="setPage($event)" [count]="recordsTotal"
+								[externalPaging]="true">
+								<ngx-datatable-column name="{{'ID'|translate}}" prop="ID" [width]="1">
+								</ngx-datatable-column>
+								<ngx-datatable-column name="{{'NAME'|translate}}" prop="NAME" [width]="1"></ngx-datatable-column>
+								<ngx-datatable-column name="{{'URL'|translate}}" [width]="-270">
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										<span dir="ltr">{{baseUrl + '/api/public/download-image/' + row.ID}}</span>
+									</ng-template>
+								</ngx-datatable-column>
+								<ngx-datatable-column name="{{'THUMBNAIL' | translate}}" [width]="10">
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										<img src="{{'api/public/download-thumbnail/' + row.ID}}"
+											style="max-width: 20%; height: auto;" />
+									</ng-template>
+								</ngx-datatable-column>
+								<ngx-datatable-column name="{{'ACTIONS'|translate}}" [width]="25">
+									<ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="row_index">
+										<button type="button" class="btn btn-icon round mr-2"
+											[title]="'VIEW_IMAGE' | translate" (click)="openViewPhotoModal(row.ID)">
+											<i class="ft-eye text-primary cursor-pointer "></i>
+										</button>
+										<button type="button" class="btn btn-icon round" [title]="'EDIT' | translate" (click)="openEditPhotoComponent(row)">
+											<i class="ft-edit text-primary cursor-pointer"></i>
+										</button>
+										<button type="button" class="btn btn-icon round" (click)="openDeleteModal(row.ID)" [title]="'DELETE_RECORD' | translate">
+											<i class="ft ft-trash text-warning cursor-pointer"></i>
+										</button>
+									</ng-template>
+								</ngx-datatable-column>
+							</ngx-datatable>
+						</ng-container>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</section>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+	[fullScreen]="true">
+</ngx-spinner>

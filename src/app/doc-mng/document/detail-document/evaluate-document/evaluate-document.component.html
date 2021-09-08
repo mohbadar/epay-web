@@ -1,0 +1,85 @@
+<div class="modal-header">
+	<h4 class="modal-title">{{'DOCUMENT_EVALUATION'|translate}}</h4>
+	<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+	<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<form autocomplete="off" [formGroup]="newForm">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-12">
+				<!-- <div class="col-12" *ngIf="newForm.controls.referredDepartmentId">
+					<div class="form-group">
+						<label for="users-list-role">{{'REFERRED_TO'|translate}}<span class="required-field">*</span></label>
+						<ng-select [items]="departments$ | async" bindLabel="name" bindValue="id" formControlName="referredDepartmentId">
+						</ng-select>
+						<small *ngIf="getError('referredDepartmentId') as error" class="text-danger">{{ error }}</small>
+					</div>
+				</div>
+				<div class="col-12" *ngIf="newForm.controls.ccDepartmentsIds">
+					<div class="form-group">
+						<label for="users-list-role">{{'CC_DEPARTMENTS'|translate}}</label>
+						<ng-select multiple="true" [items]="departments$ | async" bindLabel="name" bindValue="id"
+							formControlName="ccDepartmentsIds">
+						</ng-select>
+						<small *ngIf="getError('ccDepartmentsIds') as error" class="text-danger">{{ error }}</small>
+					</div>
+				</div>
+				<div class="col-12" *ngIf="newForm.controls.content">
+					<div class="form-group">
+						<label for="users-list-role">{{'CONTENT'|translate}}</label>
+						<textarea class="form-control" rows="3" formControlName="content"></textarea>
+					</div>
+				</div> -->
+
+				<div class="col-12">
+					<div class="form-group">
+						<label class="form-control-label" for="date">{{'IS_PURSUABLE'|translate}}<span class="required-field">*</span></label>
+						<div class="controls">
+							<div>
+								<ul class="list-unstyled mb-0">
+									<li class="d-inline-block mr-2">
+										<div class="radio radio-primary">
+											<input type="radio" value="YES" (change)="changeScope($event)" name="l-radio"
+											id="l-radio-2" [checked]="followUp">
+										<label class="text-primary" for="l-radio-2">{{ 'YES'|translate }}</label>
+										</div>
+									</li>
+									<li class="d-inline-block">
+										<div class="radio radio-danger">
+											<input type="radio" value="NO" (change)="changeScope($event)"  name="l-radio"
+											id="l-radio-1" [checked]="!followUp">
+										<label class="text-danger" for="l-radio-1">{{ 'NO'|translate }}</label>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12" *ngIf="pursuable">
+				<div class="col-12">
+					<div class="form-group">
+						<label class="form-control-label" for="documentDate">{{'DUE_DATE'|translate}}<span class="required-field">*</span></label>
+						<div class="input-group">
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+									<i class="fa fa-calendar"></i>
+								</button>
+							</div>
+							<input class="form-control" name="dueDate" formControlName="dueDate" ngbDatepicker
+								id="dueDate" #d="ngbDatepicker" >
+							<small *ngIf="getError('dueDate') as error" class="text-danger">{{ error }}</small>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-success" [disabled]="loading" type="button" (click)="submit()">{{ 'SAVE' | translate }}</button>
+		<button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+	</div>
+</form>

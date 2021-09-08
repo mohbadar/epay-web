@@ -1,0 +1,73 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ "CREATE_MINISTRY" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+      <form class="col-12" [formGroup]="ministryCreateForm" (ngSubmit)="onFormSubmit()">
+        <ngx-spinner
+          bdColor="rgba(255, 255, 255, 0.100)"
+          size="medium"
+          color="black"
+          type="ball-scale-multiple"
+          fullScreen="false">
+        </ngx-spinner>
+        
+        <div class="col-12 form-group">
+          <label>{{ "NAME_ENGLISH" | translate }}</label>
+          <input
+            type="text"
+            [placeholder]="'ENTER_ENGLISH_NAME' | translate"
+            class="form-control"
+            formControlName="nameEn"
+            required
+            [ngClass]="{'error-border': ministryCreateForm.get('nameEn').hasError('required') && ministryCreateForm.get('nameEn').touched}"
+          />
+          <small class="col-12 text-danger pl-0"
+          *ngIf="ministryCreateForm.get('nameEn').hasError('required') && (ministryCreateForm.get('nameEn').touched)">
+              {{ "IS_REQUIRED" | translate }}
+          </small>
+        </div>
+
+        <div class="col-12 form-group">
+          <label>{{ "NAME_DARI" | translate }}</label>
+          <input
+            type="text"
+            [placeholder]="'ENTER_DARI_NAME' | translate"
+            class="form-control"
+            formControlName="nameDr"
+            required
+            [ngClass]="{'error-border': ministryCreateForm.get('nameDr').hasError('required') && ministryCreateForm.get('nameDr').touched}"
+          />
+          <small class="col-12 text-danger pl-0"
+          *ngIf="ministryCreateForm.get('nameDr').hasError('required') && (ministryCreateForm.get('nameDr').touched)">
+              {{ "IS_REQUIRED" | translate }}
+          </small>
+        </div>
+
+        <div class="col-12 form-group">
+          <label>{{ "NAME_PASHTO" | translate }}</label>
+          <input
+            type="text"
+            [placeholder]="'ENTER_PASHTO_NAME' | translate"
+            class="form-control"
+            formControlName="namePs"
+            required
+            [ngClass]="{'error-border': ministryCreateForm.get('namePs').hasError('required') && ministryCreateForm.get('namePs').touched}"
+          />
+          <small class="col-12 text-danger pl-0"
+          *ngIf="ministryCreateForm.get('namePs').hasError('required') && (ministryCreateForm.get('namePs').touched)">
+              {{ "IS_REQUIRED" | translate }}
+          </small>
+        </div>
+
+        
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary btn-sm btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+          <button class="btn btn-secondary btn-fill btn-sm" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+        </div>
+      </form>
+  </div>
+</div>

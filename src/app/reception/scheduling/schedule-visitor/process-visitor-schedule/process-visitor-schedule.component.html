@@ -1,0 +1,79 @@
+<div class="modal-header">
+	<h4 class="modal-title">{{ "PROCESS_SCHEDULE" | translate }}</h4>
+	<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<form class="col-12" id="prcessForm" [formGroup]="prcessForm" (ngSubmit)="onFormSubmit()">
+			<ngx-spinner bdColor="rgba(255, 255, 255, 0.100)"
+				size="medium" color="black" type="ball-scale-multiple" fullScreen="false">
+			</ngx-spinner>
+			
+			<div class="row d-flex">
+				<div class="col-4 text-center">
+					<img [src]="visitorPhotoURL" (error)="imageError($event.target)" width="150" height="150" alt="Avatar" id="imageId" class="rounded">
+					<!-- <img src="assets/img/elements/01.png" alt="element 01" width="190" class="mt-sm-2"> -->
+					<small *ngIf="getError('photo') as error" class="text-danger">{{ error }}</small>
+					
+					<button type="button" class="btn btn-outline-success btn-icon mr-1 mb-1"
+						(click)="capturePhoto();"><i class="ft ft-maximize"></i></button>
+					<hr />
+					<div class="form-group">
+						<label for="subject">{{'STATUS'|translate}}<span class="required-field">*</span></label>
+						<div class="controls">
+							<ng-select formControlName="status">
+								<ng-option *ngFor="let item of statuses$" [value]="item.id">{{ item.name|translate }}</ng-option>
+							</ng-select>
+							<small *ngIf="getError('status') as error" class="text-danger">{{ error }}</small>
+						</div>
+					</div>
+				</div>
+				<div class="col-8">
+					<div class="form-group row">
+						<div class="col-6 col-md-6"><strong>{{'VISIT_ID'|translate}}</strong></div>
+						<div class="col-6 col-md-6">{{ data['VISIT_ID'] }}</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-6 col-md-6"><strong>{{'VISIT_DATE'|translate}}</strong></div>
+						<div class="col-6 col-md-6">{{ data['VISIT_DATE']| date: 'yyyy-MM-dd'|jalali }} {{ data['VISIT_TIME'] }}</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-6 col-md-6"><strong>{{'FIRST_NAME'|translate}}</strong></div>
+						<div class="col-6 col-md-6">{{ data['FIRST_NAME'] }}</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-6 col-md-6"><strong>{{'LAST_NAME'|translate}}</strong></div>
+						<div class="col-6 col-md-6">{{ data['LAST_NAME'] }}</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-6 col-md-6"><strong>{{'FATHER_NAME'|translate}}</strong></div>
+						<div class="col-6 col-md-6">{{ data['FATHER_NAME'] }}</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-6 col-md-6"><strong>{{'PHONE_NO'|translate}}</strong></div>
+						<div class="col-6 col-md-6">{{ data['PHONE_NO'] }}</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-6 col-md-6"><strong>{{'EMAIL'|translate}}</strong></div>
+						<div class="col-6 col-md-6">{{ data['EMAIL'] }}</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-6 col-md-6"><strong>{{'TAZKIRA'|translate}}</strong></div>
+						<div class="col-6 col-md-6">{{ data['TAZKIRA'] }}</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-6 col-md-6"><strong>{{'ADDRESS'|translate}}</strong></div>
+						<div class="col-6 col-md-6">{{ data['ADDRESS'] }}</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12">
+				<button type="submit" class="btn btn-primary btn-sm btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+				<button class="btn btn-secondary btn-fill btn-sm" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+			</div>
+		</form>
+	</div>
+</div>

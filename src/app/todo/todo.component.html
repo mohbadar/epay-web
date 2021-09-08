@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">{{'TODO_LIST'|translate}}
+			<!-- <div class="search-wrapper">
+				<div class="search-bar mt-3">
+					<form action="javascript:;">
+						<div class="page-search-input form-group position-relative">
+						<input type="search" class="form-control rounded-right form-control-lg shadow pl-2" id="searchbar"
+							placeholder="Search">
+						<button class="btn btn-primary search-btn rounded position-absolute" type="button">
+							<span class="d-none d-sm-block">Search</span>
+							<i class="ft-search d-block d-sm-none"></i>
+						</button>
+						</div>
+					</form>
+				</div>
+			</div> -->
+		</div>
+    </div>
+</div>
+<section id="basic-input" id="newForm">
+    <div class="row">
+        <div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" (click)="reload()">
+						<i class="ft ft-refresh-cw"></i>
+					</button>
+					<button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right" title="Add Todo"
+						(click)="addNewRecord()">
+						<i class="ft ft-plus"></i>
+					</button>
+				</div>
+				<div class="card-content">
+					<div class="card-body">
+						<ul class="list-group">
+							<li class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let todo of todos; let todoIndex=index">	
+								<div class="d-flex w-100 justify-content-between">
+									<h5 class="mb-3" [class.delete-text]="todo.done===true">
+										<button type="button" *ngIf="todo.done==false && todo.archived==false" class="btn btn-outline-success btn-icon round mr-1 mb-1" title="Done"
+											(click)="completed(todo.id)">
+											<i class="ft ft-check"></i>
+										</button>
+										<button type="button" *ngIf="todo.done===true && todo.archived===false" class="btn btn-outline-secondary btn-icon round mr-1 mb-1" title="Archive"
+											(click)="archive(todo.id)">
+											<i class="ft ft-save"></i>
+										</button>
+										{{ todo.subject }}
+										<div class="avatar mr-2" *ngIf="todo.bgColor!='null'" [class]="todo.bgColor">
+											<div class="avatar-content"></div>
+										</div>
+										<small *ngIf="todo.archived===true"><span class="badge badge-pill badge-light mb-1 mr-2">{{ 'ARCHIVED'|translate }}</span></small>
+									</h5>
+									<small class="text-muted">
+										{{ baseService.parseDateObjectAsDate(todo.createdAt) }}
+										<button type="button" class="btn btn-outline-warning btn-icon round mr-1 mb-1" *ngIf="todo.done!==true && todo.archived!==true"
+											(click)="editRecord(todo)">
+											<i class="ft-edit-1 font-medium-3"></i>
+										</button>
+										<button type="button" class="btn btn-outline-danger btn-icon round mr-1 mb-1" *ngIf="todo.archived!==true"
+											(click)="delete(todo.id)">
+											<i class="ft-trash font-medium-3"></i>
+										</button>
+									</small>
+								</div>
+								<p class="mb-2" [class.delete-text]="todo.done===true">{{ todo.details }}</p>
+								<!-- <small class="text-muted">Donec id elit non mi porta.</small> -->
+							</li>
+						</ul>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
+</section>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade" [fullScreen]="true">
+</ngx-spinner>

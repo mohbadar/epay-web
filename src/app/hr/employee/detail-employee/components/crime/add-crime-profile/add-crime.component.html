@@ -1,0 +1,72 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'ADD'|translate}}&nbsp;{{'OFF_DUTY_CRIMES'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="form-group">
+        <label for="profileJob">{{'POSITION_TITLE'|translate}}
+        </label>
+        <div class="controls">
+          <ng-select [items]="profileJob$|async" bindLabel="positionTitle" bindValue="id" formControlName="profileJob"
+            (clear)="setToNull(addForm,'profileJob')">
+          </ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="form-group">
+        <label class="form-control-label" for="date">{{'DATE'|translate}}
+          <span class="required-field">*</span>
+        </label>
+        <div class="controls">
+          <div class="input-group">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="h.toggle()" type="button">
+                <i class="fa fa-calendar"></i>
+              </button>
+            </div>
+            <input class="form-control" formControlName="date" ngbDatepicker #h="ngbDatepicker"
+              [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.date.invalid, 'is-valid': addFormSubmitted && !cpf.date.invalid }"
+              required>
+          </div>
+          <div *ngIf="addFormSubmitted && (cpf.date.invalid || cpf.date.errors?.required)"
+            class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+            {{'DATE'|translate}} {{'IS_REQUIRED'|translate}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12 col-ms-12">
+      <div class="form-group">
+        <label for="crimeType">{{'CRIME_TYPE'|translate}}
+          <span class="required-field">*</span>
+        </label>
+        <div class="controls">
+          <input type="text" formControlName="crimeType" class="form-control"
+            [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.crimeType.invalid, 'is-valid': addFormSubmitted && !cpf.crimeType.invalid }"
+            required>
+          <div *ngIf="addFormSubmitted && (cpf.crimeType.invalid || cpf.crimeType.errors?.required)"
+            class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+            {{'CRIME_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

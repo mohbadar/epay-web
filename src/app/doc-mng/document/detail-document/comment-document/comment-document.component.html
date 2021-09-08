@@ -1,0 +1,29 @@
+<section id="basic-input">
+    <div class="row">
+        <div class="col-12">
+            <app-create-comment-document (newCommentEvent)='addComment($event)' [docId]="docId"></app-create-comment-document>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12" *ngFor="let documentComment of documentComments; let documentCommentIndex=index">
+            <div class="media py-2">
+                <img class="mr-3 avatar rounded" src="assets/img/portrait/small/face-0.png" alt="Avatar" width="35">
+                <div class="media-body">
+                    <h4 class="font-medium-1 mb-0">{{ documentComment.createdBy.name }}
+                        <span class="badge bg-light-secondary font-small-3 ml-1 mr-1">{{ documentComment.createdBy.username }}</span>
+                        <span class="badge bg-light-info font-small-3 ml-1 mr-1">{{ documentComment.createdBy?.job?.nameDr }}</span>
+                        <span class="badge bg-light-secondary font-small-3 ml-1 mr-1">{{ documentComment.createdBy?.department.nameDr }}</span>
+                        <span class="badge bg-light-secondary font-small-3 ml-1 mr-1">{{ documentComment.createdBy?.entity.nameDr }}</span>
+                    </h4>
+                    <pre class="grey font-small-3 mt-2 m-0" [innerHtml]="documentComment.comment"></pre>
+                </div>
+                <span class="ml-2 mr-2"> {{ baseService.parseDateObjectAsDate(documentComment.createdAt) }} </span>
+                <i class="ft-edit mr-1 primary cursor-pointer" (click)="editComment(documentComment.id);"></i>
+                <i class="ft-trash-2 danger cursor-pointer" (click)="deleteComment(documentComment.id);"></i>
+                <!-- <button type="button" class="btn bg-light-primary">
+                <i class="ft-user-check"></i>
+                </button> -->
+            </div>
+        </div>
+    </div>
+</section>

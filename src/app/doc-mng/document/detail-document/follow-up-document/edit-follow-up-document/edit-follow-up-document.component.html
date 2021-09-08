@@ -1,0 +1,89 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'EDIT'|translate}}&nbsp;{{'FOLLOWUP'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form autocomplete="off" [formGroup]="editForm">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12 col-sm-12">
+        <div class="row">
+          <div class="col-12 col-md-6 col-sm-6">
+            <div class="form-group">
+              <label for="type">{{'FOLLOWUP_TYPE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="type$|async" bindLabel="nameDr" bindValue="id" formControlName="documentFollowupTypeNo"
+                  (clear)="setToNull(editForm,'documentFollowupTypeNo')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.documentFollowupTypeNo.invalid, 'is-valid': addFormSubmitted && !cpf.documentFollowupTypeNo.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.documentFollowupTypeNo.invalid || cpf.documentFollowupTypeNo.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'FOLLOWUP_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label for="summary">{{'SUMMARY'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <textarea cols="20" rows="3" formControlName="summary" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.summary.invalid, 'is-valid': addFormSubmitted && !cpf.summary.invalid }"
+                  required></textarea>
+                <div *ngIf="addFormSubmitted && (cpf.summary.invalid || cpf.summary.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUMMARY'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 col-sm-6">
+            <div class="form-group pull-left">
+              <button (click)="fileInput.click()" class="btn btn-fill btn-primary form-control">
+                {{ 'ADD_FILE' | translate }}
+              </button>
+              <input type="file" class="d-none" name="attachment" #fileInput (change)="fileChangeListener($event)">
+            </div>
+            <div class="col-6 col-sm-6">
+              <span id="fileName" style="word-break: break-all;"></span>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-6 col-sm-6">
+            <div class="form-group">
+              <label for="type">{{'FOLLOWUP_STATUS'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="followupStatus$|async" bindLabel="nameDr" bindValue="id"
+                  formControlName="documentFollowupStatusNo" (clear)="setToNull(editForm,'documentFollowupStatusNo')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.documentFollowupStatusNo.invalid, 'is-valid': addFormSubmitted && !cpf.documentFollowupStatusNo.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.documentFollowupStatusNo.invalid || cpf.documentFollowupStatusNo.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'FOLLOWUP_STATUS'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" [disabled]="loading" type="button"
+      (click)="submit()">{{ 'SAVE' | translate }}</button>
+    <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+  </div>
+</form>

@@ -1,0 +1,52 @@
+<div class="mt-2 mb-2">
+  <div class="" style="border-top: 1px solid lightgrey;">
+    <div class="card-body">
+      <span class="badge font-small-3"
+        [ngClass]="{ 'bg-light-warning': data?.documentFollowupStatusNo == 1,'bg-light-info': data?.documentFollowupStatusNo == 2, 'bg-light-success': data?.documentFollowupStatusNo == 3 }">{{ data?.documentFollowupStatus }}</span>
+      <span class="badge bg-light-primary font-small-3 ml-2 mr-2">{{ 'ADDED_BY' | translate }}
+        <strong>{{ data?.createdBy }}</strong> </span>
+      <span class="badge bg-light-success font-small-3">{{ data.documentFollowupType }}</span>
+      <span class="badge bg-light-secondary font-small-3 ml-2 mr-2 " dir="ltr">{{ data.createdAt | jalaliTime }}</span>
+      <span *ngIf="!data.isFinal" class="badge bg-light-warning font-small-3 ml-2 mr-2 " dir="ltr">{{ 'DRAFT' | translate }}</span>
+
+      <span *ngIf="data.fileName" class="ml-3 mr-3 cursor-pointer" (click)="downloadDocActivityAttachment(data?.id)">
+        <i class="ft ft-download primary"></i>
+      </span>
+
+      <div class="pull-right">
+        <ng-container *ngIf="userId == data.createdByNo && !data.isFinal">
+          <span class="btn badge bg-light-danger mb-1 mr-1 pull-left" (click)="confirmDeleteModal(content, data.id)">
+            <i class="ft-trash-2"></i>
+          </span>
+          <span class="btn badge bg-light-info mb-1 mr-1 pull-left" (click)="editFollowUp(data.id)">
+            <i class="ft-edit"></i>
+          </span>
+          <span class="btn badge bg-light-primary mb-1 mr-1 pull-left" (click)="finalizeActivity(data.id)">
+            <i class="ft-check"></i>
+          </span>
+        </ng-container>
+      </div>
+
+      <br>
+      <br>
+      <p>{{ data.summary }}</p>
+
+
+    </div>
+    <ngx-spinner [fullScreen]="false" [name]="spinnerName"></ngx-spinner>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <p>{{ "ARE_YOU_SURE?" | translate }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="deleteRecord(); modal.close()">
+      {{ "DELETE" | translate }}
+    </button>
+    <button type="button" class="btn btn-light" (click)="modal.close()">
+      {{ "CANCEL" | translate }}
+    </button>
+  </div>
+</ng-template>

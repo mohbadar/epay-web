@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-6 mt-2">
+    <h4 class="primary text-uppercase">{{'SIGNITURE_PAD'|translate}}</h4>
+  </div>
+</div>
+<section>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4">
+                <form [formGroup]="form" (submit)="submit()" *ngIf="isloading">
+                  <div>
+                    <div class="row bg-light">
+                      <app-signiture-field formControlName="signatureField1"></app-signiture-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-5">
+                      <button type="button" (click)="clear()" class="btn btn-info"
+                        [disabled]="!form.controls.signatureField1.valid">{{'CLEAR'|translate}}</button> &nbsp;
+                      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">{{'SUBMIT'|translate}}</button>
+                    </div>
+                    <div class="col-4"></div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-sm-4"></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <img [src]="userSigniture">
+                </div>
+                <div class="col-4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

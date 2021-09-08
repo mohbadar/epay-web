@@ -1,0 +1,207 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'EDIT'|translate}}&nbsp;{{'REWARD'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="profileJob">{{'POSITION_TITLE'|translate}}
+            </label>
+            <div class="controls">
+              <ng-select [items]="profileJob$|async" bindLabel="positionTitle" bindValue="id" formControlName="profileJob"
+                (clear)="setToNull(addForm,'profileJob')">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="type">{{'REWARD_TYPE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="rewardType$|async" bindLabel="nameDr" bindValue="id" formControlName="type"
+                  (clear)="setToNull(addForm,'type')"
+                  (change)="changeReward($event)"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.type.invalid, 'is-valid': addFormSubmitted && !cpf.type.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.type.invalid || cpf.type.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'REWARD_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showCashAmount">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="cashAmount">{{'CASH_AMOUNT'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="cashAmount" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.cashAmount.invalid, 'is-valid': addFormSubmitted && !cpf.cashAmount.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.cashAmount.invalid || cpf.cashAmount.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'CASH_AMOUNT'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showAppreciationDegree">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="appreciationDegree">{{'APPRECIATION_DEGREE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="number" formControlName="appreciationDegree" min="1" max="3" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.appreciationDegree.invalid, 'is-valid': addFormSubmitted && !cpf.appreciationDegree.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.appreciationDegree.invalid || cpf.appreciationDegree.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'APPRECIATION_DEGREE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="suggestedNumber">{{'SUGGESTION_NUMBER'|translate}}/{{'MAKTUB'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="suggestedNumber" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.suggestedNumber.invalid, 'is-valid': addFormSubmitted && !cpf.suggestedNumber.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.suggestedNumber.invalid || cpf.suggestedNumber.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUGGESTION_NUMBER'|translate}}/{{'MAKTUB'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label class="form-control-label" for="suggestedDate">{{'SUGGESTION_DATE'|translate}}/{{'MAKTUB'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="k.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="suggestedDate" ngbDatepicker #k="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.suggestedDate.invalid, 'is-valid': addFormSubmitted && !cpf.suggestedDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.suggestedDate.invalid || cpf.suggestedDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUGGESTION_DATE'|translate}}/{{'MAKTUB'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 2nd row -->
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="suggestedSource">{{'SUGGESTED_SOURCE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="suggestedSource" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.suggestedSource.invalid, 'is-valid': addFormSubmitted && !cpf.suggestedSource.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.suggestedSource.invalid || cpf.suggestedSource.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUGGESTED_SOURCE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="decreeNumber">{{'DECREE_NUMBER'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="decreeNumber" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.decreeNumber.invalid, 'is-valid': addFormSubmitted && !cpf.decreeNumber.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.decreeNumber.invalid || cpf.decreeNumber.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DECREE_NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label class="form-control-label" for="decreeDate">{{'DECREE_DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="p.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="decreeDate" ngbDatepicker #p="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.decreeDate.invalid, 'is-valid': addFormSubmitted && !cpf.decreeDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.decreeDate.invalid || cpf.decreeDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DECREE_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="degreeSource">{{'SUGGESTED_DECREE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="degreeSource" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.degreeSource.invalid, 'is-valid': addFormSubmitted && !cpf.degreeSource.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.degreeSource.invalid || cpf.degreeSource.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUGGESTED_DECREE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

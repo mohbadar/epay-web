@@ -1,0 +1,111 @@
+<div class="row">
+    <div class="col-md-12">
+        <form [formGroup]="editSystemRegistry" (ngSubmit)="submit()">
+            <div class="form-group">
+                <label>Name</label>
+                <input
+                    type="text"
+                    placeholder="System Registry Name"
+                    name="name"
+                    formControlName="name"
+                    class="form-control"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <input
+                    type="text"
+                    placeholder="Description"
+                    name="description"
+                    formControlName="description"
+                    class="form-control"
+                    required
+                />
+            </div>
+
+
+            <div class="form-group">
+                <label>Slug</label>
+                <input
+                    type="text"
+                    placeholder="Slug"
+                    name="slug"
+                    formControlName="slug"
+                    class="form-control"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label>Registry Type</label>
+                <select
+                    id="form_type"
+                    data-title="Single Select"
+                    name="form_type"
+                    class="selectpicker form-type-selectpicker"
+                    required
+                    data-style="btn-primary btn-fill btn-block"
+                    data-menu-style="dropdown-blue"
+                    formControlName="registryType"
+                >
+                    <option value="map_layer" >Map layer</option>
+                    <option value="datatables" >Datatables</option>
+                    <option value="dashboard" >Dashboard</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Content</label>
+                <textarea
+                    placeholder="content"
+                    name="content"
+                    formControlName="content"
+                    class="form-control"
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <ul class="list-unstyled mb-0">
+                    <li class="d-inline-block mr-2">
+                      <div class="radio radio-primary">
+                        <input type="radio" name="color-radio" id="color-radio-1" checked>
+                        <label for="color-radio-1">Primary</label>
+                      </div>
+                    </li>
+                    <li class="d-inline-block mr-2">
+                      <div class="radio radio-secondary">
+                        <input type="radio" name="color-radio" id="color-radio-2">
+                        <label for="color-radio-2">Secondary</label>
+                      </div>
+                    </li>
+                </ul>
+                <!-- <bSwitch
+                    [switch-on-color]="'primary'"
+                    [switch-off-text]="' '"
+                    [switch-on-text]="' '"
+                    name="active"
+                    formControlName="active"
+                >
+                </bSwitch> -->
+            </div>
+
+            <div class="form-group">
+                <button
+                    type="submit"
+                    [disabled]="editSystemRegistry.invalid"
+                    class="btn btn-primary btn-sm btn-fill mx-2"
+                >
+                    Submit</button
+                >&nbsp;&nbsp;
+                <span
+                    class="btn btn-warning btn-fill btn-sm mx-2"
+                    (click)="cancelUpdate()"
+                    >Cancel</span
+                >
+            </div>
+        </form>
+    </div>
+</div>

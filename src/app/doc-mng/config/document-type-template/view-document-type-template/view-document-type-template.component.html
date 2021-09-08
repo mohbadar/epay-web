@@ -1,0 +1,51 @@
+<section id="basic-input">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body" >
+						<div class="row" *ngIf="!dataLoadingFlag">
+							<div class="col-12">
+								<!-- <button type="button" class="btn btn-outline-info btn-icon round pull-right" (click)="editdocument(document.id)"
+									title="{{'EDIT_DOCUMENT'|translate}}">
+									<i class="ft ft-edit-2"></i>
+								</button> -->
+								<button type="button" class="btn btn-outline-secondary btn-icon round pull-right" (click)="print(document.id)"
+									title="{{'PRINT_DOCUMENT'|translate}}">
+									<i class="ft ft-printer"></i>
+								</button>
+							</div>
+							<div class="col-12">
+								<div style="margin-top: 20px;">
+									<div class="row">
+										<div class="col-12">
+
+											<div class="row">
+												<div class="col-sm-2 font-weight-bolder">{{'ENTITY' | translate }}: </div>
+												<div class="col-sm-6">{{ document.entity.nameDr }}</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-2 font-weight-bolder">{{'DEPARTMENT' | translate }}: </div>
+												<div class="col-sm-6">{{ document.department.nameDr }}</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-2 font-weight-bolder">{{'DOCUMENT_TYPE' | translate }}: </div>
+												<div class="col-sm-6">{{ document.documentType.nameDr }}</div>
+											</div>
+											<div class="row">
+												<pre [innerHTML]=" document.template"></pre>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade" [fullScreen]="true">
+</ngx-spinner>
+

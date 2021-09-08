@@ -1,0 +1,257 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'EDIT'|translate}} {{'PROMOTION'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="type">{{'PROMOTION_TYPE'|translate}}
+              <span class="required-field">*</span>
+            </label>
+            <div class="controls">
+              <ng-select [items]="promotionType$ |async" bindLabel="nameDr" bindValue="id" formControlName="type"
+                (clear)="setToNull(addForm,'profileJob')"
+                [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.type.invalid, 'is-valid': addFormSubmitted && !cpf.type.invalid }"
+                required>
+              </ng-select>
+              <div *ngIf="addFormSubmitted && (cpf.type.invalid || cpf.type.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PROMOTION_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="profileJob">{{'POSITION_TITLE'|translate}}
+              <span class="required-field">*</span>
+            </label>
+            <div class="controls">
+              <ng-select [items]="profileJob$|async" bindLabel="positionTitle" bindValue="id" formControlName="profileJob"
+                (clear)="setToNull(addForm,'profileJob')"
+                [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.profileJob.invalid, 'is-valid': addFormSubmitted && !cpf.profileJob.invalid }"
+                required>
+              </ng-select>
+              <div *ngIf="addFormSubmitted && (cpf.profileJob.invalid || cpf.profileJob.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'POSITION_TITLE'|translate}} {{'IS_REQUIRED'|translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="maktubNumber">{{'DECREE_NUMBER'|translate}}/{{'MAKTUB'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="maktubNumber" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.maktubNumber.invalid, 'is-valid': addFormSubmitted && !cpf.maktubNumber.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.maktubNumber.invalid || cpf.maktubNumber.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DECREE_NUMBER'|translate}}/{{'LETTER'|translate}}{{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label" for="maktubDate">{{'DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="h.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="maktubDate" ngbDatepicker #h="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.maktubDate.invalid, 'is-valid': addFormSubmitted && !cpf.maktubDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.maktubDate.invalid || cpf.maktubDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-8">
+            <ul class="list-unstyled mb-0 marginTOPUI">
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" name="color-radio" (click)="RadioClicked($event)" value="civilian"
+                    id="color-radio-2" [checked]="oldcivilanCheck">
+                  <label for="color-radio-2">{{'CIVILIAN'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClicked($event)" value="military" name="color-radio"
+                    id="color-radio-1" [checked]="oldMilitaryCheck">
+                  <label for="color-radio-1">{{'MILITARY'|translate}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row" *ngIf="showOldCivilanGrade">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="oldGrade">{{'GRADE_FROM'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="grade$|async" bindLabel="nameDr" bindValue="id" formControlName="oldGrade"
+                  (clear)="setToNull(addForm,'oldGrade')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.oldGrade.invalid, 'is-valid': addFormSubmitted && !cpf.oldGrade.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.oldGrade.invalid || cpf.oldGrade.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'GRADE_FROM'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showOldMilitaryGrade">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="oldMilitaryGrade">{{'GRADE_FROM'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="militaryGrade$|async" bindLabel="nameDr" bindValue="id" formControlName="oldMilitaryGrade"
+                  (clear)="setToNull(addForm,'oldMilitaryGrade')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.oldMilitaryGrade.invalid, 'is-valid': addFormSubmitted && !cpf.oldMilitaryGrade.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.oldMilitaryGrade.invalid || cpf.oldMilitaryGrade.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'GRADE_FROM'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-8">
+            <ul class="list-unstyled mb-0 marginTOPUI">
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" name="font-radio" (click)="RadioClickedNew($event)" value="civilian"
+                    id="font-radio-2" [checked]="newCivileanCheck">
+                  <label for="font-radio-2">{{'CIVILIAN'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClickedNew($event)" value="military" name="font-radio"
+                    id="font-radio-1" [checked]="newMilitaryCheck">
+                  <label for="font-radio-1">{{'MILITARY'|translate}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row" *ngIf="showNewCivilanGrade">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="newGrade">{{'GRADE_TO'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="grade$|async" bindLabel="nameDr" bindValue="id" formControlName="newGrade"
+                  (clear)="setToNull(addForm,'newGrade')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.newGrade.invalid, 'is-valid': addFormSubmitted && !cpf.newGrade.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.newGrade.invalid || cpf.newGrade.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'GRADE_TO'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showNewMilitaryGrade">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="newMilitaryGrade">{{'GRADE_TO'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="militaryGrade$|async" bindLabel="nameDr" bindValue="id" formControlName="newMilitaryGrade"
+                  (clear)="setToNull(addForm,'newMilitaryGrade')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.newMilitaryGrade.invalid, 'is-valid': addFormSubmitted && !cpf.newMilitaryGrade.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.newMilitaryGrade.invalid || cpf.newMilitaryGrade.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'GRADE_TO'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="row">
+              <div class="col-sm-3 paddingQadam">
+                <p class="MarginHTopK">{{'QADAM'|translate}} :</p>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="qadamYear">{{'QADAM_YEAR'|translate}}
+                  </label>
+                  <div class="controls">
+                    <input type="number" min="1" max="100" formControlName="qadamYear"  class="form-control form-control-sm">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="qadamMonth">{{'QADAM_MONTH'|translate}}
+                  </label>
+                  <div class="controls">
+                    <input type="number" min="1" max="12" formControlName="qadamMonth" class="form-control form-control-sm">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="qadamDay">{{'QADAM_DAY'|translate}}
+                  </label>
+                  <div class="controls">
+                    <input type="number"  min="1" max="31" formControlName="qadamDay" class="form-control form-control-sm">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

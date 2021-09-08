@@ -1,0 +1,66 @@
+<section >
+	<div class="row auth-height full-height-vh m-0">
+		<div class="col-12 d-flex align-items-center justify-content-center">
+		<div class="card overflow-hidden">
+			<div class="card-content">
+			<div class="card-body auth-img">
+				<ngx-spinner bdColor="rgba(255, 255, 255, 0.500)" size="large" color="black" type="ball-scale-multiple" fullScreen="false"> </ngx-spinner>
+				<div class="row m-5">
+				
+
+
+            <div class="row">
+                <div style="padding: 10px;">
+                <div class="card overflow-hidden">
+                    <div  class="card-body">
+                        <ngx-spinner bdColor="rgba(255, 255, 255, 0.500)" size="medium" color="black" type="ball-scale-multiple" fullScreen="true"> </ngx-spinner>
+                        <div class="col-12">
+                            <ngb-alert type="light-danger" class="mb-2" *ngIf="isOpFailed" (close)="isOpFailed = false">
+                            <p class="mb-5">{{ "LOGIN_FAILED" | translate }}</p>
+                            </ngb-alert>
+                                <form [formGroup]="ePayForm" (ngSubmit)="onSubmit()">
+
+                                
+                                    <div class="form-group">
+                                        <input type="text" 
+                                        formControlName="cardno" 
+                                        class="form-control"
+                                        [placeholder]="'CARD_NO' | translate"
+                                        [ngClass]="{ 'is-invalid': formSubmitted && lf.cardno.invalid, 'is-valid': formSubmitted && !lf.cardno.invalid }"
+                                        required>
+                                        <div *ngIf="formSubmitted && (lf.cardno.invalid || lf.cardno.errors?.required)"
+                                        class="help-block mt-1 text-danger"> 
+                                        <i class="ft-alert-circle align-middle"></i>
+                                            {{ "IS_REQUIRED" | translate }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" formControlName="expirationDate" class="form-control" [placeholder]="'EXPIRATION_DATE' | translate"
+                                        [ngClass]="{ 'is-invalid': formSubmitted && lf.expirationDate.invalid, 'is-valid': formSubmitted && !lf.expirationDate.invalid }"
+                                        required>
+                                        <div *ngIf="formSubmitted && (lf.expirationDate.invalid || lf.expirationDate.errors?.required)"
+                                        class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                                        {{ "IS_REQUIRED" | translate }}
+                                        </div>
+                                    </div>
+                                   
+                            
+                                    <div>
+                                        <button style="width:100%;" class="btn btn-info" type="submit">{{'SEND'| translate}}</button>
+                                    </div>
+                                    </form>
+
+                                    </div>
+            
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+				</div>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</section>

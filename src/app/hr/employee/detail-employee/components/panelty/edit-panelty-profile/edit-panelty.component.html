@@ -1,0 +1,348 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'EDIT'|translate}}&nbsp;{{'PENALTY'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group">
+            <label for="profileJob">{{'POSITION_TITLE'|translate}}
+            </label>
+            <div class="controls">
+              <ng-select [items]="profileJob$|async" bindLabel="positionTitle" bindValue="id" formControlName="profileJob"
+                (clear)="setToNull(addForm,'profileJob')">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="type">{{'PANELTY_TYPE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="paneltyType$|async" bindLabel="nameDr" bindValue="id" formControlName="type"
+                  (clear)="setToNull(addForm,'type')"
+                  (change)="changeReward($event)"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.type.invalid, 'is-valid': addFormSubmitted && !cpf.type.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.type.invalid || cpf.type.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'PANELTY_TYPE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12" *ngIf="showStatus">
+            <div class="form-group">
+              <label for="status">{{'STATUS'|translate}}
+              </label>
+              <div class="controls">
+                <ng-select [items]="status$|async" bindLabel="nameDr" bindValue="id" formControlName="status"
+                  (clear)="setToNull(addForm,'status')">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="suggestedNumber">{{'SUGGESTION_NUMBER'|translate}}/{{'MAKTUB'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="suggestedNumber" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.suggestedNumber.invalid, 'is-valid': addFormSubmitted && !cpf.suggestedNumber.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.suggestedNumber.invalid || cpf.suggestedNumber.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUGGESTION_NUMBER'|translate}}/{{'MAKTUB'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label class="form-control-label" for="suggestedDate">{{'SUGGESTION_DATE'|translate}}/{{'MAKTUB'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="k.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="suggestedDate" ngbDatepicker #k="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.suggestedDate.invalid, 'is-valid': addFormSubmitted && !cpf.suggestedDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.suggestedDate.invalid || cpf.suggestedDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUGGESTION_DATE'|translate}}/{{'MAKTUB'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 2nd row -->
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="suggestedSource">{{'SUGGESTED_SOURCE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="suggestedSource" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.suggestedSource.invalid, 'is-valid': addFormSubmitted && !cpf.suggestedSource.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.suggestedSource.invalid || cpf.suggestedSource.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUGGESTED_SOURCE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="decreeNumber">{{'DECREE_NUMBER'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="decreeNumber" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.decreeNumber.invalid, 'is-valid': addFormSubmitted && !cpf.decreeNumber.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.decreeNumber.invalid || cpf.decreeNumber.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DECREE_NUMBER'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label class="form-control-label" for="decreeDate">{{'DECREE_DATE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <div class="input-group">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="p.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" formControlName="decreeDate" ngbDatepicker #p="ngbDatepicker"
+                    [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.decreeDate.invalid, 'is-valid': addFormSubmitted && !cpf.decreeDate.invalid }"
+                    required>
+                </div>
+                <div *ngIf="addFormSubmitted && (cpf.decreeDate.invalid || cpf.decreeDate.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'DECREE_DATE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="degreeSource">{{'SUGGESTED_DECREE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="degreeSource" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.degreeSource.invalid, 'is-valid': addFormSubmitted && !cpf.degreeSource.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.degreeSource.invalid || cpf.degreeSource.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'SUGGESTED_DECREE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showPositionTitle">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="positionTitle">{{'POSITION_TITLE'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="positionTitle" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.positionTitle.invalid, 'is-valid': addFormSubmitted && !cpf.positionTitle.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.positionTitle.invalid || cpf.positionTitle.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'POSITION_TITLE'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showPosition">
+          <div class="col-12 col-sm-8">
+            <ul class="list-unstyled mb-0 marginTOPUI">
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" name="p-radio" (click)="RadioClickedPosition($event)" value="civilian"
+                    id="p-radio-2" [checked]="showCivilanPosition">
+                  <label for="p-radio-2">{{'CIVILIAN'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClickedPosition($event)" value="military" name="p-radio"
+                    id="p-radio-1" [checked]="showMilitaryPosition">
+                  <label for="p-radio-1">{{'MILITARY'|translate}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row" *ngIf="showPosition && showCivilanPosition">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="position">{{'POSITION'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="position$|async" bindLabel="nameDr" bindValue="id" formControlName="position"
+                  (clear)="setToNull(addForm,'position')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.position.invalid, 'is-valid': addFormSubmitted && !cpf.position.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.position.invalid || cpf.position.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'POSITION'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showPosition && showMilitaryPosition">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="militaryPosition">{{'POSITION'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="militaryPositon$|async" bindLabel="nameDr" bindValue="id" formControlName="militaryPosition"
+                  (clear)="setToNull(addForm,'militaryPosition')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.militaryPosition.invalid, 'is-valid': addFormSubmitted && !cpf.militaryPosition.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.militaryPosition.invalid || cpf.militaryPosition.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'POSITION'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showRadio">
+          <div class="col-12 col-sm-8">
+            <ul class="list-unstyled mb-0 marginTOPUI">
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" name="color-radio" (click)="RadioClicked($event)" value="ministry"
+                    id="color-radio-2" checked>
+                  <label for="color-radio-2">{{'MINISTRY'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClicked($event)" value="authority" name="color-radio"
+                    id="color-radio-1">
+                  <label for="color-radio-1">{{'AUTHORITY'|translate}}</label>
+                </div>
+              </li>
+              <li class="d-inline-block mr-2">
+                <div class="radio radio-primary">
+                  <input type="radio" (click)="RadioClicked($event)" value="commission" name="color-radio"
+                    id="color-radio-3">
+                  <label for="color-radio-3">{{'COMMISSION'|translate}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row" *ngIf="showMinistry">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="ministry">{{'MINISTRY'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="ministrie$|async" bindLabel="nameDr" bindValue="id"
+                  formControlName="ministry" (clear)="setToNull(addForm,'ministry')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.ministry.invalid, 'is-valid': addFormSubmitted && !cpf.ministry.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.ministry.invalid || cpf.ministry.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'MINISTRY'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showAuthority">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="authority">{{'AUTHORITY'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="authoritie$|async" bindLabel="nameDr" bindValue="id"
+                  formControlName="authority" (clear)="setToNull(addForm,'authority')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.authority.invalid, 'is-valid': addFormSubmitted && !cpf.authority.invalid }">
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.authority.invalid || cpf.authority.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'AUTHORITY'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showCommission">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="commission">{{'COMMISSION'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <ng-select [items]="commission$|async" bindLabel="nameDr" bindValue="id"
+                  formControlName="commission" (clear)="setToNull(addForm,'commission')"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.commission.invalid, 'is-valid': addFormSubmitted && !cpf.commission.invalid }"
+                  required>
+                </ng-select>
+                <div *ngIf="addFormSubmitted && (cpf.commission.invalid || cpf.commission.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'COMMISSION'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

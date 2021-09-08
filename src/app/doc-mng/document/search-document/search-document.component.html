@@ -1,0 +1,98 @@
+<div class="modal-header">
+    <h4>{{ 'SEARCH_DOCUMENT'| translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="padding-bottom:40px;">
+	<!-- Filter starts -->
+	<div class="row">
+		<div class="col-12">
+			<form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+				<div class="row rounded py-2 mb-2 mx-n2">
+					<div class="col-12 col-sm-6 col-lg-4">
+						<label for="users-list-verified">{{'HOST_DEPARTMENT'|translate}}</label>
+						<fieldset class="form-group">
+							<ng-select [items]="departments$ | async" bindLabel="name" bindValue="id"
+								formControlName="host_department">
+							</ng-select>
+						</fieldset>
+					</div>
+
+					<div class="col-12 col-sm-6 col-lg-2">
+						<label for="users-list-role">{{'SUBJECT'|translate}}</label>
+						<fieldset class="form-group">
+							<input type="text" class="form-control" formControlName="visit_subject"/>
+						</fieldset>
+					</div>
+					<div class="col-12 col-sm-6 col-lg-2">
+						<label for="users-list-status">{{'SOURCE'|translate}}</label>
+						<fieldset class="form-group">
+							<input type="text" class="form-control"  formControlName="visit_source"/>
+						</fieldset>
+					</div>
+
+                    <div class="col-12 col-sm-6 col-lg-2">
+                        <div class="form-group">
+                            <label class="form-control-label" for="visit_date">{{'VISIT_DATE'|translate}}
+                                <span class="required-field">*</span>
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                                </div>
+                                <input class="form-control" name="visit_date" formControlName="visit_date" ngbDatepicker
+                                    id="visitDate" #d="ngbDatepicker">
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				<div class="row rounded py-2 mb-2 mx-n2 justify-content-center">
+					<div class="col-12 col-sm-6 col-lg-2 d-flex align-items-center">
+						<button type="submit" class="btn btn-primary btn-block users-list-clear">
+							{{'SEARCH'|translate}}
+						</button>&nbsp;
+						<button type="reset" class="btn btn-warning btn-block users-list-clear" style="margin-top:initial" (click)="resetFilters()">
+							{{'CLEAR'|translate}}
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- Filter ends -->
+
+		<hr />
+			<ng-container *ngIf="tableOptions">
+				<!-- ngx-datatables-server-side -->
+				<ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns" [virtualization]="false"
+					[columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="tableOptions.length"
+					[loadingIndicator]="dataLoadingFlag" [scrollbarH]="true" (page)="setPage($event)" [reorderable]="reorderable" [swapColumns]="swapColumns"
+					[externalPaging]="true" [externalSorting]="true" [count]="recordsTotal" [offset]="tableOptions.draw"
+					[sorts]="[{prop: 'ID', dir: 'desc'}]" (sort)="onSort($event)">
+
+					<ngx-datatable-column name="{{'ACTIONS'|translate}}" [width]="70" [sortable]="false">
+						<ng-template let-row="row" ngx-datatable-cell-template>
+							<button type="button" class="btn btn-sm btn-outline-primary btn-icon round mr-1 mb-1" (click)="select(row)" [title]="'SELECT'|translate">
+                                <i class="ft-check"></i>
+                            </button>
+						</ng-template>
+					</ngx-datatable-column>
+					<ngx-datatable-column name="{{'ID'|translate}}" prop="ID" [width]="100"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'FROM_DEPARTMENT'|translate}}" prop="FROM_DEPARTMENT"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'TO_DEPARTMENT'|translate}}" prop="TO_DEPARTMENT"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'DOCUMENT_TYPE'|translate}}" prop="DOCUMENT_TYPE"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'DOCUMENT_DATE'|translate}}" prop="DOCUMENT_DATE"></ngx-datatable-column>
+					<ngx-datatable-column name="{{'TITLE'|translate}}" prop="TITLE"></ngx-datatable-column>
+
+				</ngx-datatable>
+				<!--/ ngx-datatables-server-side -->
+			</ng-container>
+</div>
+
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+	[fullScreen]="true">
+</ngx-spinner>

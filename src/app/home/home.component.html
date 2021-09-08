@@ -1,0 +1,106 @@
+<section>
+	<div class="row">
+		<div class="col-12">
+			<h4>{{ 'HOME'|translate }}</h4>
+		</div>
+		<div class="col-12">
+			<div class="card-deck-wrapper">
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["RECEPTION_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/reception']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-clock fa-lg text-primary mr-2"></i>{{ 'RECEPTION'|translate }}</h4>
+								<p class="card-text">{{ 'VISTIS_MEETING_SCHEDULE'|translate }}</p>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["HELPDESK_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/helpdesk']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-monitor fa-lg text-primary mr-2"></i>{{ 'HELPDESK'|translate }}</h4>
+								<p class="card-text">{{ 'HELPDESK_ISSUES'|translate }}</p>
+							</div>
+						</div>
+					</div> -->
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["TRANSPORTATION_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/transport']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-truck fa-lg text-primary mr-2"></i>{{ 'TRANSPORT'|translate }}</h4>
+								<p class="card-text">{{ 'TRANSPORATION_REQUEST_UPDATES'|translate }}</p>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["HR_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/hr']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-users fa-lg text-primary mr-2"></i>{{ 'HR'|translate }}</h4>
+								<p class="card-text">{{ 'HR'|translate }}</p>
+							</div>
+						</div>
+					</div> -->
+				</div>
+				<div class="card-deck">
+					<!-- <div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["FINANCE_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/finance']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-users fa-lg text-primary mr-2"></i>{{ 'FINANCE'|translate }}</h4>
+								<p class="card-text">{{ 'FINANCE'|translate }}</p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["LIBRARY_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/library']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-book fa-lg text-primary mr-2"></i>{{ 'LIBRARY'|translate }}</h4>
+								<p class="card-text">{{ 'LIBRARY'|translate }}</p>
+							</div>
+						</div>
+					</div> -->
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["TASK_MANAGEMENT_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/task_mng']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-clipboard fa-lg text-primary mr-2"></i>{{ 'TASK_MANAGEMENT'|translate }}</h4>
+								<p class="card-text">{{ 'TASK_MANAGEMENT'|translate }}</p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["DOC_MANAGEMENT_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/doc_mng']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-file-text fa-lg text-primary mr-2"></i>{{ 'DOC_MANAGEMENT'|translate }}</h4>
+								<p class="card-text">{{ 'DOC_MANAGEMENT'|translate }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr />
+				<div class="card-deck">
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["GCA_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" (click)="openLink('gca.aop.gov.af', 'external')">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-users fa-lg text-primary mr-2"></i>{{ 'GCA_SYS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["GENEVA_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" (click)="openLink('13.235.20.4/geneva', 'external')">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-book fa-lg text-primary mr-2"></i>{{ 'GENEVA_SYS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["SHORA_KABINA_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" (click)="openLink('149.54.11.58:7010', 'external')">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-clipboard fa-lg text-primary mr-2"></i>{{ 'SHORA_KABINA_SYS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

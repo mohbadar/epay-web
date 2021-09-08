@@ -1,0 +1,86 @@
+<section >
+	<div class="row auth-height full-height-vh m-0">
+		<div class="col-12 d-flex align-items-center justify-content-center">
+		<div class="card overflow-hidden">
+			<div class="card-content">
+			<div class="card-body auth-img">
+				<ngx-spinner bdColor="rgba(255, 255, 255, 0.500)" size="large" color="black" type="ball-scale-multiple" fullScreen="false"> </ngx-spinner>
+				<div class="row m-5">
+				
+                        <br/>
+
+                      <div class="row" style="margin-right: 10rem; margin-top: -6rem;">
+                        <div style="padding: 10px;">
+                        <div class="card overflow-hidden">
+                            <div  class="card-body" style="width:20rem;">    
+                                <div class="col-lg-12 col-12 px-4 py-3 align-items-center">
+
+                                    <div  type="button" class="btn btn-lg btn-outline-info btn-icon mr-2 mb-2" 
+                                        (click)="selectService('FUND_TRANSFER')">
+                                        <img class="langimg mr-2" [src]="'./assets/img/flags/' + 'ibft.png'" alt="flag" /><br/>
+                                        <span class="font-small-3">{{ 'FUND_TRANSFER' | translate }}</span>
+                                    </div>
+
+                                    <div  type="button" class="btn btn-lg btn-outline-info btn-icon mr-2 mb-2" 
+                                        (click)="selectService('BALANCE_INQUIRY')">
+                                        <img class="langimg mr-2" [src]="'./assets/img/flags/' + 'balance.png'" alt="flag" /><br/>
+                                        <span class="font-small-3">{{ 'BALANCE_INQUIRY' | translate }}</span>
+                                    </div>
+
+                                    <div  type="button" class="btn btn-lg btn-outline-info btn-icon mr-2 mb-2" 
+                                        (click)="selectService('BILL_PAYMENT')">
+                                        <img class="langimg mr-2" [src]="'./assets/img/flags/' + 'bill.png'" alt="flag" /><br/>
+                                        <span class="font-small-3">{{ 'BILL_PAYMENT' | translate }}</span>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                     </div>
+                     
+                </div>
+
+
+
+
+
+                    <div class="row" style="margin-right: 10rem; margin-top: -6rem;">
+                        <div style="padding: 10px;">
+                        <div class="card overflow-hidden">
+                            <div  class="card-body" style="width:20rem;">    
+                                <div class="col-lg-12 col-12 px-4 py-3 align-items-center">
+
+                                    <div  type="button" class="btn btn-lg btn-outline-info btn-icon mr-2 mb-2" 
+                                        (click)="selectService('FEE_PAYMENT')">
+                                        <img class="langimg mr-2" [src]="'./assets/img/flags/' + 'fee.png'" alt="flag" /><br/>
+                                        <span class="font-small-3">{{ 'FEE_PAYMENT' | translate }}</span>
+                                    </div>
+
+                                    <div  type="button" class="btn btn-lg btn-outline-info btn-icon mr-2 mb-2" 
+                                        (click)="selectService('BRESHNA_BILL')">
+                                        <img class="langimg mr-2" [src]="'./assets/img/flags/' + 'breshna.png'" alt="flag" /><br/>
+                                        <span class="font-small-3">{{ 'BRESHNA_BILL' | translate }}</span>
+                                    </div>
+
+                                    <div  type="button" class="btn btn-lg btn-outline-info btn-icon mr-2 mb-2" 
+                                        (click)="selectService('M2U')">
+                                        <img class="langimg mr-2" [src]="'./assets/img/flags/' + 'm2u.png'" alt="flag" /><br/>
+                                        <span class="font-small-3">{{ 'M2U' | translate }}</span>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                     </div>
+                     
+                </div>
+
+
+
+				</div>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</section>

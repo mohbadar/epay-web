@@ -1,0 +1,126 @@
+/* You can add global styles to this file, and also import other style files */
+// [dir=ltr] {
+    // @import './assets/css/rtl/custom-rtl.scss';
+    // @import './assets/css/rtl/components.css';
+    // @import './assets/css/rtl/rtl.css';
+    // @import './assets/css/rtl/vertical-overlay-menu.css';
+    // @import './assets/css/rtl/horizontal-menu.css';
+    // @import './assets/css/rtl/bootstrap-rtl-min.scss';
+// }
+
+@import "~@swimlane/ngx-datatable/themes/bootstrap.scss";
+@import "~@swimlane/ngx-datatable/assets/icons.css";
+
+@font-face {
+  font-family: "Bahij Halvetica";
+  src: url("./assets/fonts/bahij_helvetica_neue_bold_by_bahijvirtualacademy-dammcmt_0.ttf");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Bahij Halvetica";
+  src: url("./assets/fonts/Bahij_Helvetica_Neue-Light_1.ttf");
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: "Bahij Halvetica";
+  src: url("./assets/fonts/bahij_helvetica_neue_roman_by_bahijvirtualacademy-dammd50_0.ttf");
+  font-weight: normal;
+}
+
+$font-family: "Montserrat",
+"Bahij Halvetica",
+"Segoe UI",
+"Roboto",
+Arial,
+sans-serif;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: $font-family !important;
+}
+
+
+
+.caret-off::before {
+  display: none;
+}
+
+.caret-off::after {
+  display: none;
+}
+
+.zero-margin {
+  margin: 0px!important;
+}
+
+.required-field {
+    color: red;
+  }
+
+  .paddingcustom{
+    padding-top: inherit !important;
+    padding-bottom: inherit !important;
+  }
+  .ProgressBarCustom{
+      padding: inherit !important;
+  }
+
+  .customMarginTop{
+      margin-top: auto !important;
+  }
+  .photo{
+    max-height: 300px;
+    max-width: 300px;
+  }
+.pages a {
+  padding:10px;
+}
+.pages a:hover{
+  color:black;
+}
+.pages.active {
+  color:black;
+  font-weight: bold;
+}
+
+.input-error {
+
+  .ng-select.ng-invalid .ng-select-container,
+  .form-control.ng-invalid,
+  input.ng-invalid img{
+      // #f7b2cb
+      // border-color: #f50505 !important;
+      border-color: #fc0303 !important;
+      border-radius: 2px solid;
+      -webkit-transition: border-color 500ms ease-out;
+      -moz-transition: border-color 500ms ease-out;
+      -o-transition: border-color 500ms ease-out;
+      transition: border-color 500ms ease-out;
+  }
+}
+
+small {
+  font-size: 10px;
+}
+
+.title{
+  font-size: 14px;
+  margin: 5px;
+}
+
+.description{
+  font-size: 14px;
+  margin: 5px;
+}

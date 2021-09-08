@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <div class="row">        
+        <h4 class="modal-title">{{ "PRINT_PREVIEW" | translate }}</h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+        <div class="col-12">
+            <button type="button" class="btn btn-outline-secondary btn-icon round pull-right" (click)="print()"
+                                        title="{{'PRINT_DOCUMENT'|translate}}">
+                                        <i class="ft ft-printer"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <!-- {{this.header}} -->
+        <div style="display: flex; flex-direction: column;">
+            <quill-view-html [content]="this.document.header"></quill-view-html>
+            <quill-view-html [content]="this.document.content"></quill-view-html>
+            <quill-view-html [content]="this.document.footer"></quill-view-html>
+        </div>
+
+    </div>
+
+  </div>

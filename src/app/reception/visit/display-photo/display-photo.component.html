@@ -1,0 +1,12 @@
+<div class="row">
+	<div class="col-sm-12">
+		<div class="snapshot text-center">
+			<!-- <img [src]="webcamImage.imageAsDataUrl" class="photo users-avatar-shadow rounded" /> -->
+            <img [src]="photoURL"
+				(error)="imageError($event.target)" alt="Avatar" id="imageId" class="rounded">
+		</div>
+	</div>
+	<div class="col-md-12 text-center p-1">
+		<button class="btn btn-outline-warning btn-icon mr-1 mb-1" type="button" (click)="dismiss()">{{ 'CLOSE' | translate }}</button>
+	</div>
+</div>

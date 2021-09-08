@@ -1,0 +1,25 @@
+<!--Login Page Starts-->
+<section id="login">
+	<div class="row auth-height full-height-vh m-0">
+		<div class="col-12 d-flex align-items-center justify-content-center">
+		<div class="card overflow-hidden">
+			<div class="card-content">
+			<div class="card-body auth-img">
+				<ngx-spinner bdColor="rgba(255, 255, 255, 0.500)" size="medium" color="black" type="ball-scale-multiple" fullScreen="false"> </ngx-spinner>
+				<div class="row m-0">
+				
+				<div class="col-lg-12 col-12 px-4 py-3 align-items-center">
+					<button *ngFor="let language of languages" type="button" class="btn btn-outline-info btn-icon mr-1 mb-1" 
+						(click)="changeLanguage(language)">
+						<img class="langimg mr-2" [src]="'./assets/img/flags/' + language.icon" alt="flag" />
+						<span class="font-small-3">{{ language.name }}</span>
+					</button>
+				</div>
+				</div>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</section>
+<!--Login Page Ends-->

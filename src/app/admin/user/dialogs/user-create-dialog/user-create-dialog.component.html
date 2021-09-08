@@ -1,0 +1,197 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ "CREATE_USER" | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <form class="col-12" [formGroup]="userCreateForm" (ngSubmit)="onFormSubmit()">
+            <ngx-spinner bdColor="rgba(255, 255, 255, 0.500)" size="medium" color="black" type="ball-scale-multiple"
+                fullScreen="false"> </ngx-spinner>
+            <div class="col-12 form-group">
+                <label>{{ "HAS_REVIEWER" | translate }}</label>
+                <div>
+                    <ui-switch checked formControlName="reviewerRequired" size="small"></ui-switch>
+                </div>
+            </div>
+            <div class="col-12 form-group">
+                <label>{{ "NAME" | translate }}</label>
+                <input type="text" placeholder="Enter name" name="name" class="form-control" formControlName="name"
+                    [ngClass]="{'error-border': userCreateForm.get('name').invalid && userCreateForm.get('name').touched}"
+                    required />
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('name').hasError('required') && (userCreateForm.get('name').touched)">
+                    Name must not be empty
+                </small>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>{{ "USERNAME" | translate }}</label>
+                <input type="text" placeholder="Enter username" name="name" class="form-control"
+                    formControlName="username"
+                    [ngClass]="{'error-border': userCreateForm.get('username').invalid && userCreateForm.get('username').touched}"
+                    required />
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('username').hasError('required') && (userCreateForm.get('username').touched)">
+                    Username must not be empty
+                </small>
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('username').hasError('minlength') && (userCreateForm.get('username').touched)">
+                    Username must be at least 3 characters long.
+                </small>
+            </div>
+
+            <!--  -->
+            <div class="col-12 form-group">
+                <label>{{ "GROUPS" | translate }}</label>
+                <ng-select [items]="groupData" bindLabel="name" bindValue="id" [multiple]="true" groupBy="groups"
+                    placeholder="Select Groups" clearAllText="Clear" formControlName="groups">
+                    <ng-template ng-optgroup-tmp let-item="item">
+                        {{ item.slug }}
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                        {{ item.name }}
+                    </ng-template>
+                </ng-select>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>{{ "MINISTRY/AUTHORITY" | translate }}</label>
+                <ng-select [items]="ministries$" bindLabel="name" bindValue="id"
+                    [placeholder]="'SELECT_MINISTRY/AUTHORITY' | translate" clearAllText="Clear"
+                    formControlName="entityId">
+                </ng-select>
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('entityId').hasError('required') && (userCreateForm.get('entityId').touched)">
+                    Ministry/Authority must not be empty
+                </small>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>{{ "DEPARTMENT" | translate }}</label>
+                <ng-select [items]="departments$" bindLabel="name" bindValue="id"
+                    [placeholder]="'SELECT_DEPARTMENT' | translate" clearAllText="Clear" formControlName="departmentId">
+                </ng-select>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>{{ "ACCESSIBLE_DEPARTMENTS" | translate }}</label>
+                <ng-select [items]="departments$" bindLabel="name" bindValue="id" [multiple]="true"
+                    [placeholder]="'SELECT_ACCESSIBLE_DEPARTMENTS' | translate" clearAllText="Clear"
+                    formControlName="accessibleDepartments">
+                </ng-select>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>{{ "JOB" | translate }}</label>
+                <ng-select [items]="jobs$" bindLabel="nameDr" bindValue="id" [placeholder]="'SELECT_JOB' | translate"
+                    clearAllText="Clear" formControlName="jobId"
+                    [ngClass]="{'error-border': userCreateForm.get('jobId').invalid && userCreateForm.get('jobId').touched}"
+                    required>
+                </ng-select>
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('jobId').hasError('required') && (userCreateForm.get('jobId').touched)">
+                    job must not be empty
+                </small>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>{{ "PHONE_NUMBER" | translate }}</label>
+                <input type="number" placeholder="Enter phone number" name="phone_no" class="form-control"
+                    formControlName="phone_no"
+                    [ngClass]="{'error-border': userCreateForm.get('phone_no').invalid && userCreateForm.get('phone_no').touched}"
+                    required />
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('phone_no').hasError('required') && (userCreateForm.get('phone_no').touched)">
+                    Phone number must not be empty
+                </small>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>{{ "ADDRESS" | translate }}</label>
+                <input type="text" placeholder="Enter address" name="address" class="form-control"
+                    formControlName="address"
+                    [ngClass]="{'error-border': userCreateForm.get('address').invalid && userCreateForm.get('address').touched}"
+                    required />
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('address').hasError('required') && (userCreateForm.get('address').touched)">
+                    Address must not be empty
+                </small>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>{{ "EMAIL_ADDRESS" | translate }}</label>
+                <input type="email" placeholder="Enter email" name="address" class="form-control"
+                    [ngClass]="{'error-border': userCreateForm.get('email').invalid && userCreateForm.get('email').touched}"
+                    formControlName="email" required />
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('email').hasError('required') && (userCreateForm.get('email').touched)">
+                    Email must not be empty
+                </small>
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('email').hasError('email') && (userCreateForm.get('email').touched)">
+                    Email must be of correct form
+                </small>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>{{ "PASSWORD" | translate }}</label>
+                <input type="password" placeholder="Enter password" name="password" class="form-control"
+                    formControlName="password"
+                    [ngClass]="{'error-border': userCreateForm.get('password').invalid && userCreateForm.get('password').touched}"
+                    required />
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('password').hasError('required') && (userCreateForm.get('password').touched)">
+                    Password must not be empty
+                </small>
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('username').hasError('minlength') && (userCreateForm.get('username').touched)">
+                    Password must be at least 3 characters long.
+                </small>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>{{ "CONFIRM_PASSWORD" | translate }}</label>
+                <input type="password" placeholder="Enter confirm password" name="password" class="form-control"
+                    formControlName="confirm_password"
+                    [ngClass]="{'error-border': userCreateForm.get('confirm_password').invalid && userCreateForm.get('confirm_password').touched}"
+                    required />
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('confirm_password').hasError('required') && (userCreateForm.get('confirm_password').touched)">
+                    Confirm password must not be empty
+                </small>
+                <small class="col-12 text-danger pl-0"
+                    *ngIf="userCreateForm.get('confirm_password').touched && userCreateForm.get('password').value !== userCreateForm.get('confirm_password').value">
+                    Passwords don't match
+                </small>
+            </div>
+
+            <div class="col-12 form-group">
+                <label>{{ "ACTIVE" | translate }}</label>
+                <div>
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-inline-block mr-2">
+                            <div class="radio radio-primary">
+                                <input type="radio" value="true" id="active" formControlName="active">
+                                <label class="text-primary" for="active">true</label>
+                            </div>
+                        </li>
+                        <li class="d-inline-block">
+                            <div class="radio radio-danger">
+                                <input type="radio" value="false" id="inactive" formControlName="active">
+                                <label class="text-danger" for="inactive">false</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary mr-sm-2 mb-1">{{ "SUBMIT" | translate }}</button>
+                <button type="button" (click)="closeModal()" class="btn btn-secondary mb-1">{{ "CANCEL" | translate
+                    }}</button>
+            </div>
+        </form>
+    </div>
+</div>

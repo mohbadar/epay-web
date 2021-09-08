@@ -1,0 +1,75 @@
+<div class="modal-header">
+    <div class="modal-title">{{ "VIEW_USER" | translate }}</div>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "HAS_REVIEWER" | translate }} </strong></h6>
+            <h6 class="description badge badge-pill badge-info">
+                {{data.user.reviewerRequired ? "Yes" : "No"}}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "NAME" | translate }}: </strong></h6>
+            <h6 class="description">{{ data.user.name }}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "USERNAME" | translate }}: </strong></h6>
+            <h6 class="description">{{ data.user.username }}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "GROUPS" | translate }}: </strong></h6>
+            <h6 *ngFor="let group of data.groups" class="description badge badge-pill badge-primary mr-1 mb-1">{{
+                group.name }}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "MINISTRY/AUTHORITY" | translate }}: </strong></h6>
+            <h6 class="description">{{ data.user.entity?.nameDr }}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "DEPARTMENT" | translate }}: </strong></h6>
+            <h6 class="description">{{ data.user.department?.nameDr }}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "ACCESSIBLE_DEPARTMENTS" | translate }}: </strong></h6>
+            <h6 *ngFor="let department of data.user.accessibleDepartments"
+                class="description badge badge-pill badge-info mr-1 mb-1">{{ department.nameDr }}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "JOB" | translate }}: </strong></h6>
+            <h6 class="description">{{ data.user.job?.nameDr }}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "PERMISSIONS" | translate }}: </strong></h6>
+            <h6 *ngFor="let auth of data.authorities" class="description badge badge-pill badge-primary mr-1 mb-1">{{
+                auth.authority }}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "EMAIL_ADDRESS" | translate }}: </strong></h6>
+            <h6 class="description">{{ data.user.email }}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "PHONE_NUMBER" | translate }}: </strong></h6>
+            <h6 class="description">{{ data.user.phoneNo }}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "ADDRESS" | translate }}: </strong></h6>
+            <h6 class="description">{{ data.user.address }}</h6>
+        </div>
+        <div class="col-12 form-group">
+            <h6 class="title"><strong>{{ "STATUS" | translate }}: </strong></h6>
+            <h6 class="description badge badge-pill badge-info">
+                {{data.user.active ? "Active" : "Inactive"}}</h6>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer col-12 d-flex flex-sm-row flex-column justify-content-end">
+    <button type="button" class="btn btn-secondary mb-1" (click)="closeModal()">
+        {{ "CANCEL" | translate }}
+    </button>
+</div>

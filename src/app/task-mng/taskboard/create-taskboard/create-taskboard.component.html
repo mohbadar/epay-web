@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <h4 class="modal-title"> {{ 'CREATE_BOARD'|translate }} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">x</button> -->
+</div>
+<form [formGroup]="newForm" (ngSubmit)="submitForm()" id="newForm">
+    <div class="modal-body taskboard-modal">
+        <div class="container">
+            <div class="form-group">
+                <label class="sr-only" for="hidden-label-form-1">{{ 'TITLE'|translate }}</label>
+                <input type="text" id="hidden-label-form-1" class="form-control round" [formControl]="newForm.controls['title']" formControlName="title" [placeholder]="'TITLE'|translate">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="hidden-label-form-6">{{ 'DESCRIPTION'|translate }}</label>
+                <textarea id="hidden-label-form-6" rows="4" class="form-control round" [formControl]="newForm.controls['description']" formControlName="description" [placeholder]="'DESCRIPTION'|translate"></textarea>
+            </div>
+
+            <div class="form-group">
+                <tag-input [formControl]="newForm.controls['tags']" formControlName="tags" [modelAsStrings]="true"></tag-input>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <ul class="list-unstyled mb-0">
+                      <li class="d-inline-block mr-2">
+                        <div class="radio radio-primary">
+                          <input type="radio" value="true" id="public" formControlName="isPublic">
+                          <label class="text-primary" for="public">{{ 'PUBLIC'|translate }}</label>
+                        </div>
+                      </li>
+                      <li class="d-inline-block">
+                        <div class="radio radio-danger">
+                          <input type="radio" value="false" id="private" formControlName="isPublic">
+                          <label class="text-danger" for="private">{{ 'PRIVATE'|translate }}</label>
+                        </div>
+                      </li>
+                  </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer taskboard-modal-footer">
+        <button class="btn btn-primary btn-save" [disabled]="submitted">{{ 'CREATE'|translate }}</button>
+        <button class="btn btn-secondary btn-fill" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+    </div>
+</form>
+  

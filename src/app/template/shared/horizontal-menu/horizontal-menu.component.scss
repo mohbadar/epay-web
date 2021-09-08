@@ -1,0 +1,12 @@
+.m-active {
+  border-radius: .35rem;
+  background-color: #efdeff;
+
+  >a {
+    color: #7441db !important;
+  }
+
+  .active:not(.dropdown-submenu)>a {
+    color: #7441db !important;
+  }
+}

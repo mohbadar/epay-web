@@ -1,0 +1,154 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row" *ngIf="profileData">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="header row">
+                        <div class="col-md-6">
+                            <h4 class="title">{{ 'PROFILE' | translate }}</h4>
+                        </div>
+
+                    </div>
+                    <div class="content">
+                        <form [formGroup]="userForm">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label>{{ 'ID' | translate }}</label>
+                                        <input type="text" class="form-control" name="id" formControlName="id">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>{{ 'USERNAME' | translate }}</label>
+                                        <input type="text" class="form-control" formControlName="username">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">{{ 'EMAIL' | translate }}</label>
+                                        <input type="email" class="form-control" formControlName="email">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ 'NAME' | translate }}</label>
+                                        <input type="text" class="form-control" formControlName="name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ 'PHONE_NO' | translate }}</label>
+                                        <input type="text" class="form-control" formControlName="phone_no">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{ 'ADDRESS' | translate }}</label>
+                                        <input type="text" class="form-control" formControlName="address">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-12 m-2">
+                                    <button class="btn btn-success btn-fill btn-sm" *ngIf="updateProfile" (click)="saveInfo()"><i
+                                            class="fa fa-upload"></i> {{ 'SAVE' | translate }} </button>
+
+                                    <button class="btn btn-sm btn-fill btn-danger" *ngIf="updateProfile" (click)="cancelUpdate()">
+                                            {{ 'CANCEL' | translate }}
+                                        </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <button class="btn btn-success btn-fill btn-sm mr-2" *ngIf="!updateProfile" (click)="updateInfo()">
+                                {{ 'UPDATE_PROFILE' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-user">
+                    <div class="content">
+                        <div class="author">
+                            <a>
+                                <!-- TODO: Change the image link to authentic image and fix the URL of image as well -->
+                                <!-- <img class="avatar border-gray" [src]="url|secure|async" alt="..."
+                                    (error)="imageError($event.target);" /> -->
+                                <img [src]="'api/public/user/' + profileData.id + '/photo?size=250x250'" alt="..." (error)="imageError($event.target)" width="250" height="250" alt="Avatar" class="imageProfile" id="imageId" class="rounded" class="img-thumbnail" />
+
+                                <h4 class="title">{{ profileData.name }}<br />
+                                    <small>{{ profileData.username }}</small>
+                                </h4>
+                            </a>
+                            <button class="btn btn-info btn-fill btn-sm" (click)="openChangeUserPhotoModal()">{{'CHANGE_PICTURE' | translate }}</button>
+                            <button class="btn btn-sm btn-warning" (click)="showPassWordModal(changePasswordModal)">{{'CHANGE_PASSWORD' | translate}}</button>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <ng-template #changePasswordModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{'CHANGE_PASSWORD' | translate}}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-body">
+                <div class="row">
+                    <form class="col-12" [formGroup]="changePasswordForm" (submit)="onResetPasswordSubmit()">
+
+                        <div class="col-12 form-group">
+                            <label for="current_password">{{'CURRENT_PASSWORD' | translate}}</label>
+                            <input type="password" class="form-control" formControlName="current_password" [ngClass]="{'error-border': changePasswordForm.get('current_password').invalid && changePasswordForm.get('current_password').touched}">
+                            <div *ngIf="changePasswordForm.get('current_password').hasError('required') && (changePasswordForm.get('current_password').touched)" class="help-block text-danger"> <i class="ft-alert-circle align-middle"></i> {{'CURRENT_PASSWORD'|translate}} {{'IS_REQUIRED'|translate}}
+                            </div>
+                        </div>
+
+                        <div class="col-12 form-group">
+                            <label for="new-password">{{'NEW_PASSWORD' | translate}}</label>
+                            <input type="password" class="form-control" formControlName="new_password" [ngClass]="{'error-border': changePasswordForm.get('new_password').invalid && changePasswordForm.get('new_password').touched}">
+                            <div *ngIf="changePasswordForm.get('new_password').hasError('required') && (changePasswordForm.get('new_password').touched)" class="help-block text-danger"> <i class="ft-alert-circle align-middle"></i> {{'NEW_PASSWORD'|translate}} {{'IS_REQUIRED'|translate}}
+                            </div>
+                            <div *ngIf="changePasswordForm.get('new_password').hasError('minlength') && (changePasswordForm.get('new_password').touched)" class="help-block text-danger"> <i class="ft-alert-circle align-middle"></i> {{'PASSWORD_MUST_BE_AT_LEAST_8_CHARACTERS'|translate}}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-12 form-group">
+                            <label for="confirm-password">{{'CONFIRM_NEW_PASSWORD'|translate}}</label>
+                            <input type="password" class="form-control" formControlName="confirm_password" [ngClass]="{'error-border': changePasswordForm.get('confirm_password').invalid && changePasswordForm.get('confirm_password').touched}">
+                            <div *ngIf="changePasswordForm.get('confirm_password').hasError('required') && (changePasswordForm.get('confirm_password').touched)" class="help-block text-danger"> <i class="ft-alert-circle align-middle"></i> {{'CONFIRM_NEW_PASSWORD'|translate}} {{'IS_REQUIRED'|translate}}
+                            </div>
+                            <div *ngIf="(changePasswordForm.get('confirm_password').touched) && changePasswordForm.get('new_password').value !== changePasswordForm.get('confirm_password').value" class="help-block text-danger"> <i class="ft-alert-circle align-middle"></i> {{"PASSWORD_AND_CONFIRM_PASSWORD_DO_NOT_MATCH"|translate}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6" style="display: flex; flex-direction: row;">
+                                <button type="submit" class="btn btn-small btn-fill btn-success mr-sm-2 mb-1">{{'SUBMIT'|translate}}</button>
+                                <button type="button" class="btn btn-small btn-fill btn-warning ml-sm-2" (click)="closeModal()">{{'CANCEL'|translate}}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+</div>

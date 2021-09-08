@@ -1,0 +1,60 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{'ADD'|translate}}&nbsp;{{'FAMILY_MEMBERS'|translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="submit()">
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 col-sm-12">
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <div class="form-group">
+              <label for="familytotal">{{'FAMILY_MEMBERS_TOTAL'|translate}}
+                <span class="required-field">*</span>
+              </label>
+              <div class="controls">
+                <input type="text" formControlName="familytotal" class="form-control"
+                  [ngClass]="{ 'is-invalid': addFormSubmitted && cpf.familytotal.invalid, 'is-valid': addFormSubmitted && !cpf.familytotal.invalid }"
+                  required>
+                <div *ngIf="addFormSubmitted && (cpf.familytotal.invalid || cpf.familytotal.errors?.required)"
+                  class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>
+                  {{'FAMILY_MEMBERS_TOTAL'|translate}} {{'IS_REQUIRED'|translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-sm-6">
+      <div class="form-group">
+        <label for="male">{{'MALE'|translate}}
+        </label>
+        <div class="controls">
+          <ng-select [items]="partytypes" bindLabel="name" bindValue="name"
+            formControlName="male" (clear)="setToNull(addForm,'male')">
+          </ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6">
+      <div class="form-group">
+        <label for="female">{{'FEMALE'|translate}}
+        </label>
+        <div class="controls">
+          <ng-select [items]="partytypes" bindLabel="name" bindValue="name"
+            formControlName="female" (clear)="setToNull(addForm,'female')">
+          </ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" [disabled]="loading" type="submit">{{ 'SAVE' | translate }}</button>
+  <button class="btn btn-warning" type="button" (click)="closeModal()">{{ 'CLOSE' | translate }}</button>
+</div>
+</form>

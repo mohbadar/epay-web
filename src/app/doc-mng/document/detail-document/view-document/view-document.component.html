@@ -1,0 +1,369 @@
+<section id="basic-input">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="row" *ngIf="!dataLoadingFlag">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+                                    (click)="reload()">
+                                    <i class="ft ft-refresh-cw"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-info btn-icon round pull-right mr-1 mb-1"
+                                    (click)="editDocument(document.id)" title="{{'EDIT_DOCUMENT'|translate}}"
+                                    *ngIf="isOwner && document?.status != 'FINAL'">
+                                    <i class="ft ft-edit-2"></i>
+                                </button>
+                                <button type="button"
+                                    class="btn btn-outline-warning btn-icon round pull-right mr-1 mb-1"
+                                    (click)="addFollowupDetails(document.id)" title="{{'FOLLOWUP_DETAILS'|translate}}"
+                                    *ngIf="(['DOCMNG_DOC_EVALUATION']|authority) && document.status == 'FINAL'">
+                                    <i class="ft ft-crosshair"></i>
+                                </button>
+                                <button type="button"
+                                    class="btn btn-outline-secondary btn-icon round pull-right mr-1 mb-1"
+                                    (click)="print(document.id)" title="{{'PRINT_DOCUMENT'|translate}}">
+                                    <i class="ft ft-printer"></i>
+                                </button>
+                                <button type="button"
+                                    class="btn btn-outline-success btn-icon round pull-right mr-1 mb-1"
+                                    (click)="finalizeDocStatus(document.id)" title="{{'DONE_DOCUMENT'|translate}}"
+                                    *ngIf="isOwner && document.status != 'FINAL'">
+                                    <i class="ft ft-check"></i>
+                                </button>
+                                <button type="button"
+                                    class="btn btn-outline-success btn-icon round pull-right mr-1 mb-1"
+                                    (click)="setDocStatusExecuted(document.id)"
+                                    title="{{'COMPLETED_DOCUMENT'|translate}}"
+                                    *ngIf="isOwner && document.status == 'FINAL' && document?.documentStatus?.id == 2">
+                                    <i class="ft ft-check-circle"></i>
+                                </button>
+                            </div>
+                            <div class="col-12">
+                                <div style="margin-top: 20px;">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6 col-md-6 flex-column" style="margin-bottom: 10px;">
+                                            <div class="flex-row">
+                                                <div class="title" *ngIf="document.scope == 'EXTERNAL' ">{{'EXTERNAL' |
+                                                    translate }}</div>
+                                                <div class="title" *ngIf="document.scope == 'INTERNAL' ">{{'INTERNAL' |
+                                                    translate }}</div>
+                                                <div>
+                                                    <span class="badge badge-pill" *ngIf="document?.status != 'FINAL'"
+                                                        [ngClass]="{'bg-light-warning':document?.status != 'FINAL' }">
+                                                        {{ document?.status|translate }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex-row" *ngIf="document.documentNo">
+                                                <div class="title">{{'DOCUMENT_NUMBER' | translate }}: </div>
+                                                <div class="description">{{ document.documentNo }}
+                                                </div>
+                                            </div>
+                                            <div class="flex-row" *ngIf="document.documentDate">
+                                                <div class="title">{{'DOCUMENT_DATE' | translate }}: </div>
+                                                <div class="description">{{ document.documentDate | jalali }}</div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="title">{{'DOCUMENT_TYPE' | translate }}: </div>
+                                                <div class="description">{{ document?.documentType.nameDr }}</div>
+                                            </div>
+                                            <div class="flex-row" *ngIf="document.noteType">
+                                                <div class="title">{{'NOTE_SOURCE' | translate }}: </div>
+                                                <div class="description">{{ document.noteType?.nameDr }}</div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="title">{{'FROM_ENTITY' | translate }}: </div>
+                                                <div class="description">{{ document?.fromEntity.nameDr }}</div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="title">{{'FROM_DEPARTMENT' | translate }}: </div>
+                                                <div class="description">{{ document?.fromDepartment.nameDr }}</div>
+                                            </div>
+                                            <div class="flex-row" *ngIf="document.toDepartment">
+                                                <div class="title">{{'TO_DEPARTMENT' | translate }}: </div>
+                                                <div class="description">{{ document.toDepartment?.nameDr }}</div>
+                                            </div>
+                                            <div class="flex-row" *ngIf="document.ccDepartments.length != 0">
+                                                <div class="title">{{'CC_DEPARTMENTS' | translate }}: </div>
+                                                <div class="description"
+                                                    *ngFor="let ccDepartment of document?.ccDepartments; let last = last">
+                                                    {{ ccDepartment.nameDr }}<ng-container *ngIf="!last">,
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex-row">
+                                                <div class="title">{{'DOCUMENT_STATUS' | translate }}: </div>
+                                                <div class="description">
+                                                    <span class="badge badge-pill"
+                                                        [ngClass]="{'bg-light-danger':document?.documentStatus?.id == 1 , 'bg-light-warning':document?.documentStatus?.id == 2, 'bg-light-success':document?.documentStatus?.id == 3}">
+                                                        {{ document?.documentStatus?.nameDr|translate }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <ng-container *ngIf="document.documentType.nameEn === 'HUKUM'">
+                                                <div class="flex-row">
+                                                    <div class="title">{{'IMPLEMENTATION_END_DATE' | translate }}:
+                                                    </div>
+                                                    <div class="description">{{ document.implementationEndDate | jalali
+                                                        }}</div>
+                                                </div>
+
+                                                <div class="flex-row">
+                                                    <div class="title">{{'ISSUING_AUTHORITY' | translate }}: </div>
+                                                    <div class="description">{{ document.issuingAuthority.nameDr}}</div>
+                                                </div>
+
+                                                <div class="flex-row">
+                                                    <div class="title">{{'CATEGORY' | translate }}: </div>
+                                                    <div class="description">{{ document.category.nameDr}}</div>
+                                                </div>
+
+                                            </ng-container>
+
+                                            <ng-container *ngIf="document.documentType.nameEn === 'HIDAYAT'">
+                                                <div class="flex-row">
+                                                    <div class="title">{{'GUIDANCE_TYPE' | translate }}: </div>
+                                                    <div class="description">{{ document.guidanceType }}</div>
+                                                </div>
+
+                                                <div class="flex-row">
+                                                    <div class="title">{{'GUIDANCE_EXPECTED_IMPLEMENTATION_DATE' |
+                                                        translate }}: </div>
+                                                    <div class="description">{{
+                                                        document.guidanceExpectedImplementationDate | jalali }}</div>
+                                                </div>
+
+                                                <div class="flex-row">
+                                                    <div class="title">{{'GUIDANCE_BY' | translate }}: </div>
+                                                    <div class="description">{{ document.guidanceBy }}</div>
+                                                </div>
+
+                                                <div class="flex-row">
+                                                    <div class="title">{{'GUIDANCE_CATEGORY' | translate }}: </div>
+                                                    <div class="description">{{ document.guidanceCategory }}</div>
+                                                </div>
+
+                                                <div class="flex-row">
+                                                    <div class="title">{{'PROVINCE' | translate }}: </div>
+                                                    <div class="description">{{ document.guidanceProvince }}</div>
+                                                </div>
+
+                                                <div class="flex-row">
+                                                    <div class="title">{{'DISTRICT' | translate }}: </div>
+                                                    <div class="description">{{ document.guidanceDistrict }}</div>
+                                                </div>
+
+                                            </ng-container>
+
+                                            <div class="flex-row">
+                                                <div class="title">{{'IS_PURSUABLE' | translate }}: </div>
+                                                <div class="description">{{ (document?.followup==true? 'YES':
+                                                    'NO')|translate }}</div>
+                                            </div>
+                                            <div class="flex-row" *ngIf="document.referredDepartment">
+                                                <div class="title">{{'REFERRED_TO' | translate }}: </div>
+                                                <div class="description">{{ document?.referredDepartment?.nameDr }}
+                                                </div>
+                                            </div>
+
+                                            <ng-container *ngIf="document?.followup">
+                                                <div class="flex-row">
+                                                    <div class="title">{{'DUE_DATE' | translate }}: </div>
+                                                    <div class="description">
+                                                        {{ document?.dueDate | jalali }}
+                                                        <span class="badge badge-pill"
+                                                            [ngClass]="{'bg-light-success':dueDays > 0, 'bg-light-danger':dueDays < 0 , 'bg-light-warning':dueDays == 0 }">
+                                                            {{ dueDays }} {{ 'DAY'|translate }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+
+                                            <div class="flex-row" *ngIf="document.attachment">
+                                                <div class="title">{{'ATTACHMENT' | translate }}: </div>
+                                                <div class="description" (click)="downloadFile(document.id)">
+                                                    {{ 'DOWNLOAD' | translate }}
+                                                    <i class="ft ft-download text-primary cursor-pointer"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-sm-6 col-md-6 flex-column" style="margin-bottom: 10px;">
+                                            <div class="flex-row">
+                                                <div class="snapshot text-center" *ngIf="!loading">
+                                                    <!-- <img [src]="webcamImage.imageAsDataUrl" class="photo users-avatar-shadow rounded" /> -->
+                                                    <img #qrcode [src]="url" (error)="imageError($event.target)"
+                                                        alt="Avatar" id="imageId" class="rounded">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 flex-column" style="margin-bottom: 10px;">
+                                            <div class="flex-row">
+                                                <div class="title">{{'CREATED_BY' | translate }}</div>
+                                                <div class="description">
+                                                    <span class="font-small-3 mb-0">{{ document.createdBy.name }}</span>
+                                                    <span class="badge bg-light-info font-small-3 ml-1 mr-1">{{
+                                                        document.createdBy?.job?.nameDr }}</span>
+                                                    <span class="badge bg-light-secondary font-small-3 ml-1 mr-1">{{
+                                                        document.createdBy?.department.nameDr }}</span>
+                                                    <span class="badge bg-light-secondary font-small-3 ml-1 mr-1">{{
+                                                        document.createdBy?.entity.nameDr }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="title">{{'CREATED_AT' | translate }}</div>
+                                                <div class="description">{{
+                                                    baseService.parseDateObjectAsDate(document.createdAt) | jalali }} &nbsp;&nbsp;{{
+                                                    baseService.parseTimeObjectAsTime(document.createdAt) }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 flex-column" style="margin-bottom: 10px;" >
+                                            <hr style="width: 100%; border: 1px solid rgba(0, 0, 0, 0.097);" />
+                                            <div class="flex-row" *ngIf="document.title">
+                                                <div class="title">{{'DOCUMENT_TITLE' | translate }}: </div>
+                                                <div class="description">{{ document?.title }}</div>
+                                            </div>
+                                            <div class="flex-row" *ngIf="document.content">
+                                                <div class="title">{{'CONTENT' | translate }}: </div>
+                                                <div class="col-11 description" [innerHTML]="document?.content"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 flex-column" style="margin-bottom: 10px;" *ngFor="let noteSection of document?.noteSections; index as noteIndex">
+                                            <div class="flex-row" *ngIf="noteSection.title">
+                                                <div class="title">{{'TITLE_NOTE' | translate }}: </div>
+                                                <div class="description">{{ noteSection?.title }}</div>
+                                            </div>
+                                            <div class="flex-row" *ngIf="noteSection.content">
+                                                <div class="title">{{'CONTENT' | translate }}: </div>
+                                                <div class="col-11 description" [innerHTML]="noteSection?.content"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 flex-column" style="margin-bottom: 10px;" *ngIf="document?.reviews && document?.reviews.length > 0">
+											<hr style="width: 100%; border: 1px solid rgba(0, 0, 0, 0.097);" *ngIf="document?.reviews.length > 0"/>
+											<div class="flex-row">
+												<div class="title">{{'REVIEWERS' | translate }}</div>
+											</div>
+											<div class="mb-3" *ngFor="let review of document?.reviews; index as reviewIndex">
+												{{ reviewIndex+1 }}.  
+												<span class="text-bold-600 mb-0">{{ review.reviewer?.name }}</span>
+												<span class="badge bg-light-info font-small-3 ml-1 mr-1">{{ review.reviewer?.job?.nameDr }}</span>
+												<span class="badge bg-light-secondary font-small-3 ml-1 mr-1">{{ review.reviewer?.department.nameDr }}</span>
+												<span class="badge bg-light-secondary font-small-3 ml-1 mr-1">{{ review.reviewer?.entity.nameDr }}</span>
+
+												<ng-container *ngIf="review.decision!= null && review.decision.length>1">
+													<span class="badge mb-1 mr-1" [ngClass]="review.decision=='APPROVED' ? 'bg-light-success' : 'bg-light-danger'">{{ review.decision|translate }}</span>
+													<p>{{review.comment}}</p>
+												</ng-container>
+												<ng-container *ngIf="review.decision== null || review.decision.length<1">
+													<span class="btn badge bg-light-success mb-1 mr-1" *ngIf="currentUserId == review?.reviewer.id" (click)="approveReview(review.id, document.id)"><i class="ft-thumbs-up"></i></span>
+													<span class="btn badge bg-light-danger mb-1 mr-1" *ngIf="currentUserId == review?.reviewer.id" (click)="rejectReview(review.id, document.id)"><i class="ft-thumbs-down"></i></span>
+												</ng-container>
+                                                <ng-container *ngIf="review.decision!= null && review.decision=='REJECTED'">
+													<span class="btn badge bg-light-primary mb-1 mr-1" *ngIf="currentUserId == document?.createdBy.id" (click)="resetReview(review.id, document.id)"><i class="ft ft-corner-up-left"></i></span>
+												</ng-container>
+											</div>
+										</div>
+
+                                        <div class="col-12 flex-column" style="margin-bottom: 10px;"
+                                            *ngIf="document?.receives && document?.receives.length > 0">
+                                            <hr style="width: 100%; border: 1px solid rgba(0, 0, 0, 0.097);"
+                                                *ngIf="document?.receives.length > 0" />
+                                            <div class="flex-row">
+                                                <div class="title">{{'DOC_RECEIVERS' | translate }}</div>
+                                            </div>
+                                            <div class="mb-3"
+                                                *ngFor="let receive of document?.receives; index as receiveIndex">
+                                                {{ receiveIndex+1 }}.
+                                                <span class="text-bold-600 mb-0">{{ receive.department?.nameDr }}</span>
+                                                <span class="text-bold-600 mb-0">{{ receive.receiver?.name }}</span>
+                                                <span class="badge bg-light-info font-small-3 ml-1 mr-1">{{
+                                                    receive.receiver?.job?.nameDr }}</span>
+                                                <span class="badge bg-light-secondary font-small-3 ml-1 mr-1">{{
+                                                    receive.receiver?.department.nameDr }}</span>
+                                                <span class="badge bg-light-secondary font-small-3 ml-1 mr-1">{{
+                                                    receive.receiver?.entity.nameDr }}</span>
+
+                                                <span class="badge mb-1 mr-1" [ngClass]="{'bg-light-success':receive.decision == 'RECEIVED', 'bg-light-danger':receive.decision == 'REJECTED' , 'bg-light-warning':receive.decision == 'PENDING' }">{{ receive.decision|translate }}</span>
+                                                <ng-container *ngIf="document?.status == 'FINAL' && receive.decision=='PENDING' && (documentService.isReceiver(receive, authService))">
+                                                    <span class="btn badge bg-light-success mb-1 mr-1" (click)="receiveDocument(document.id, receive.id, 'RECEIVED')"><i class="ft ft-check"></i></span>
+                                                    <span class="btn badge bg-light-danger mb-1 mr-1" (click)="receiveDocument(document.id, receive.id, 'REJECTED')"><i class="ft ft-x"></i></span>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 flex-column" style="margin-bottom: 10px;"
+                                            *ngIf="linkedDocuments && linkedDocuments.length > 0">
+                                            <hr style="width: 100%; border: 1px solid rgba(0, 0, 0, 0.097);" />
+                                            <div class="flex-row">
+                                                <div class="title">{{'LINKED_DOCUMENTS' | translate }}</div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="table-responsive col-12">
+                                                    <table class="table mt-3 table-sm table-hover">
+                                                        <thead>
+                                                            <tr class="title">
+                                                                <th></th>
+                                                                <th>#</th>
+                                                                <th>{{ 'DOCUMENT_TYPE'|translate }}</th>
+                                                                <th class="text-right">{{ 'DOCUMENT_NO'|translate }}
+                                                                </th>
+                                                                <th class="text-right">{{ 'DOCUMENT_DATE'|translate }}
+                                                                </th>
+                                                                <th class="text-right">{{ 'DOCUMENT_STATUS'|translate }}
+                                                                </th>
+                                                                <th class="text-right">{{ 'FROM_ENTITY'|translate }}
+                                                                </th>
+                                                                <th class="text-right">{{ 'TO_DEPARTMENT'|translate }}
+                                                                </th>
+                                                                <th class="text-right">{{ 'TITLE'|translate }}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="description"
+                                                                *ngFor="let linkedDocument of linkedDocuments; index as linkedDocumentIndex">
+                                                                <td>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-info btn-icon round mr-1 mb-1"
+                                                                        (click)="openLinkedDocument(linkedDocument.id)">
+                                                                        <i class="ft ft-eye"></i>
+                                                                    </button>
+                                                                </td>
+                                                                <th scope="row">{{ linkedDocument.id }}</th>
+                                                                <td>{{ linkedDocument?.documentType?.nameDr }}</td>
+                                                                <td>{{ linkedDocument.documentNo }}</td>
+                                                                <td class="text-right">{{ linkedDocument.documentDate }}
+                                                                </td>
+                                                                <td class="text-right">{{
+                                                                    linkedDocument.documentStatus?.nameDr }}</td>
+                                                                <td class="text-right">{{
+                                                                    linkedDocument.fromEntity?.nameDr }}</td>
+                                                                <td class="text-right">{{
+                                                                    linkedDocument.toDepartment?.nameDr }}</td>
+                                                                <td class="text-right">{{ linkedDocument.title }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+    [fullScreen]="true">
+</ngx-spinner>

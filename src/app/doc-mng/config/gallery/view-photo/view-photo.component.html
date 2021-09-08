@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ "VIEW_IMAGE" | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-12" style="display: flex; justify-content: center;">
+            <img style="max-width: 100%; height: auto;" *ngIf="imageToShow" [src]="imageToShow" />
+        </div>
+    </div>
+</div>
+
+<ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+    [fullScreen]="true">
+</ngx-spinner>

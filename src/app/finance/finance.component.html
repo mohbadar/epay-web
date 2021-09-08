@@ -1,0 +1,23 @@
+<div class="row">
+	<div class="col-12">
+	  <div class="content-header">{{ 'HR'|translate }}</div>
+	</div>
+</div>
+<section>
+	<div class="row">
+		<div class="col-12">
+			<div class="card-deck-wrapper">
+				<div class="card-deck">
+                    <div class="card col-lg-4 col-md-4 col-12 mb-2 mb-md-0" *ngIf='["FINANCE_MODULE"]|authority'>
+						<div class="card-content" style="cursor: pointer;" [routerLink]="['/finance/payments']">
+							<div class="card-body">
+								<h4 class="card-title"><i class="ft-clock fa-lg text-primary mr-2"></i>{{ 'PAYMENTS'|translate }}</h4>
+								<p class="card-text"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

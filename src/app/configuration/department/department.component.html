@@ -1,0 +1,80 @@
+<section id="ngx-datatables-server-side">
+    <div class="row text-left">
+        <div class="col-12">
+            <div class="content-header">
+                {{ 'DEPARTMENT_MANAGEMENT' | translate }}
+                <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+                    (click)="reload()" [class.fa-spin]="loading">
+                    <i class="ft ft-refresh-cw"></i>
+                </button>
+                <button type="button" class="btn btn-outline-info btn-icon round mr-1 mb-1 pull-right"
+                    (click)="addNew()" *ngIf="globals.principal.hasAuthority(['ADMIN_MODULE'])">
+                    <i class="ft ft-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col-md-4 col-12 ml-auto">
+                            <!-- <div class="input-group">
+                                <input type="text" #searchBar class="form-control">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" (click)="searchTerm(searchBar.value)">
+                                        <i class="ft ft-search"></i>
+                                    </button>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <ng-container *ngIf="tableOptions">
+                            <ngx-datatable #table class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns"
+                                [virtualization]="false" [columnMode]="ColumnMode.force" [headerHeight]="50"
+                                [footerHeight]="50" rowHeight="auto" [limit]="tableOptions.length"
+                                [loadingIndicator]="dataLoadingFlag" [scrollbarH]="true" (page)="setPage($event)"
+                                [reorderable]="reorderable" [swapColumns]="swapColumns" [externalPaging]="true"
+                                [externalSorting]="true" [count]="recordsTotal" [offset]="tableOptions.draw"
+                                [sorts]="[{prop: 'ID', dir: 'desc'}]" (sort)="onSort($event)">
+                                <ngx-datatable-column name="{{'ACTIONS'|translate}}" [width]="140" [sortable]="false">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <button class="btn btn-icon round" (click)="viewRecord(row.ID)">
+                                            <i class="ft-eye text-primary cursor-pointer"></i>
+                                        </button>
+
+                                        <button type="button" class="btn btn-icon round" (click)="editRecord(row.ID)">
+                                            <i class="ft-edit text-primary cursor-pointer"></i>
+                                        </button>
+
+                                        <button type="button" class="btn btn-icon round" (click)="deleteRecord(row.ID)">
+                                            <i class="ft ft-trash text-warning cursor-pointer"></i>
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="{{'ID'|translate}}" prop="ID" [width]="100">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [name]="'NAME_ENGLISH' | translate" prop="NAME_EN">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [name]="'NAME_DARI' | translate" prop="NAME_DR">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [name]="'NAME_PASHTO' | translate" prop="NAME_PS">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [name]="'PARENT' | translate" prop="PARENT">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [name]="'HEADER_SIGNATURE' | translate" prop="HEADER">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [name]="'FOOTER_SIGNATURE' | translate" prop="FOOTER">
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

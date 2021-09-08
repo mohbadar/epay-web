@@ -1,0 +1,146 @@
+<section id="minimal-statistics-bg">
+  <div class="row">
+    <div class="col-12 mb-1">
+
+    </div>
+  </div>
+  <br><br>
+  <div class="row">
+     <div class="col-xl-1 col-lg-6 col-12">
+     </div>
+    <div class="col-xl-2 col-lg-6 col-12">
+      <div class="card card-inverse bg-info">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media">
+              <div class="media-body text-left">
+                <h3 class="card-text">{{allTaskBoards}}</h3>
+                <span>{{'TASKBOARDS'|translate}}</span>
+              </div>
+              <div class="media-right align-self-center">
+                <i class="ft-check-square font-large-2 float-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-12">
+      <div class="card card-inverse bg-success">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media">
+              <div class="media-body text-left">
+                <h3 class="card-text">{{todayTaskBoards}}</h3>
+                <span>{{'TODAY_TASKBOARDS'|translate}}</span>
+              </div>
+              <div class="media-right align-self-center">
+                <i class="ft-aperture font-large-2 float-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-12">
+      <div class="card card-inverse bg-primary">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media">
+              <div class="media-body text-left">
+                <h3 class="card-text">{{allTasks}}</h3>
+                <span>{{'TASKS'|translate}}</span>
+              </div>
+              <div class="media-right align-self-center">
+                <i class="ft-user font-large-2 float-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-6 col-12">
+      <div class="card card-inverse bg-warning">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media">
+              <div class="media-body text-left">
+                <h3 class="card-text">{{todayTasks}}</h3>
+                <span>{{'TODAYS_TASKS'|translate}}</span>
+              </div>
+              <div class="media-right align-self-center">
+                <i class="ft-box font-large-2 float-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-6 col-12">
+    </div>
+  </div>
+</section>
+<!--Donot Charts-->
+<br>
+<br>
+<br>
+<div class="row text-left">
+  <div class="col-sm-12">
+    <div class="card">
+      <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs justify-content-left navCustomPadding">
+        <li [ngbNavItem]="1">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span>{{'TASKBOARDS'|translate}}</span>
+          </a>
+          <ng-template ngbNavContent>
+            <div class="row justify-content-md-center" style="direction: ltr !important">
+                <ngx-charts-bar-vertical [view]="vertical_chart_opt.view" [scheme]="vertical_chart_opt.colorScheme"
+                  [results]="taskDataByTaskBoard?taskDataByTaskBoard.data:''" [gradient]="vertical_chart_opt.gradient"
+                  [xAxis]="vertical_chart_opt.showXAxis" [yAxis]="vertical_chart_opt.showYAxis"
+                  [legend]="vertical_chart_opt.showLegend" [legendTitle]="vertical_chart_opt.legendTitle"
+                  [showXAxisLabel]="vertical_chart_opt.showXAxisLabel"
+                  [showYAxisLabel]="vertical_chart_opt.showYAxisLabel" [xAxisLabel]="vertical_chart_opt.xAxisLabel"
+                  [yAxisLabel]="vertical_chart_opt.yAxisLabel" (select)="onSelect($event)">
+                </ngx-charts-bar-vertical>
+              </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2" (click)="loadTypeData()">
+          <a ngbNavLink class="nav-link d-flex align-items-center">
+            <span class="d-none d-sm-block">{{'STATUS'|translate}}</span>
+          </a>
+
+          <ng-template ngbNavContent>
+            <!-- content here -->
+            <div class="row" *ngIf="loadingTask">
+                <div class="col-12 col-sm-2"></div>
+                <div class="col-12 col-sm-8" style="font-size: 1.5rem !important;">
+                  <apx-chart [series]="donutChartOptions?.series" [colors]="donutChartOptions?.colors"
+                [chart]="donutChartOptions?.chart" [xaxis]="donutChartOptions?.xaxis" [yaxis]="donutChartOptions?.yaxis"
+                [title]="donutChartOptions?.title" [dataLabels]="donutChartOptions?.dataLabels"
+                [stroke]="donutChartOptions?.stroke" [grid]="donutChartOptions?.grid" [tooltip]="donutChartOptions?.tooltip"
+                [plotOptions]="donutChartOptions?.plotOptions" [fill]="donutChartOptions?.fill"
+                [legend]="donutChartOptions?.legend" [labels]="donutChartOptions?.labels"
+                [markers]="donutChartOptions?.markers" [theme]="donutChartOptions?.theme"
+                [responsive]="donutChartOptions.responsive"></apx-chart>
+                </div>
+                <div class="col-12 col-sm-2"></div>
+              </div>
+          </ng-template>
+
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div [ngbNavOutlet]="nav"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+  <ngx-spinner class="loader" bdOpacity=0.3 bdColor="#f4f4f9" size="large" color="#b416f7" type="ball-spin-clockwise-fade"
+  [fullScreen]="true">
+</ngx-spinner>

@@ -1,0 +1,88 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ "CREATE_GROUP" | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+      <form class="col-12" [formGroup]="groupCreateForm" (ngSubmit)="onFormSubmit()">
+        <ngx-spinner
+          bdColor="rgba(255, 255, 255, 0.100)"
+          size="medium"
+          color="black"
+          type="ball-scale-multiple"
+          fullScreen="false">
+        </ngx-spinner>
+        <div class="col-12 form-group">
+          <label>{{ "NAME" | translate }}</label>
+          <input
+            type="text"
+            placeholder="Enter group name"
+            class="form-control"
+            formControlName="name"
+            required
+            [ngClass]="{'error-border': groupCreateForm.get('name').hasError('required') && groupCreateForm.get('name').touched}"
+          />
+          <small class="col-12 text-danger pl-0"
+          *ngIf="groupCreateForm.get('name').hasError('required') && (groupCreateForm.get('name').touched)">
+            Name must not be empty
+          </small>
+        </div>
+
+        <div class="col-12 form-group">
+          <label>{{ "DESCRIPTION" | translate }}</label>
+          <input
+            type="text"
+            placeholder="Enter group description"
+            class="form-control"
+            formControlName="description"
+            required
+            [ngClass]="{'error-border': groupCreateForm.get('description').hasError('required') && groupCreateForm.get('description').touched}"
+          />
+          <small class="col-12 text-danger pl-0"
+          *ngIf="groupCreateForm.get('description').hasError('required') && (groupCreateForm.get('description').touched)">
+            Description must not be empty
+          </small>
+        </div>
+        
+        <div class="col-12 form-group">
+          <label>{{ "ROLES" | translate }}</label>
+          <ng-select
+          [items]="data"
+          bindLabel="name"
+          bindValue="id"
+          [multiple]="true"
+          placeholder="Select Roles"
+          clearAllText="Clear"
+          formControlName="roles">
+        </ng-select>
+        </div>
+
+        <div class="col-12 form-group">
+          <label>{{ "ACTIVE" | translate }}</label>
+            <div>
+              <ul class="list-unstyled mb-0">
+                <li class="d-inline-block mr-2">
+                  <div class="radio radio-primary">
+                    <input type="radio" value="true" id="active" formControlName="active">
+                    <label class="text-primary" for="active">true</label>
+                  </div>
+                </li>
+                <li class="d-inline-block">
+                  <div class="radio radio-danger">
+                    <input type="radio" value="false" id="inactive" formControlName="active">
+                    <label class="text-danger" for="inactive">false</label>
+                  </div>
+                </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary btn-sm btn-fill mr-2">{{'SUBMIT' | translate }}</button>
+          <button class="btn btn-secondary btn-fill btn-sm" (click)="closeModal()" type="button">{{ 'CANCEL' | translate }}</button>
+        </div>
+      </form>
+  </div>
+</div>
